@@ -3,7 +3,7 @@ import { QuoteForm } from "@/components/ui/QuoteForm";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Get a Quote",
+  title: "Contact",
   description: siteConfig.forms.quote.responseTime
     ? `Ready to print? Tell us about your project and we'll get back to you within ${siteConfig.forms.quote.responseTime}.`
     : "Ready to print? Tell us about your project and we'll get back to you within 1–2 business days.",
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <section className="w-full max-w-400 mx-auto">
+    <section className="w-full max-w-400 mx-auto lg:px-4">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold tracking-tight mb-2">Get a Quote</h1>
         <p className="text-zinc-500 mb-10">

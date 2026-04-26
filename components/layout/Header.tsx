@@ -25,7 +25,7 @@ function NavLink({
       href={href}
       onClick={onClick}
       className={`relative md:hover:text-text-inverse rounded-xs transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${active
-        ? "font-black pointer-events-none md:before:absolute md:before:inset-0 md:before:-z-10 md:before:scale-y-100 md:before:h-0.5 md:before:bg-(--color-primary-500)"
+        ? "pointer-events-none md:border-b-2 md:border-(--color-primary-500)"
         : "text-text-muted"
         } ${className || ""}`}
     >
@@ -112,14 +112,14 @@ export function Header() {
         Skip to main content
       </a>
       <header
-        className={`fixed top-0 left-0 right-0 z-100 px-6 py-4 flex items-center justify-between bg-bg-base border-b border-border-default transition-transform duration-300 ease-in-out ${hidden ? "-translate-y-full" : "translate-y-0"}`}
+        className={`fixed top-0 left-0 right-0 z-100 px-2 flex items-center justify-between bg-bg-base border-b border-border-default transition-transform duration-300 ease-in-out ${hidden ? "-translate-y-full" : "translate-y-0"}`}
       >
-        <div className="w-full md:max-w-400 md:mx-auto inline-block md:flex md:items-center md:justify-between">
+        <div className="w-full md:max-w-400 md:mx-auto inline-block md:flex-col md:items-center md:justify-between">
 
           <TransitionLink
             ref={logoRef}
             href="/"
-            className="logo font-black font-display text-2xl tracking-wider text-text-primary uppercase leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="logo font-black font-display text-2xl px-4 py-4 md:pt-8 md:pb-1 tracking-wider text-text-primary uppercase leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             onMouseEnter={handleLogoEnter}
             onMouseLeave={handleLogoLeave}
           >

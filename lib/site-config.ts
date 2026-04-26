@@ -125,7 +125,7 @@ export const siteConfig = {
     { label: "Portfolio", href: "/portfolio" },
     { label: "How It Works", href: "/how-it-works" },
     { label: "About", href: "/about" },
-    { label: "Get a Quote", href: "/contact" },
+    { label: "Contact", href: "/contact" },
   ],
 
   // Form Configuration
