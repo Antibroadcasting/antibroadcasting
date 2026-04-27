@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Metadata } from "next";
+import { buttonVariants } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
   title: "404 - Page Not Found",
@@ -12,7 +13,7 @@ export default function NotFound() {
       <h1 className="text-6xl md:text-8xl font-bold text-text-default mb-4">
         404
       </h1>
-      <h2 className="text-2xl md:text-3xl font-semibold text-text-default mb-4">
+      <h2 className="text-2xl md:text-3xl font-semibold text-text-default mb-4 text-text-primary">
         Page Not Found
       </h2>
       <p className="text-lg text-text-muted mb-8 max-w-md">
@@ -20,7 +21,7 @@ export default function NotFound() {
       </p>
       <Link
         href="/"
-        className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-bg-inverse rounded-lg hover:bg-bg-inverse-hover transition-colors"
+        className={buttonVariants({ variant: "primary", size: "md" })}
       >
         Return Home
       </Link>

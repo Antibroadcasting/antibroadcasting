@@ -2,7 +2,7 @@ import { siteConfig } from "@/lib/site-config";
 
 export function Footer() {
   return (
-    <footer className="px-6 py-12 bg-bg-base sticky bottom-0 z-0">
+    <footer className="px-6 py-12 bg-bg-inset sticky bottom-0 z-0">
       <div className="max-w-400 mx-auto flex flex-col md:flex-row justify-between gap-8">
         <div>
           <p className="font-bold text-lg text-text-primary">

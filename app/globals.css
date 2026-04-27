@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   color-scheme: light;
 
@@ -107,7 +109,9 @@
 
   /* ─── Semantic: Background Variance ─── */
   --bg-subtle: var(--color-muted-surface);
-  --bg-elevated: var(--color-neutral-100); /* intentionally same as --background; elevation is expressed via shadow, not color-lift */
+  --bg-elevated: var(
+    --color-neutral-100
+  ); /* intentionally same as --background; elevation is expressed via shadow, not color-lift */
   --bg-inset: var(--color-neutral-200);
   --bg-inverse: var(--color-primary-950);
 
@@ -154,22 +158,26 @@
    * Compound values layer ambient + directional for more natural depth.
    * ─────────────────────────────────────────────────────────────────────── */
   --scale-shadow-xs: 0 1px 2px oklch(0% 0 0 / 0.05);
-  --scale-shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.07), 0 1px 2px oklch(0% 0 0 / 0.05);
-  --scale-shadow-md: 0 4px 8px oklch(0% 0 0 / 0.08), 0 2px 4px oklch(0% 0 0 / 0.05);
-  --scale-shadow-lg: 0 10px 20px oklch(0% 0 0 / 0.1), 0 4px 8px oklch(0% 0 0 / 0.06);
-  --scale-shadow-xl: 0 20px 40px oklch(0% 0 0 / 0.12), 0 8px 16px oklch(0% 0 0 / 0.07);
+  --scale-shadow-sm:
+    0 1px 3px oklch(0% 0 0 / 0.07), 0 1px 2px oklch(0% 0 0 / 0.05);
+  --scale-shadow-md:
+    0 4px 8px oklch(0% 0 0 / 0.08), 0 2px 4px oklch(0% 0 0 / 0.05);
+  --scale-shadow-lg:
+    0 10px 20px oklch(0% 0 0 / 0.1), 0 4px 8px oklch(0% 0 0 / 0.06);
+  --scale-shadow-xl:
+    0 20px 40px oklch(0% 0 0 / 0.12), 0 8px 16px oklch(0% 0 0 / 0.07);
 
   /* ─── Semantic: Radius Scale ─────────────────────────────────────────────
    * Prefixed --scale-radius-* so @theme inline can alias them as --radius-*
    * without circular self-refs. Component tokens alias these scale steps —
    * change a step to shift all related components at once.
    * ─────────────────────────────────────────────────────────────────────── */
-  --scale-radius-xs:   0.125rem; /* 2px  */
-  --scale-radius-sm:   0.25rem;  /* 4px  */
-  --scale-radius-md:   0.5rem;   /* 8px  */
-  --scale-radius-lg:   0.75rem;  /* 12px */
-  --scale-radius-xl:   1rem;     /* 16px */
-  --scale-radius-2xl:  1.5rem;   /* 24px */
+  --scale-radius-xs: 0.125rem; /* 2px  */
+  --scale-radius-sm: 0.25rem; /* 4px  */
+  --scale-radius-md: 0.5rem; /* 8px  */
+  --scale-radius-lg: 0.75rem; /* 12px */
+  --scale-radius-xl: 1rem; /* 16px */
+  --scale-radius-2xl: 1.5rem; /* 24px */
   --scale-radius-full: 9999px;
 
   /* ─── Component: Buttons — Primary ─── */
@@ -319,12 +327,12 @@
   --color-card-text-tonal-muted: var(--card-text-tonal-muted);
 
   /* Radius tokens — ref --scale-radius-* to avoid circular self-ref */
-  --radius-xs:   var(--scale-radius-xs);
-  --radius-sm:   var(--scale-radius-sm);
-  --radius-md:   var(--scale-radius-md);
-  --radius-lg:   var(--scale-radius-lg);
-  --radius-xl:   var(--scale-radius-xl);
-  --radius-2xl:  var(--scale-radius-2xl);
+  --radius-xs: var(--scale-radius-xs);
+  --radius-sm: var(--scale-radius-sm);
+  --radius-md: var(--scale-radius-md);
+  --radius-lg: var(--scale-radius-lg);
+  --radius-xl: var(--scale-radius-xl);
+  --radius-2xl: var(--scale-radius-2xl);
   --radius-full: var(--scale-radius-full);
   --radius-button: var(--radius-button);
   --radius-card: var(--radius-card);
@@ -459,28 +467,28 @@
    * Override --scale-shadow-* so @theme aliases pick up dark values.
    * ─────────────────────────────────────────────────────────────────────── */
   --scale-shadow-xs: 0 1px 2px oklch(0% 0 0 / 0.2);
-  --scale-shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.3), 0 1px 2px oklch(0% 0 0 / 0.2);
-  --scale-shadow-md: 0 4px 8px oklch(0% 0 0 / 0.35), 0 2px 4px oklch(0% 0 0 / 0.2);
-  --scale-shadow-lg: 0 10px 20px oklch(0% 0 0 / 0.4), 0 4px 8px oklch(0% 0 0 / 0.25);
-  --scale-shadow-xl: 0 20px 40px oklch(0% 0 0 / 0.5), 0 8px 16px oklch(0% 0 0 / 0.3);
+  --scale-shadow-sm:
+    0 1px 3px oklch(0% 0 0 / 0.3), 0 1px 2px oklch(0% 0 0 / 0.2);
+  --scale-shadow-md:
+    0 4px 8px oklch(0% 0 0 / 0.35), 0 2px 4px oklch(0% 0 0 / 0.2);
+  --scale-shadow-lg:
+    0 10px 20px oklch(0% 0 0 / 0.4), 0 4px 8px oklch(0% 0 0 / 0.25);
+  --scale-shadow-xl:
+    0 20px 40px oklch(0% 0 0 / 0.5), 0 8px 16px oklch(0% 0 0 / 0.3);
 
   /* ─── Buttons ─── */
   /* Primary: shifted to primary-400 (L 60%) — neutral-950 text gives ~5.15:1 (AA). */
   /* primary-500 (L 42%) + neutral-950 was ~2.4:1 — failed SC 1.4.3. */
-  --button-primary-surface: var(--color-primary-400);
+  /* --button-primary-surface: var(--color-primary-400);
   --button-primary-surface-hover: var(--color-primary-300);
-  --button-primary-surface-active: oklch(
-    57% 0.17 12
-  ); /* ~4.55:1 with neutral-950 (AA) */
-  --button-primary-text: var(--color-neutral-950);
+  --button-primary-surface-active: oklch(57% 0.17 12);
+  --button-primary-text: var(--color-neutral-950); */
 
   /* Secondary: active shifted to L 58% — neutral-950 text gives ~4.74:1 (AA). */
   /* secondary-600 (L 52%) was ~3.7:1 — failed SC 1.4.3. */
   --button-secondary-surface: var(--color-secondary-500);
   --button-secondary-surface-hover: var(--color-secondary-400);
-  --button-secondary-surface-active: oklch(
-    58% 0.09 195
-  ); /* ~4.74:1 with neutral-950 (AA) */
+  --button-secondary-surface-active: oklch(58% 0.09 195);
   --button-secondary-text: var(--color-neutral-950);
 
   --button-neutral-surface: var(--color-neutral-800);
@@ -502,7 +510,7 @@
   --button-destructive-surface: var(--color-destructive);
   --button-destructive-surface-hover: oklch(63% 0.22 25);
   --button-destructive-surface-active: oklch(57% 0.24 25);
-  --button-destructive-text: var(--color-neutral-950);
+  /* --button-destructive-text: var(--color-neutral-950); */
   --button-destructive-border: transparent;
 
   /* ─── Forms ─── */
@@ -568,15 +576,13 @@ body {
 .logo {
   position: relative;
   display: inline-block;
-  font-size: 2em;
-  font-weight: 800;
   color: var(--background);
   overflow: hidden;
   background: linear-gradient(
     to bottom,
-    var(--foreground)         0%   33.33%,
-    var(--color-primary-500)  33.33% 66.67%,
-    var(--foreground)         66.67% 100%
+    var(--foreground) 0% 33.33%,
+    var(--color-primary-500) 33.33% 66.67%,
+    var(--foreground) 66.67% 100%
   );
   background-clip: text;
   -webkit-background-clip: text;
@@ -587,11 +593,19 @@ body {
 }
 
 @keyframes logo-hover-in {
-  from { background-position: 0 100%; }
-  to   { background-position: 0 50%; }
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: 0 50%;
+  }
 }
 
 @keyframes logo-hover-out {
-  from { background-position: 0 50%; }
-  to   { background-position: 0 0; }
+  from {
+    background-position: 0 50%;
+  }
+  to {
+    background-position: 0 0;
+  }
 }

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { TransitionLink } from "./TransitionLink";
+import { Button } from "../ui/Button";
 
 const nav = siteConfig.navigation;
 
@@ -24,10 +25,11 @@ function NavLink({
     <TransitionLink
       href={href}
       onClick={onClick}
-      className={`relative md:hover:text-text-inverse rounded-xs transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${active
-        ? "pointer-events-none md:border-b-2 md:border-(--color-primary-500)"
-        : "text-text-muted"
-        } ${className || ""}`}
+      className={`relative rounded-xs transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+        active
+          ? "pointer-events-none lg:border-b-2 lg:border-(--color-primary-500)"
+          : "text-text-muted"
+      } ${className || ""}`}
     >
       {children}
     </TransitionLink>
@@ -47,9 +49,9 @@ export function Header() {
     if (!el) return;
     logoCleanup.current?.();
     logoCleanup.current = null;
-    el.style.animation = 'none';
+    el.style.animation = "none";
     void el.offsetWidth;
-    el.style.animation = 'logo-hover-in 275ms ease forwards';
+    el.style.animation = "logo-hover-in 275ms ease forwards";
   }, []);
 
   const handleLogoLeave = useCallback(() => {
@@ -57,22 +59,22 @@ export function Header() {
     if (!el) return;
     logoCleanup.current?.();
 
-    el.style.animation = 'none';
+    el.style.animation = "none";
     void el.offsetWidth;
-    el.style.animation = 'logo-hover-out 275ms ease forwards';
+    el.style.animation = "logo-hover-out 275ms ease forwards";
 
     const onEnd = () => {
-      el.removeEventListener('animationend', onEnd);
+      el.removeEventListener("animationend", onEnd);
       logoCleanup.current = null;
-      el.style.animation = 'none';
-      el.style.backgroundPosition = '0 100%';
+      el.style.animation = "none";
+      el.style.backgroundPosition = "0 100%";
       requestAnimationFrame(() => {
-        el.style.backgroundPosition = '';
-        el.style.animation = '';
+        el.style.backgroundPosition = "";
+        el.style.animation = "";
       });
     };
-    el.addEventListener('animationend', onEnd);
-    logoCleanup.current = () => el.removeEventListener('animationend', onEnd);
+    el.addEventListener("animationend", onEnd);
+    logoCleanup.current = () => el.removeEventListener("animationend", onEnd);
   }, []);
 
   // Close drawer on route change
@@ -114,12 +116,11 @@ export function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-100 px-2 flex items-center justify-between bg-bg-base border-b border-border-default transition-transform duration-300 ease-in-out ${hidden ? "-translate-y-full" : "translate-y-0"}`}
       >
-        <div className="w-full md:max-w-400 md:mx-auto inline-block md:flex-col md:items-center md:justify-between">
-
+        <div className="w-full max-w-400 mx-auto flex items-center gap-2">
           <TransitionLink
             ref={logoRef}
             href="/"
-            className="logo font-black font-display text-2xl px-4 py-4 md:pt-8 md:pb-1 tracking-wider text-text-primary uppercase leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="logo font-black text-2xl font-display m-4 md:mx-6 lg:mx-8 tracking-wider text-text-primary uppercase leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             onMouseEnter={handleLogoEnter}
             onMouseLeave={handleLogoLeave}
           >
@@ -127,22 +128,27 @@ export function Header() {
           </TransitionLink>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-0.5">
+          <nav className="hidden lg:flex items-center self-end gap-0.5">
             {nav.map((item) => (
               <NavLink
                 key={item.href}
                 href={item.href}
-                className="text-base font-medium px-5 py-4 relative overflow-hidden before:absolute before:inset-0 before:-z-10 before:transform before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top before:bg-(--color-primary-500) transition-all"
+                className="text-base hover:text-text-inverse dark:hover:text-text-primary font-medium px-5 py-4 relative overflow-hidden before:absolute before:inset-0 before:-z-10 before:transform before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top before:bg-(--color-primary-500) transition-all"
               >
                 {item.label}
               </NavLink>
             ))}
           </nav>
+          <div className="hidden md:flex grow justify-end self-center m-4 md:me-6 lg:me-8">
+            <Button variant="primary" size="sm">
+              Get a Quote
+            </Button>
+          </div>
         </div>
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex flex-col justify-center gap-1.5 w-8 h-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          className="lg:hidden flex flex-col justify-center gap-1.5 w-8 h-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
@@ -162,13 +168,13 @@ export function Header() {
       {/* Mobile drawer */}
       {open && (
         <div
-          className="fixed inset-0 z-40 bg-bg-inset/80 backdrop-blur-xs md:hidden"
+          className="fixed inset-0 z-40 bg-bg-inset/80 backdrop-blur-xs lg:hidden"
           onClick={() => setOpen(false)}
           aria-hidden
         />
       )}
       <nav
-        className={`fixed top-18 right-0 z-40 h-full w-72 bg-bg-base shadow-xl transform transition-transform duration-300 ease-in-out md:hidden ${open ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed top-18 right-0 z-40 h-full w-72 bg-bg-base shadow-xl transform transition-transform duration-300 ease-in-out lg:hidden ${open ? "translate-x-0" : "translate-x-full"}`}
         aria-label="Mobile navigation"
         aria-modal={open ? "true" : undefined}
         aria-hidden={!open}

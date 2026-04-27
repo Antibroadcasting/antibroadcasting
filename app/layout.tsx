@@ -65,7 +65,7 @@ export default function RootLayout({
           <Header />
           <main
             id="main-content"
-            className="flex flex-col min-h-screen md:min-h-[calc(100vh-8rem)] mt-24 md:mt-32 p-6 md:p-8 lg:p-10 xl:p-12 bg-bg-base relative z-10 border-b border-border-default"
+            className="flex flex-col min-h-screen md:min-h-[calc(100vh-8rem)] mt-16 md:mt-18 lg:mt-20 p-6 md:p-8 lg:p-10 xl:p-12 bg-bg-base relative z-10 border-b border-border-default"
           >
             {children}
           </main>

@@ -2,7 +2,7 @@ import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-button font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] disabled:opacity-50 disabled:pointer-events-none",
+  "inline-flex items-center justify-center rounded-button font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] cursor-pointer disabled:opacity-50 disabled:pointer-events-none",
   {
     variants: {
       variant: {
@@ -18,13 +18,13 @@ const buttonVariants = cva(
           "text-text-secondary hover:text-text-primary hover:bg-bg-subtle active:bg-bg-inset",
         link: "text-text-secondary hover:text-text-primary underline-offset-4 hover:underline p-0 h-auto",
         destructive:
-          "bg-button-destructive-surface text-button-destructive-text hover:bg-button-destructive-surface-hover active:bg-button-destructive-surface-active focus-visible:ring-focus-ring-error",
+          "bg-button-destructive-surface text-button-destructive-text hover:bg-button-destructive-surface-hover hover:cursor- active:bg-button-destructive-surface-active focus-visible:ring-focus-ring-error",
       },
       size: {
         sm: "px-4 py-2 text-sm",
         md: "px-6 py-3 text-base",
         lg: "px-8 py-4 text-lg",
-        icon: "p-2",
+        icon: "px-3 py-2",
       },
     },
     defaultVariants: {
