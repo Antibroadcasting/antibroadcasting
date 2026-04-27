@@ -18,19 +18,33 @@ export function Footer() {
             {siteConfig.contact.phone}
           </a>
         </div>
-        <div className="flex self-start gap-3 text-sm text-text-secondary">
-          {Object.entries(siteConfig.social).map(([key, social]) => (
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-sm text-text-secondary">
+          <div className="flex gap-3">
+            {Object.entries(siteConfig.social).map(([key, social]) => (
+              <a
+                key={key}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${social.name} (opens in new tab)`}
+                className="p-2 hover:text-text-primary transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                {social.name}
+              </a>
+            ))}
             <a
-              key={key}
-              href={social.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${social.name} (opens in new tab)`}
+              href="/privacy"
               className="p-2 hover:text-text-primary transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              {social.name}
+              Privacy
             </a>
-          ))}
+            <a
+              href="/terms"
+              className="p-2 hover:text-text-primary transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              Terms
+            </a>
+          </div>
         </div>
       </div>
       <p className="md:text-center text-xs text-pretty text-text-muted mt-8">
