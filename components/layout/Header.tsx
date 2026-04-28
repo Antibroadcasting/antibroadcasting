@@ -120,7 +120,7 @@ export function Header() {
           <TransitionLink
             ref={logoRef}
             href="/"
-            className="logo font-black text-2xl font-display m-4 md:mx-6 lg:mx-8 tracking-wider text-text-primary uppercase leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="logo font-black text-2xl font-display p-1 m-5 md:mx-6 lg:mx-8 tracking-wider text-text-primary uppercase leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             onMouseEnter={handleLogoEnter}
             onMouseLeave={handleLogoLeave}
           >
@@ -139,7 +139,7 @@ export function Header() {
               </NavLink>
             ))}
           </nav>
-          <div className="hidden md:flex grow justify-end self-center m-4 md:me-6 lg:me-8">
+          <div className="hidden sm:flex grow justify-end self-center m-4 md:me-6 lg:me-8">
             <Button variant="primary" size="sm">
               Get a Quote
             </Button>

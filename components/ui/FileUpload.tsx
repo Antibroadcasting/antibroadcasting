@@ -33,6 +33,7 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
   ) => {
     const [files, setFiles] = useState<File[]>([]);
     const [dragActive, setDragActive] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
     const inputId = id || `file-upload-${React.useId()}`;
 
     const handleFiles = (newFiles: FileList | null) => {
@@ -95,12 +96,15 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
         )}
 
         <div
-          className={`relative rounded-input border-2 border-dashed transition-colors ${dragActive
+          className={`relative rounded-input border-2 border-dashed transition-colors ${
+            dragActive
               ? "border-input-border-focus bg-bg-subtle"
               : error
                 ? "border-color-error"
-                : "border-input-border hover:border-input-border-hover"
-            } ${className}`}
+                : isFocused
+                  ? "ring-2 ring-input-ring-focus ring-offset-2 ring-offset-background border-input-border-focus"
+                  : "border-input-border hover:border-input-border-hover"
+          } ${className}`}
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDrag}
@@ -112,10 +116,12 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
             aria-describedby={error ? `${inputId}-error` : undefined}
             aria-required={required}
             aria-invalid={error ? true : undefined}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer focus-visible:outline-none"
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             accept={accept}
             multiple={multiple}
             onChange={handleChange}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
           />
 
           <div className="p-6 text-center">
