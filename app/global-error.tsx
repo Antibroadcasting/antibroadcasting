@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { Button, buttonVariants } from "@/components/ui/Button";
 
 interface GlobalErrorProps {
   error: Error & { digest?: string };
@@ -29,15 +30,12 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
             </p>
           )}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={reset}
-              className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-button bg-button-primary-surface text-button-primary-text hover:bg-button-primary-surface-hover transition-colors"
-            >
+            <Button variant="primary" size="md" onClick={reset}>
               Try again
-            </button>
+            </Button>
             <a
               href="/"
-              className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-button bg-button-secondary-surface text-button-secondary-text hover:bg-button-secondary-surface-hover transition-colors"
+              className={buttonVariants({ variant: "secondary", size: "md" })}
             >
               Return Home
             </a>

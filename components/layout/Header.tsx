@@ -5,6 +5,13 @@ import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { TransitionLink } from "./TransitionLink";
 import { Button } from "../ui/Button";
+import {
+  PhoneOutlined,
+  MailOutlined,
+  InstagramOutlined,
+  FacebookOutlined,
+  XOutlined,
+} from "@ant-design/icons";
 
 const nav = siteConfig.navigation;
 
@@ -25,9 +32,9 @@ function NavLink({
     <TransitionLink
       href={href}
       onClick={onClick}
-      className={`relative rounded-xs transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+      className={`relative rounded-xs border-b-3 border-transparent transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
         active
-          ? "pointer-events-none lg:border-b-2 lg:border-(--color-primary-500)"
+          ? "pointer-events-none lg:border-b-(--color-primary-500)"
           : "text-text-muted"
       } ${className || ""}`}
     >
@@ -114,13 +121,13 @@ export function Header() {
         Skip to main content
       </a>
       <header
-        className={`fixed top-0 left-0 right-0 z-100 px-2 flex items-center justify-between bg-bg-base border-b border-border-default transition-transform duration-300 ease-in-out ${hidden ? "-translate-y-full" : "translate-y-0"}`}
+        className={`fixed top-0 left-0 right-0 z-100 px-4 flex items-center justify-between bg-bg-base border-b border-border-default transition-transform duration-300 ease-in-out ${hidden ? "-translate-y-full" : "translate-y-0"}`}
       >
-        <div className="w-full max-w-400 mx-auto flex items-center gap-2">
+        <div className="max-w-400 mx-auto flex flex-1 items-center gap-2">
           <TransitionLink
             ref={logoRef}
             href="/"
-            className="logo font-black text-2xl font-display p-1 m-5 md:mx-6 lg:mx-8 tracking-wider text-text-primary uppercase leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="logo font-black text-2xl font-display p-1 my-5 md:mx-6 lg:mx-8 tracking-wider text-text-primary uppercase leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             onMouseEnter={handleLogoEnter}
             onMouseLeave={handleLogoLeave}
           >
@@ -133,13 +140,62 @@ export function Header() {
               <NavLink
                 key={item.href}
                 href={item.href}
-                className="text-base hover:text-text-inverse dark:hover:text-text-primary font-medium px-5 py-4 relative overflow-hidden before:absolute before:inset-0 before:-z-10 before:transform before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top before:bg-(--color-primary-500) transition-all"
+                className="text-base hover:text-text-inverse dark:hover:text-text-primary font-medium p-5 relative overflow-hidden before:absolute before:inset-0 before:-z-10 before:transform before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top before:bg-(--color-primary-500) transition-all"
               >
                 {item.label}
               </NavLink>
             ))}
           </nav>
-          <div className="hidden sm:flex grow justify-end self-center m-4 md:me-6 lg:me-8">
+          <div className="hidden lg:flex grow justify-end self-center items-center gap-4 m-4 md:me-6 lg:me-8">
+            <div className="flex items-center gap-4 text-xs">
+              <a
+                href={siteConfig.contact.phoneHref}
+                className="flex items-center gap-1 text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                aria-label="Phone"
+              >
+                <PhoneOutlined className="text-lg xl:text-sm" />
+                <span className="hidden xl:inline">
+                  {siteConfig.contact.phone}
+                </span>
+              </a>
+              <a
+                href={siteConfig.contact.emailHref}
+                className="flex items-center gap-1 text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                aria-label="Email"
+              >
+                <MailOutlined className="text-lg xl:text-sm" />
+                <span className="hidden xl:inline">
+                  {siteConfig.contact.email}
+                </span>
+              </a>
+              {/* <a
+                href={siteConfig.social.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                aria-label="Instagram"
+              >
+                <InstagramOutlined className="text-lg" />
+              </a>
+              <a
+                href={siteConfig.social.facebook.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                aria-label="Facebook"
+              >
+                <FacebookOutlined className="text-lg" />
+              </a>
+              <a
+                href={siteConfig.social.twitter.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                aria-label="Twitter"
+              >
+                <XOutlined className="text-lg" />
+              </a> */}
+            </div>
             <Button variant="primary" size="sm">
               Get a Quote
             </Button>
@@ -186,20 +242,64 @@ export function Header() {
               href={item.href}
               onClick={() => setOpen(false)}
             >
-              <span className="block py-3 text-lg">{item.label}</span>
+              <span className="block py-2 text-lg">{item.label}</span>
             </NavLink>
           ))}
         </div>
-        <div className="absolute bottom-8 px-6 text-sm text-text-muted space-y-1">
-          <p>
-            <a
-              href={siteConfig.contact.phoneHref}
-              className="hover:text-text-primary transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              {siteConfig.contact.phone}
-            </a>
-          </p>
-          <p>{siteConfig.contact.location}</p>
+        <div className="px-6 text-sm text-text-muted flex flex-col space-y-2">
+          <Button variant="primary" size="sm">
+            Get a Quote
+          </Button>
+          <div className="flex flex-col gap-3 mt-6">
+            <div className="flex items-center gap-3">
+              <a
+                href={siteConfig.contact.phoneHref}
+                className="flex items-center gap-2 text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                <PhoneOutlined className="text-base" />
+                <span>{siteConfig.contact.phone}</span>
+              </a>
+            </div>
+            <div className="flex items-center gap-3">
+              <a
+                href={siteConfig.contact.emailHref}
+                className="flex items-center gap-2 text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                <MailOutlined className="text-base" />
+                <span className="text-sm">{siteConfig.contact.email}</span>
+              </a>
+            </div>
+            <div className="flex items-center gap-3 mt-2">
+              <a
+                href={siteConfig.social.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                aria-label="Instagram"
+              >
+                <InstagramOutlined className="text-lg" />
+              </a>
+              <a
+                href={siteConfig.social.facebook.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                aria-label="Facebook"
+              >
+                <FacebookOutlined className="text-lg" />
+              </a>
+              <a
+                href={siteConfig.social.twitter.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                aria-label="Twitter"
+              >
+                <XOutlined className="text-lg" />
+              </a>
+            </div>
+            <p className="mt-2">{siteConfig.contact.location}</p>
+          </div>
         </div>
       </nav>
     </>

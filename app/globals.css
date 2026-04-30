@@ -573,6 +573,11 @@ body {
   }
 }
 
+::selection {
+  background-color: var(--color-primary-500);
+  color: var(--background);
+}
+
 .logo {
   position: relative;
   display: inline-block;

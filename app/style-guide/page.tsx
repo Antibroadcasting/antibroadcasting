@@ -3,6 +3,13 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
 import { FileUpload } from "@/components/ui/FileUpload";
+import {
+  PhoneOutlined,
+  MailOutlined,
+  InstagramOutlined,
+  FacebookOutlined,
+  XOutlined,
+} from "@ant-design/icons";
 
 // ─── Token Definitions ──────────────────────────────────────────────────────
 // All color data references CSS custom properties directly.
@@ -75,7 +82,6 @@ function renderPaletteScale(scale: (typeof PALETTE_SCALES)[number]) {
 
 export default function StyleGuide() {
   return (
-
     <section>
       <div className="max-w-6xl mx-auto">
         <header className="mb-16 pb-8 border-b border-border-default">
@@ -431,7 +437,9 @@ export default function StyleGuide() {
                         title={t.base}
                       />
                       <p className="text-xs text-text-secondary mt-1">Base</p>
-                      <p className="text-xs text-text-muted font-mono">{t.base}</p>
+                      <p className="text-xs text-text-muted font-mono">
+                        {t.base}
+                      </p>
                     </div>
                     {/* Surface */}
                     <div>
@@ -440,8 +448,12 @@ export default function StyleGuide() {
                         style={{ backgroundColor: `var(${t.surface})` }}
                         title={t.surface}
                       />
-                      <p className="text-xs text-text-secondary mt-1">Surface</p>
-                      <p className="text-xs text-text-muted font-mono">{t.surface}</p>
+                      <p className="text-xs text-text-secondary mt-1">
+                        Surface
+                      </p>
+                      <p className="text-xs text-text-muted font-mono">
+                        {t.surface}
+                      </p>
                     </div>
                     {/* Text on surface */}
                     <div>
@@ -460,8 +472,12 @@ export default function StyleGuide() {
                           Text
                         </span>
                       </div>
-                      <p className="text-xs text-text-secondary mt-1">Text + Border</p>
-                      <p className="text-xs text-text-muted font-mono">{t.text}</p>
+                      <p className="text-xs text-text-secondary mt-1">
+                        Text + Border
+                      </p>
+                      <p className="text-xs text-text-muted font-mono">
+                        {t.text}
+                      </p>
                     </div>
                     {/* Border on base */}
                     <div>
@@ -479,14 +495,17 @@ export default function StyleGuide() {
                           Border
                         </span>
                       </div>
-                      <p className="text-xs text-text-secondary mt-1">Border Only</p>
-                      <p className="text-xs text-text-muted font-mono">{t.border}</p>
+                      <p className="text-xs text-text-secondary mt-1">
+                        Border Only
+                      </p>
+                      <p className="text-xs text-text-muted font-mono">
+                        {t.border}
+                      </p>
                     </div>
                   </div>
                 </div>
               );
             })}
-
           </div>
 
           {/* State Color Usage Examples */}
@@ -516,13 +535,9 @@ export default function StyleGuide() {
               <div className="bg-bg-error rounded-card p-4 border border-border-error">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-2 h-2 rounded-full bg-error"></div>
-                  <h5 className="text-sm font-medium text-text-error">
-                    Error
-                  </h5>
+                  <h5 className="text-sm font-medium text-text-error">Error</h5>
                 </div>
-                <p className="text-xs text-text-error">
-                  Validation failed
-                </p>
+                <p className="text-xs text-text-error">Validation failed</p>
               </div>
 
               {/* Warning Example */}
@@ -533,9 +548,7 @@ export default function StyleGuide() {
                     Warning
                   </h5>
                 </div>
-                <p className="text-xs text-text-warning">
-                  Action required
-                </p>
+                <p className="text-xs text-text-warning">Action required</p>
               </div>
 
               {/* Accent Example */}
@@ -559,9 +572,7 @@ export default function StyleGuide() {
                     Muted Element
                   </h5>
                 </div>
-                <p className="text-xs text-text-muted">
-                  Subtle information
-                </p>
+                <p className="text-xs text-text-muted">Subtle information</p>
               </div>
 
               {/* Destructive Example */}
@@ -981,6 +992,346 @@ export default function StyleGuide() {
           </div>
         </section>
 
+        {/* Icons Section */}
+        <section className="mb-20">
+          <h2
+            className="text-3xl font-display text-text-primary mb-8 pb-2 border-b border-border-default"
+            style={{ fontWeight: 600 }}
+          >
+            Icons
+          </h2>
+
+          {/* Icon Set Information */}
+          <div className="mb-12">
+            <h3
+              className="text-xl font-display text-text-primary mb-4"
+              style={{ fontWeight: 500 }}
+            >
+              Icon Set — Ant Design Icons
+            </h3>
+            <div className="bg-bg-elevated rounded-card p-6 border border-border-subtle">
+              <p className="text-text-secondary mb-4">
+                We use <strong>@ant-design/icons</strong> for consistent,
+                high-quality icons across the application. This library provides
+                a comprehensive set of icons with excellent accessibility
+                support and consistent styling.
+              </p>
+              <div className="grid sm:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <h4 className="font-medium text-text-primary mb-2">
+                    Benefits
+                  </h4>
+                  <ul className="space-y-1 text-text-secondary">
+                    <li>• Consistent visual style</li>
+                    <li>• Built-in accessibility</li>
+                    <li>• Tree-shakeable (only used icons bundled)</li>
+                    <li>
+                      • Multiple icon variants (outlined, filled, two-tone)
+                    </li>
+                    <li>• Excellent TypeScript support</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-medium text-text-primary mb-2">
+                    Usage Guidelines
+                  </h4>
+                  <ul className="space-y-1 text-text-secondary">
+                    <li>• Use outlined variants by default</li>
+                    <li>• Maintain consistent sizing (text-base, text-lg)</li>
+                    <li>• Include proper aria-labels for screen readers</li>
+                    <li>• Use semantic colors for actions (success, error)</li>
+                    <li>• Add hover states for interactive icons</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Currently Used Icons */}
+          <div className="mb-12">
+            <h3
+              className="text-xl font-display text-text-primary mb-4"
+              style={{ fontWeight: 500 }}
+            >
+              Currently Used Icons
+            </h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Contact Icons */}
+              <div className="bg-bg-elevated rounded-card p-4 border border-border-subtle">
+                <h4 className="text-sm font-medium text-text-muted uppercase tracking-wider mb-3">
+                  Contact & Communication
+                </h4>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <PhoneOutlined className="text-lg text-text-muted" />
+                    <div>
+                      <p className="text-sm font-mono text-text-secondary">
+                        PhoneOutlined
+                      </p>
+                      <p className="text-xs text-text-tertiary">
+                        Phone numbers, click-to-call
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <MailOutlined className="text-lg text-text-muted" />
+                    <div>
+                      <p className="text-sm font-mono text-text-secondary">
+                        MailOutlined
+                      </p>
+                      <p className="text-xs text-text-tertiary">
+                        Email addresses, contact forms
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Social Media Icons */}
+              <div className="bg-bg-elevated rounded-card p-4 border border-border-subtle">
+                <h4 className="text-sm font-medium text-text-muted uppercase tracking-wider mb-3">
+                  Social Media
+                </h4>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <InstagramOutlined className="text-lg text-text-muted" />
+                    <div>
+                      <p className="text-sm font-mono text-text-secondary">
+                        InstagramOutlined
+                      </p>
+                      <p className="text-xs text-text-tertiary">
+                        Instagram profile links
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <FacebookOutlined className="text-lg text-text-muted" />
+                    <div>
+                      <p className="text-sm font-mono text-text-secondary">
+                        FacebookOutlined
+                      </p>
+                      <p className="text-xs text-text-tertiary">
+                        Facebook page links
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <XOutlined className="text-lg text-text-muted" />
+                    <div>
+                      <p className="text-sm font-mono text-text-secondary">
+                        XOutlined
+                      </p>
+                      <p className="text-xs text-text-tertiary">
+                        X (Twitter) profile links
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Usage Examples */}
+              <div className="bg-bg-elevated rounded-card p-4 border border-border-subtle">
+                <h4 className="text-sm font-medium text-text-muted uppercase tracking-wider mb-3">
+                  Implementation Examples
+                </h4>
+                <div className="space-y-3">
+                  <div className="p-2 bg-bg-subtle rounded border border-border-subtle">
+                    <p className="text-xs text-text-secondary mb-1">
+                      Header Usage:
+                    </p>
+                    <div className="flex gap-2">
+                      <PhoneOutlined className="text-base text-text-muted hover:text-text-primary transition-colors cursor-pointer" />
+                      <MailOutlined className="text-base text-text-muted hover:text-text-primary transition-colors cursor-pointer" />
+                      <InstagramOutlined className="text-base text-text-muted hover:text-text-primary transition-colors cursor-pointer" />
+                    </div>
+                  </div>
+                  <div className="p-2 bg-bg-subtle rounded border border-border-subtle">
+                    <p className="text-xs text-text-secondary mb-1">
+                      Footer Usage:
+                    </p>
+                    <div className="flex gap-2">
+                      <FacebookOutlined className="text-lg text-text-muted hover:text-text-primary transition-colors cursor-pointer" />
+                      <XOutlined className="text-lg text-text-muted hover:text-text-primary transition-colors cursor-pointer" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Code Examples */}
+          <div className="mb-12">
+            <h3
+              className="text-xl font-display text-text-primary mb-4"
+              style={{ fontWeight: 500 }}
+            >
+              Code Examples
+            </h3>
+            <div className="bg-bg-elevated rounded-card p-6 border border-border-subtle">
+              <h4 className="text-sm font-medium text-text-primary mb-3">
+                Import and Usage
+              </h4>
+              <pre className="text-xs text-text-secondary overflow-x-auto font-mono mb-4">
+                {`// Import specific icons (tree-shakeable)
+import { PhoneOutlined, MailOutlined, InstagramOutlined } from "@ant-design/icons";
+
+// Basic usage with styling
+<PhoneOutlined className="text-lg text-text-muted" />
+
+// Interactive icon with hover state
+<a href="tel:6128369488" className="text-text-muted hover:text-text-primary transition-colors">
+  <PhoneOutlined className="text-lg" />
+</a>
+
+// Accessible icon with label
+<PhoneOutlined 
+  className="text-lg" 
+  aria-label="Phone number: 612-836-9488"
+/>`}
+              </pre>
+
+              <h4 className="text-sm font-medium text-text-primary mb-3 mt-4">
+                Installation
+              </h4>
+              <pre className="text-xs text-text-secondary overflow-x-auto font-mono">
+                {`# Install the package
+pnpm add @ant-design/icons
+
+# The package is already installed in this project
+# Check package.json for current version`}
+              </pre>
+            </div>
+          </div>
+
+          {/* Icon Sizing Guidelines */}
+          <div className="mb-12">
+            <h3
+              className="text-xl font-display text-text-primary mb-4"
+              style={{ fontWeight: 500 }}
+            >
+              Icon Sizing Guidelines
+            </h3>
+            <div className="bg-bg-elevated rounded-card p-6 border border-border-subtle">
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="text-sm font-medium text-text-primary mb-3">
+                    Recommended Sizes
+                  </h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3">
+                      <PhoneOutlined className="text-xs text-text-muted" />
+                      <span className="text-sm text-text-secondary">
+                        <code>text-xs</code> — 12px (compact UI)
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <PhoneOutlined className="text-sm text-text-muted" />
+                      <span className="text-sm text-text-secondary">
+                        <code>text-sm</code> — 14px (small elements)
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <PhoneOutlined className="text-base text-text-muted" />
+                      <span className="text-sm text-text-secondary">
+                        <code>text-base</code> — 16px (default size)
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <PhoneOutlined className="text-lg text-text-muted" />
+                      <span className="text-sm text-text-secondary">
+                        <code>text-lg</code> — 18px (header icons)
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <PhoneOutlined className="text-xl text-text-muted" />
+                      <span className="text-sm text-text-secondary">
+                        <code>text-xl</code> — 20px (featured icons)
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-text-primary mb-3">
+                    Color Classes
+                  </h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3">
+                      <PhoneOutlined className="text-base text-text-primary" />
+                      <span className="text-sm text-text-secondary">
+                        <code>text-text-primary</code> — Primary text
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <PhoneOutlined className="text-base text-text-secondary" />
+                      <span className="text-sm text-text-secondary">
+                        <code>text-text-secondary</code> — Secondary text
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <PhoneOutlined className="text-base text-text-muted" />
+                      <span className="text-sm text-text-secondary">
+                        <code>text-text-muted</code> — Muted/Disabled
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <PhoneOutlined className="text-base text-accent" />
+                      <span className="text-sm text-text-secondary">
+                        <code>text-accent</code> — Accent color
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <PhoneOutlined className="text-base text-success" />
+                      <span className="text-sm text-text-secondary">
+                        <code>text-success</code> — Success state
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Best Practices */}
+          <div className="mb-12">
+            <h3
+              className="text-xl font-display text-text-primary mb-4"
+              style={{ fontWeight: 500 }}
+            >
+              Best Practices
+            </h3>
+            <div className="bg-bg-elevated rounded-card p-6 border border-border-subtle">
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="text-sm font-medium text-text-primary mb-2">
+                    Do's
+                  </h4>
+                  <ul className="space-y-1 text-sm text-text-secondary">
+                    <li>✓ Include aria-labels for standalone icons</li>
+                    <li>✓ Use consistent sizing within components</li>
+                    <li>✓ Add hover states for interactive icons</li>
+                    <li>✓ Import only the icons you need</li>
+                    <li>✓ Use semantic colors for actions</li>
+                    <li>✓ Maintain adequate spacing around icons</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-text-primary mb-2">
+                    Don'ts
+                  </h4>
+                  <ul className="space-y-1 text-sm text-text-secondary">
+                    <li>✗ Use icons without text labels when possible</li>
+                    <li>✗ Mix different icon styles (outlined/filled)</li>
+                    <li>✗ Use inconsistent sizes in the same context</li>
+                    <li>✗ Import the entire icon library</li>
+                    <li>✗ Use icons for decorative purposes only</li>
+                    <li>✗ Override icon colors with arbitrary values</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Design Tokens Reference */}
         <section className="mb-20">
           <h2
@@ -1224,8 +1575,9 @@ export default function StyleGuide() {
               </li>
               <li>
                 <strong className="text-text-primary">Border Radius:</strong>{" "}
-                Use <code>rounded-button</code> for buttons, <code>rounded-card</code>{" "}
-                for cards — both map to your design token values
+                Use <code>rounded-button</code> for buttons,{" "}
+                <code>rounded-card</code> for cards — both map to your design
+                token values
               </li>
               <li>
                 <strong className="text-text-primary">Accessibility:</strong>{" "}

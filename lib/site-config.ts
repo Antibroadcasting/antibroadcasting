@@ -6,7 +6,7 @@ export const siteConfig = {
     legalName: "Antibroadcasting, Inc.",
     description:
       "Artist-run screen printing shop in Minneapolis. Quality prints for bands, artists, and events. 50pc minimums, 7–10 day turnaround.",
-    tagline: "Custom Screen Printing. Quality Prints Daily",
+    tagline: "Custom Screen Printing. Quality Prints Daily.",
     foundedYear: 2024, // Placeholder - update with actual year
   },
 
