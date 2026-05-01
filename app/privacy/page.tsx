@@ -9,7 +9,7 @@ export default function PrivacyPage() {
   return (
     <div className="max-w-3xl mx-auto">
       <h1 className="text-4xl font-bold text-text-default mb-8">Privacy Policy</h1>
-      
+
       <div className="prose prose-lg max-w-none text-text-secondary">
         <p className="text-text-muted mb-6">
           Last updated: {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
@@ -44,7 +44,7 @@ export default function PrivacyPage() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold text-text-default mb-4">Information Sharing</h2>
           <p className="mb-4">
-            We do not sell, trade, or rent your personal information to third parties. 
+            We do not sell, trade, or rent your personal information to third parties.
             We may share your information with:
           </p>
           <ul className="list-disc pl-6 mb-4 space-y-2">
@@ -56,7 +56,7 @@ export default function PrivacyPage() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold text-text-default mb-4">Data Security</h2>
           <p className="mb-4">
-            We implement appropriate technical and organizational measures to protect 
+            We implement appropriate technical and organizational measures to protect
             your personal information against unauthorized access, alteration, or destruction.
           </p>
         </section>
@@ -78,7 +78,7 @@ export default function PrivacyPage() {
           <h2 className="text-2xl font-semibold text-text-default mb-4">Contact Us</h2>
           <p>
             If you have questions about this Privacy Policy, please contact us at{" "}
-            <a href="mailto:info@antibroadcasting.com" className="text-text-primary hover:underline">
+            <a href="mailto:info@antibroadcasting.com" className="font-medium text-text-primary hover:underline">
               info@antibroadcasting.com
             </a>
             .

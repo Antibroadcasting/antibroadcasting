@@ -32,11 +32,10 @@ function NavLink({
     <TransitionLink
       href={href}
       onClick={onClick}
-      className={`relative rounded-xs border-b-3 border-transparent transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-        active
-          ? "pointer-events-none lg:border-b-(--color-primary-500)"
-          : "text-text-muted"
-      } ${className || ""}`}
+      className={`relative rounded-xs border-b-3 border-transparent transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${active
+        ? "pointer-events-none lg:border-b-(--color-primary-500)"
+        : "text-text-muted"
+        } ${className || ""}`}
     >
       {children}
     </TransitionLink>
@@ -150,7 +149,7 @@ export function Header() {
             <div className="flex items-center gap-4 text-xs">
               <a
                 href={siteConfig.contact.phoneHref}
-                className="flex items-center gap-1 text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="flex items-center gap-1 font-medium text-text-primary hover:underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label="Phone"
               >
                 <PhoneOutlined className="text-lg xl:text-sm" />
@@ -160,7 +159,7 @@ export function Header() {
               </a>
               <a
                 href={siteConfig.contact.emailHref}
-                className="flex items-center gap-1 text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="flex items-center gap-1 font-medium text-text-primary hover:underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label="Email"
               >
                 <MailOutlined className="text-lg xl:text-sm" />
@@ -298,7 +297,8 @@ export function Header() {
                 <XOutlined className="text-lg" />
               </a>
             </div>
-            <p className="mt-2">{siteConfig.contact.location}</p>
+            <p className="mt-2">{siteConfig.contact.address.street}</p>
+            <p className="-mt-2">{siteConfig.contact.location}</p>
           </div>
         </div>
       </nav>

@@ -36,7 +36,7 @@ export default async function HowItWorksPage() {
           requirements to payment. Still have questions?{" "}
           <a
             href="/contact"
-            className="underline underline-offset-2 hover:text-text-primary transition-colors"
+            className="font-medium text-text-primary hover:underline"
           >
             Just ask.
           </a>

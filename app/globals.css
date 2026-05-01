@@ -109,9 +109,7 @@
 
   /* ─── Semantic: Background Variance ─── */
   --bg-subtle: var(--color-muted-surface);
-  --bg-elevated: var(
-    --color-neutral-100
-  ); /* intentionally same as --background; elevation is expressed via shadow, not color-lift */
+  --bg-elevated: var(--color-neutral-100);
   --bg-inset: var(--color-neutral-200);
   --bg-inverse: var(--color-primary-950);
 
@@ -334,9 +332,9 @@
   --radius-xl: var(--scale-radius-xl);
   --radius-2xl: var(--scale-radius-2xl);
   --radius-full: var(--scale-radius-full);
-  --radius-button: var(--radius-button);
-  --radius-card: var(--radius-card);
-  --radius-input: var(--radius-input);
+  --radius-button: var(--scale-radius-sm);
+  --radius-card: var(--scale-radius-md);
+  --radius-input: var(--scale-radius-sm);
 
   /* Shadow tokens — ref --scale-shadow-* to avoid circular self-ref */
   --shadow-xs: var(--scale-shadow-xs);
@@ -358,13 +356,6 @@
   --color-focus-ring-error: var(--focus-ring-color-error);
   --color-focus-ring-offset: var(--focus-ring-offset-color);
 
-  /* State color tokens */
-  --color-success: var(--color-success);
-  --color-error: var(--color-error);
-  --color-warning: var(--color-warning);
-  --color-destructive: var(--color-destructive);
-  --color-accent: var(--color-accent);
-  --color-muted: var(--color-muted);
 
   --color-text-success: var(--color-success-text);
   --color-text-error: var(--color-error-text);

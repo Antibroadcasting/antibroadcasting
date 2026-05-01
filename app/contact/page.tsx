@@ -14,7 +14,7 @@ export default function ContactPage() {
     <section className="w-full max-w-400 mx-auto lg:px-4">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold tracking-tight mb-2">Get a Quote</h1>
-        <p className="text-zinc-500 mb-10">
+        <p className="text-text-secondary mb-10">
           Fill out the form below and we'll get back to you within 1–2 business
           days. The more detail you give us, the faster we can turn around an
           accurate quote.
@@ -22,12 +22,12 @@ export default function ContactPage() {
 
         <QuoteForm />
 
-        <div className="mt-12 pt-8 border-t border-zinc-200 text-sm text-zinc-500 space-y-1">
+        <div className="mt-12 pt-8 border-t border-border-subtle text-sm text-text-secondary space-y-1">
           <p>Prefer to call or email directly?</p>
           <p>
             <a
               href={siteConfig.contact.phoneHref}
-              className="font-medium text-zinc-900 hover:underline"
+              className="font-medium text-text-primary hover:underline"
             >
               {siteConfig.contact.phone}
             </a>
@@ -35,7 +35,7 @@ export default function ContactPage() {
           <p>
             <a
               href={siteConfig.contact.emailHref}
-              className="font-medium text-zinc-900 hover:underline"
+              className="font-medium text-text-primary hover:underline"
             >
               {siteConfig.contact.email}
             </a>

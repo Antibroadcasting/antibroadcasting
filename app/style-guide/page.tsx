@@ -1179,7 +1179,7 @@ import { PhoneOutlined, MailOutlined, InstagramOutlined } from "@ant-design/icon
 <PhoneOutlined className="text-lg text-text-muted" />
 
 // Interactive icon with hover state
-<a href="tel:6128369488" className="text-text-muted hover:text-text-primary transition-colors">
+<a href="tel:6128369488" className="font-medium text-text-primary hover:underline">
   <PhoneOutlined className="text-lg" />
 </a>
 

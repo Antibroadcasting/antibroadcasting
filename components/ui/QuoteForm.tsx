@@ -184,7 +184,7 @@ export function QuoteForm() {
           Something went wrong. Try emailing us directly at{" "}
           <a
             href={siteConfig.contact.emailHref}
-            className="underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-error focus-visible:ring-offset-1 focus-visible:ring-offset-background"
+            className="font-medium text-text-primary hover:underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             {siteConfig.contact.email}
           </a>
