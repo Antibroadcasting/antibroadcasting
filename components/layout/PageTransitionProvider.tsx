@@ -53,7 +53,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     // Phase 1: flood — wipe down to cover the page
     const flood = overlay.animate(
       [{ transform: "translateY(-100%)" }, { transform: "translateY(0)" }],
-      { duration: FLOOD_MS, easing: "ease-out", fill: "forwards" }
+      { duration: FLOOD_MS, easing: "ease-out", fill: "forwards" },
     );
 
     flood.onfinish = () => {
@@ -63,7 +63,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
         // Phase 2: print — continue down to reveal the new page
         const print = overlay.animate(
           [{ transform: "translateY(0)" }, { transform: "translateY(100%)" }],
-          { duration: PRINT_MS, easing: "ease-out", fill: "forwards" }
+          { duration: PRINT_MS, easing: "ease-out", fill: "forwards" },
         );
         print.onfinish = () => {
           overlay.remove();

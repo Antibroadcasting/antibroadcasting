@@ -40,7 +40,7 @@ export default async function PortfolioPage({
     );
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <section className="w-full max-w-400 mx-auto lg:px-4">
       <header className="mb-10">
         <h1 className="text-3xl font-bold tracking-tight mb-2">Portfolio</h1>
         <p className="text-text-secondary">
@@ -111,7 +111,7 @@ export default async function PortfolioPage({
       ) : (
         <EmptyState category={activeCategory} />
       )}
-    </div>
+    </section>
   );
 }
 
