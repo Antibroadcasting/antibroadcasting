@@ -122,6 +122,7 @@ export function Header() {
       </a>
       <header
         className={`fixed top-0 left-0 right-0 z-100 px-4 flex items-center justify-between bg-bg-base border-b border-border-default transition-transform duration-300 ease-in-out ${hidden ? "-translate-y-full" : "translate-y-0"}`}
+        onFocus={() => setHidden(false)}
       >
         <div className="max-w-400 mx-auto flex flex-1 items-center gap-2">
           <TransitionLink

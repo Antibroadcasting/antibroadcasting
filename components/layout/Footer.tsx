@@ -1,3 +1,5 @@
+"use client";
+
 import { siteConfig } from "@/lib/site-config";
 import {
   InstagramOutlined,
@@ -7,7 +9,13 @@ import {
 
 export function Footer() {
   return (
-    <footer className="p-6 md:p-8 lg:p-10 xl:p-12 bg-bg-inset sticky bottom-0 z-0">
+    <footer
+      className="p-6 md:p-8 lg:p-10 xl:p-12 bg-bg-inset sticky bottom-0 z-0"
+      onFocus={() => {
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: reduced ? "instant" : "smooth" });
+      }}
+    >
       <div className="max-w-400 mx-auto flex flex-col md:flex-row justify-between gap-8">
         <div className="flex flex-col gap-0.5">
           <p className="font-bold text-lg text-text-primary">
