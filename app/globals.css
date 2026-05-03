@@ -184,7 +184,7 @@
   --button-primary-surface-hover: var(--color-primary-800);
   --button-primary-surface-active: var(--color-primary-700);
   --button-primary-text: var(--color-neutral-100);
-  --button-primary-text-hover: var(--color-neutral-50);
+  --button-primary-text-hover: oklch(100% 0 0);
   --button-primary-border: transparent;
 
   /* ─── Component: Buttons — Secondary ─── */
@@ -192,7 +192,7 @@
   --button-secondary-surface-hover: var(--color-secondary-900);
   --button-secondary-surface-active: var(--color-secondary-800);
   --button-secondary-text: var(--color-neutral-100);
-  --button-secondary-text-hover: var(--color-neutral-50);
+  --button-secondary-text-hover: oklch(100% 0 0);
   --button-secondary-border: transparent;
 
   /* ─── Component: Buttons — Neutral ─── */
@@ -200,7 +200,7 @@
   --button-neutral-surface-hover: var(--color-neutral-500);
   --button-neutral-surface-active: var(--color-neutral-400);
   --button-neutral-text: var(--color-primary-950);
-  --button-neutral-text-hover: var(--color-neutral-50);
+  --button-neutral-text-hover: oklch(100% 0 0);
   --button-neutral-border: transparent;
 
   /* ─── Component: Buttons — Outline ─── */
@@ -217,7 +217,7 @@
   --button-destructive-surface-hover: oklch(20% 0.18 5);
   --button-destructive-surface-active: oklch(30% 0.22 5);
   --button-destructive-text: var(--color-neutral-100);
-  --button-destructive-text-hover: var(--color-neutral-50);
+  --button-destructive-text-hover: oklch(100% 0 0);
   --button-destructive-border: transparent;
 
   /* ─── Component: Radius aliases ─── */
@@ -480,7 +480,7 @@
   --button-primary-surface-hover: oklch(65% 0.28 12);
   --button-primary-surface-active: oklch(55% 0.24 12);
   --button-primary-text: var(--color-neutral-100);
-  --button-primary-text-hover: var(--color-neutral-950);
+  --button-primary-text-hover: oklch(0% 0 0);
 
   /* Secondary: richer base than secondary-600, light text.
    * oklch(52% 0.14 195) + neutral-100 = high contrast (AAA ✓).
@@ -489,7 +489,7 @@
   --button-secondary-surface-hover: oklch(70% 0.18 195);
   --button-secondary-surface-active: oklch(61% 0.15 195);
   --button-secondary-text: var(--color-neutral-100);
-  --button-secondary-text-hover: var(--color-neutral-950);
+  --button-secondary-text-hover: oklch(0% 0 0);
 
   --button-neutral-surface: var(--color-neutral-600);
   --button-neutral-surface-hover: var(--color-neutral-500);
@@ -500,7 +500,7 @@
   --button-outline-surface-hover: var(--color-neutral-100);
   --button-outline-surface-active: var(--color-neutral-200);
   --button-outline-text: var(--color-neutral-100);
-  --button-outline-text-hover: var(--color-neutral-950);
+  --button-outline-text-hover: oklch(0% 0 0);
   --button-outline-border: var(--color-neutral-100);
   --button-outline-border-hover: var(--color-neutral-100);
 
@@ -511,7 +511,7 @@
   --button-destructive-surface: var(--color-destructive);
   --button-destructive-surface-hover: oklch(45% 0.27 5);
   --button-destructive-surface-active: oklch(35% 0.24 5);
-  --button-destructive-text-hover: var(--color-neutral-100);
+  --button-destructive-text-hover: oklch(0% 0 0);
   --button-destructive-border: transparent;
 
   /* ─── Forms ─── */
