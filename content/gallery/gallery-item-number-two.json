@@ -1,0 +1,9 @@
+{
+  "title": "Gallery Item Number Two",
+  "client": "Client Two",
+  "category": "band-merch",
+  "image": "/gallery/gallery-item-number-two/image.jpg",
+  "featured": false,
+  "colors": 4,
+  "year": 2025
+}

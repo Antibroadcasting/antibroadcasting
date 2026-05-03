@@ -13,14 +13,10 @@ export default config({
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
         client: fields.text({ label: "Client / Band / Artist" }),
-        category: fields.select({
+        category: fields.text({
           label: "Category",
-          options: [
-            { label: "Band Merch", value: "band-merch" },
-            { label: "Local Artist", value: "local-artist" },
-            { label: "Event", value: "event" },
-            { label: "Business", value: "business" },
-          ],
+          description:
+            "Suggested: band-merch · local-artist · event · business — or add your own.",
           defaultValue: "band-merch",
         }),
         image: fields.image({
@@ -31,6 +27,11 @@ export default config({
         featured: fields.checkbox({
           label: "Feature on homepage",
           defaultValue: false,
+        }),
+        description: fields.text({
+          label: "Description",
+          description: "Optional — brief context about the project.",
+          multiline: true,
         }),
         colors: fields.number({ label: "Number of colors" }),
         year: fields.number({ label: "Year" }),

@@ -1,0 +1,9 @@
+{
+  "title": "Gallery Item Number One",
+  "client": "Client One",
+  "category": "event",
+  "image": "/gallery/gallery-item-number-one/image.jpg",
+  "featured": false,
+  "colors": 2,
+  "year": 2023
+}
