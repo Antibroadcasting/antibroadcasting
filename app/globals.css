@@ -181,23 +181,26 @@
   /* ─── Component: Buttons — Primary ─── */
   /* primary-500 (L 42%) + neutral-100 text = ~8.5:1 (AA ✓) */
   --button-primary-surface: var(--color-primary-500);
-  --button-primary-surface-hover: var(--color-primary-600);
+  --button-primary-surface-hover: var(--color-primary-800);
   --button-primary-surface-active: var(--color-primary-700);
   --button-primary-text: var(--color-neutral-100);
+  --button-primary-text-hover: var(--color-neutral-50);
   --button-primary-border: transparent;
 
   /* ─── Component: Buttons — Secondary ─── */
   --button-secondary-surface: var(--color-secondary-600);
-  --button-secondary-surface-hover: var(--color-secondary-700);
+  --button-secondary-surface-hover: var(--color-secondary-900);
   --button-secondary-surface-active: var(--color-secondary-800);
   --button-secondary-text: var(--color-neutral-100);
+  --button-secondary-text-hover: var(--color-neutral-50);
   --button-secondary-border: transparent;
 
   /* ─── Component: Buttons — Neutral ─── */
   --button-neutral-surface: var(--color-neutral-200);
-  --button-neutral-surface-hover: var(--color-neutral-300);
+  --button-neutral-surface-hover: var(--color-neutral-500);
   --button-neutral-surface-active: var(--color-neutral-400);
   --button-neutral-text: var(--color-primary-950);
+  --button-neutral-text-hover: var(--color-neutral-50);
   --button-neutral-border: transparent;
 
   /* ─── Component: Buttons — Outline ─── */
@@ -211,11 +214,10 @@
 
   /* ─── Component: Buttons — Destructive ─── */
   --button-destructive-surface: var(--color-destructive);
-  --button-destructive-surface-hover: var(--color-destructive-border);
-  --button-destructive-surface-active: oklch(
-    from var(--color-destructive) calc(l - 0.1) c h
-  );
+  --button-destructive-surface-hover: oklch(20% 0.18 5);
+  --button-destructive-surface-active: oklch(30% 0.22 5);
   --button-destructive-text: var(--color-neutral-100);
+  --button-destructive-text-hover: var(--color-neutral-50);
   --button-destructive-border: transparent;
 
   /* ─── Component: Radius aliases ─── */
@@ -263,6 +265,7 @@
   --color-button-primary-surface-hover: var(--button-primary-surface-hover);
   --color-button-primary-surface-active: var(--button-primary-surface-active);
   --color-button-primary-text: var(--button-primary-text);
+  --color-button-primary-text-hover: var(--button-primary-text-hover);
   --color-button-primary-border: var(--button-primary-border);
 
   /* Button tokens — Secondary */
@@ -272,6 +275,7 @@
     --button-secondary-surface-active
   );
   --color-button-secondary-text: var(--button-secondary-text);
+  --color-button-secondary-text-hover: var(--button-secondary-text-hover);
   --color-button-secondary-border: var(--button-secondary-border);
 
   /* Button tokens — Neutral */
@@ -279,6 +283,7 @@
   --color-button-neutral-surface-hover: var(--button-neutral-surface-hover);
   --color-button-neutral-surface-active: var(--button-neutral-surface-active);
   --color-button-neutral-text: var(--button-neutral-text);
+  --color-button-neutral-text-hover: var(--button-neutral-text-hover);
   --color-button-neutral-border: var(--button-neutral-border);
 
   /* Button tokens — Outline */
@@ -299,6 +304,7 @@
     --button-destructive-surface-active
   );
   --color-button-destructive-text: var(--button-destructive-text);
+  --color-button-destructive-text-hover: var(--button-destructive-text-hover);
   --color-button-destructive-border: var(--button-destructive-border);
 
   /* Form tokens */
@@ -355,7 +361,6 @@
   --color-focus-ring: var(--focus-ring-color);
   --color-focus-ring-error: var(--focus-ring-color-error);
   --color-focus-ring-offset: var(--focus-ring-offset-color);
-
 
   --color-text-success: var(--color-success-text);
   --color-text-error: var(--color-error-text);
@@ -468,23 +473,27 @@
     0 20px 40px oklch(0% 0 0 / 0.5), 0 8px 16px oklch(0% 0 0 / 0.3);
 
   /* ─── Buttons ─── */
-  /* Primary: shifted to primary-400 (L 60%) — neutral-950 text gives ~5.15:1 (AA). */
-  /* primary-500 (L 42%) + neutral-950 was ~2.4:1 — failed SC 1.4.3. */
-  /* --button-primary-surface: var(--color-primary-400);
-  --button-primary-surface-hover: var(--color-primary-300);
-  --button-primary-surface-active: oklch(57% 0.17 12);
-  --button-primary-text: var(--color-neutral-950); */
+  /* Primary: use the real brand red (primary-500) with light text.
+   * oklch(42% 0.2 12) + neutral-100 = ~12:1 (AAA ✓).
+   * Hover brightens and saturates rather than darkening (dark-UI inversion). */
+  --button-primary-surface: var(--color-primary-500);
+  --button-primary-surface-hover: oklch(65% 0.28 12);
+  --button-primary-surface-active: oklch(55% 0.24 12);
+  --button-primary-text: var(--color-neutral-100);
+  --button-primary-text-hover: var(--color-neutral-950);
 
-  /* Secondary: active shifted to L 58% — neutral-950 text gives ~4.74:1 (AA). */
-  /* secondary-600 (L 52%) was ~3.7:1 — failed SC 1.4.3. */
-  --button-secondary-surface: var(--color-secondary-500);
-  --button-secondary-surface-hover: var(--color-secondary-400);
-  --button-secondary-surface-active: oklch(58% 0.09 195);
-  --button-secondary-text: var(--color-neutral-950);
+  /* Secondary: richer base than secondary-600, light text.
+   * oklch(52% 0.14 195) + neutral-100 = high contrast (AAA ✓).
+   * Hover lifts to a vivid bright teal; text flips to dark for contrast. */
+  --button-secondary-surface: oklch(52% 0.14 195);
+  --button-secondary-surface-hover: oklch(70% 0.18 195);
+  --button-secondary-surface-active: oklch(61% 0.15 195);
+  --button-secondary-text: var(--color-neutral-100);
+  --button-secondary-text-hover: var(--color-neutral-950);
 
-  --button-neutral-surface: var(--color-neutral-800);
-  --button-neutral-surface-hover: var(--color-neutral-700);
-  --button-neutral-surface-active: var(--color-neutral-600);
+  --button-neutral-surface: var(--color-neutral-600);
+  --button-neutral-surface-hover: var(--color-neutral-500);
+  --button-neutral-surface-active: var(--color-neutral-400);
   --button-neutral-text: var(--color-neutral-100);
 
   --button-outline-surface: transparent;
@@ -495,13 +504,14 @@
   --button-outline-border: var(--color-neutral-100);
   --button-outline-border-hover: var(--color-neutral-100);
 
-  /* Destructive: aligned with --color-destructive = var(--color-error) = oklch(60% 0.22 25).
-   * Bright surface uses dark text — neutral-950 gives ~5.14:1 (AA ✓).
-   * Hover lightens to L 63% (~5.7:1 ✓), active uses L 57% + higher chroma (~4.55:1 ✓). */
+  /* Destructive dark: base oklch(60% 0.22 25) is vivid — leave it.
+   * Hover drops to a deep saturated crimson so the wipe is clearly visible
+   * and the color stays unmistakably red. Light text works on both surfaces.
+   * Active goes deeper still for tactile feedback. */
   --button-destructive-surface: var(--color-destructive);
-  --button-destructive-surface-hover: oklch(63% 0.22 25);
-  --button-destructive-surface-active: oklch(57% 0.24 25);
-  /* --button-destructive-text: var(--color-neutral-950); */
+  --button-destructive-surface-hover: oklch(45% 0.27 5);
+  --button-destructive-surface-active: oklch(35% 0.24 5);
+  --button-destructive-text-hover: var(--color-neutral-100);
   --button-destructive-border: transparent;
 
   /* ─── Forms ─── */

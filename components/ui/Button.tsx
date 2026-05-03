@@ -2,23 +2,23 @@ import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-button font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--background) cursor-pointer disabled:opacity-50 disabled:pointer-events-none",
+  "inline-flex items-center justify-center rounded-button font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--background) cursor-pointer disabled:opacity-50 disabled:pointer-events-none",
   {
     variants: {
       variant: {
         primary:
-          "relative z-0 overflow-hidden bg-button-primary-surface text-button-primary-text before:absolute before:inset-0 before:-z-10 before:bg-button-primary-surface-hover before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top active:before:bg-button-primary-surface-active",
+          "relative z-0 overflow-hidden bg-button-primary-surface text-button-primary-text hover:text-button-primary-text-hover before:absolute before:inset-0 before:-z-10 before:bg-button-primary-surface-hover before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top active:before:bg-button-primary-surface-active",
         secondary:
-          "relative z-0 overflow-hidden bg-button-secondary-surface text-button-secondary-text before:absolute before:inset-0 before:-z-10 before:bg-button-secondary-surface-hover before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top active:before:bg-button-secondary-surface-active",
+          "relative z-0 overflow-hidden bg-button-secondary-surface text-button-secondary-text hover:text-button-secondary-text-hover before:absolute before:inset-0 before:-z-10 before:bg-button-secondary-surface-hover before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top active:before:bg-button-secondary-surface-active",
         neutral:
-          "relative z-0 overflow-hidden bg-button-neutral-surface text-button-neutral-text before:absolute before:inset-0 before:-z-10 before:bg-button-neutral-surface-hover before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top active:before:bg-button-neutral-surface-active",
+          "relative z-0 overflow-hidden bg-button-neutral-surface text-button-neutral-text hover:text-button-neutral-text-hover before:absolute before:inset-0 before:-z-10 before:bg-button-neutral-surface-hover before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top active:before:bg-button-neutral-surface-active",
         outline:
           "relative z-0 overflow-hidden bg-button-outline-surface border-2 border-button-outline-border text-button-outline-text hover:text-button-outline-text-hover hover:border-button-outline-border-hover before:absolute before:inset-0 before:-z-10 before:bg-button-outline-surface-hover before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top active:before:bg-button-outline-surface-active",
         ghost:
-          "text-text-secondary hover:text-text-primary hover:bg-bg-subtle active:bg-bg-inset",
-        link: "text-text-secondary hover:text-text-primary underline-offset-4 hover:underline p-0 h-auto",
+          "relative z-0 overflow-hidden bg-button-outline-surface text-button-outline-text hover:text-button-outline-text-hover before:absolute before:inset-0 before:-z-10 before:bg-button-outline-surface-hover before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top active:before:bg-button-outline-surface-active",
+        link: "text-text-secondary hover:text-text-primary underline underline-offset-2 hover:underline-offset-4 decoration-text-primary/50 hover:decoration-text-primary p-0 h-auto",
         destructive:
-          "relative z-0 overflow-hidden bg-button-destructive-surface text-button-destructive-text focus-visible:ring-focus-ring-error before:absolute before:inset-0 before:-z-10 before:bg-button-destructive-surface-hover before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top active:before:bg-button-destructive-surface-active",
+          "relative z-0 overflow-hidden bg-button-destructive-surface text-button-destructive-text hover:text-button-destructive-text-hover focus-visible:ring-focus-ring-error before:absolute before:inset-0 before:-z-10 before:bg-button-destructive-surface-hover before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top active:before:bg-button-destructive-surface-active",
       },
       size: {
         sm: "px-4 py-2 text-sm",
