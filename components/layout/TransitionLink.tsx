@@ -18,8 +18,14 @@ export const TransitionLink = forwardRef<HTMLAnchorElement, Props>(
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
       // Let modifier-key clicks fall through (new tab, etc.)
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      // Skip transition on same-page links
-      if (new URL(href, window.location.origin).pathname === window.location.pathname) return;
+      // Skip transition on same-page links — prevent default to avoid flash of light mode
+      if (
+        new URL(href, window.location.origin).pathname ===
+        window.location.pathname
+      ) {
+        e.preventDefault();
+        return;
+      }
       e.preventDefault();
       onClick?.();
       startTransition(() => router.push(href));
@@ -30,5 +36,5 @@ export const TransitionLink = forwardRef<HTMLAnchorElement, Props>(
         {children}
       </a>
     );
-  }
+  },
 );
