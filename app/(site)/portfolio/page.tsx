@@ -55,7 +55,7 @@ export default async function PortfolioPage({
       : allItems.filter((item) => item.category === activeCategory);
 
   return (
-    <section className="w-full max-w-400 mx-auto lg:px-4">
+    <section className="w-full max-w-400 mx-auto">
       <header className="mb-10">
         <h1 className="text-3xl font-bold tracking-tight mb-2">Portfolio</h1>
         <p className="text-text-secondary">

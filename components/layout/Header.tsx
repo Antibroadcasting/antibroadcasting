@@ -121,14 +121,14 @@ export function Header() {
         Skip to main content
       </a>
       <header
-        className={`fixed top-0 left-0 right-0 z-100 px-4 flex items-center justify-between bg-bg-base border-b border-border-default transition-transform duration-300 ease-in-out ${hidden ? "-translate-y-full" : "translate-y-0"}`}
+        className={`fixed top-0 left-0 right-0 z-100 px-4 md:px-6 lg:px-8 xl:px-12 flex items-center justify-between bg-bg-base border-b border-border-default transition-transform duration-300 ease-in-out ${hidden ? "-translate-y-full" : "translate-y-0"}`}
         onFocus={() => setHidden(false)}
       >
         <div className="max-w-400 mx-auto flex flex-1 items-center gap-2">
           <TransitionLink
             ref={logoRef}
             href="/"
-            className="logo font-black text-2xl font-display p-1 my-5 md:mx-6 lg:mx-8 tracking-wider text-text-primary uppercase leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="logo font-black text-2xl font-display p-1 my-5 tracking-wider text-text-primary uppercase leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             onMouseEnter={handleLogoEnter}
             onMouseLeave={handleLogoLeave}
           >
@@ -147,7 +147,7 @@ export function Header() {
               </NavLink>
             ))}
           </nav>
-          <div className="hidden lg:flex grow justify-end self-center items-center gap-4 m-4 md:me-6 lg:me-8">
+          <div className="hidden lg:flex grow justify-end self-center items-center gap-4">
             <div className="flex items-center gap-4 text-xs">
               <a
                 href={siteConfig.contact.phoneHref}

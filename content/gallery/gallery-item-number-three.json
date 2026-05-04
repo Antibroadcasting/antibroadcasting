@@ -1,0 +1,10 @@
+{
+  "title": "Gallery Item Number Three",
+  "client": "Client Three",
+  "category": "community-organization",
+  "image": "/gallery/gallery-item-number-three/image.jpg",
+  "featured": false,
+  "description": "This is the description for Gallery Item Number Two",
+  "colors": 7,
+  "year": 2026
+}

@@ -26,7 +26,7 @@ export default async function HowItWorksPage() {
     });
 
   return (
-    <section className="w-full max-w-400 mx-auto lg:px-4">
+    <section className="w-full max-w-400 mx-auto">
       <h1 className="text-3xl font-bold tracking-tight text-text-primary mb-2">
         How It Works
       </h1>
