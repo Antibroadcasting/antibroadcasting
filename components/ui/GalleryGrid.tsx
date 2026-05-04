@@ -144,7 +144,7 @@ function Lightbox({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Image */}
-        <div className="relative w-full md:w-auto md:flex-1 aspect-square max-h-[70vh] flex-shrink-0">
+        <div className="relative w-full md:w-auto md:flex-1 aspect-square max-h-[70vh] shrink-0">
           {item.image ? (
             <Image
               src={item.image}
@@ -162,7 +162,7 @@ function Lightbox({
         </div>
 
         {/* Meta panel */}
-        <div className="md:w-56 flex-shrink-0 text-white">
+        <div className="md:w-56 shrink-0 text-white">
           <p className="font-semibold text-lg leading-tight">
             {item.client ?? item.title}
           </p>
