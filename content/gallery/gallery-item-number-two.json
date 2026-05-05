@@ -3,7 +3,7 @@
   "client": "Client Two",
   "category": "band-merch",
   "image": "/gallery/gallery-item-number-two/image.jpg",
-  "featured": false,
+  "featured": true,
   "description": "This is the description for Gallery Item Number Two",
   "colors": 4,
   "year": 2025

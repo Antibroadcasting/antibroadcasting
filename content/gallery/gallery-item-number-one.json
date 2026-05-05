@@ -3,7 +3,7 @@
   "client": "Client One",
   "category": "event",
   "image": "/gallery/gallery-item-number-one/image.jpg",
-  "featured": false,
+  "featured": true,
   "description": "This is the description for Gallery Item Number One",
   "colors": 2,
   "year": 2023
