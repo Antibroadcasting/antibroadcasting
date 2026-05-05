@@ -18,7 +18,7 @@ export function Footer() {
     >
       <div className="max-w-400 mx-auto flex flex-col md:flex-row justify-between gap-8">
         <div className="flex flex-col gap-0.5">
-          <p className="font-bold text-lg text-text-primary">
+          <p className="font-bold font-display text-2xl text-text-primary">
             {siteConfig.company.legalName}
           </p>
           <p className="text-sm text-text-secondary mt-1">

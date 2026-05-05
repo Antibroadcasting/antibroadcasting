@@ -27,9 +27,15 @@ export default async function HowItWorksPage() {
 
   return (
     <section className="w-full max-w-400 mx-auto">
-      <h1 className="text-3xl font-bold tracking-tight text-text-primary mb-2">
-        How It Works
-      </h1>
+      {/* ── Page header ──────────────────────────────────────────────── */}
+      <header className="my-16 max-w-2xl">
+        <span className="inline-block text-xs font-mono tracking-widest uppercase text-text-muted border border-border-default rounded-full px-3 py-1 mb-4">
+          How it works
+        </span>
+        <h1 className="font-display font-black text-[clamp(4.25rem,18vw,8rem)] uppercase leading-[0.85] text-text-primary">
+          Our process.
+        </h1>
+      </header>
       <p className="text-text-secondary mb-12">
         Everything you need to know before placing an order — from art
         requirements to payment. Still have questions?{" "}

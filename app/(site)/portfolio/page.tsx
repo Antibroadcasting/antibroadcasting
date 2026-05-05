@@ -56,12 +56,13 @@ export default async function PortfolioPage({
 
   return (
     <section className="w-full max-w-400 mx-auto">
-      <header className="mb-10">
-        <h1 className="text-3xl font-bold tracking-tight mb-2">Portfolio</h1>
-        <p className="text-text-secondary">
-          A selection of work across bands, local artists, events, and
-          businesses.
-        </p>
+      <header className="my-16 max-w-2xl">
+        <span className="inline-block text-xs font-mono tracking-widest uppercase text-text-muted border border-border-default rounded-full px-3 py-1 mb-4">
+          Portfolio
+        </span>
+        <h1 className="font-display font-black text-[clamp(4.25rem,18vw,8rem)] uppercase leading-[0.85] text-text-primary">
+          Our work.
+        </h1>
       </header>
 
       {/* Category filter — only shown when there are multiple categories */}
@@ -75,11 +76,10 @@ export default async function PortfolioPage({
                 href={
                   cat.value === "all" ? "/portfolio" : `?category=${cat.value}`
                 }
-                className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
-                  isActive
+                className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${isActive
                     ? "bg-foreground text-background border-foreground"
                     : "bg-transparent text-text-secondary border-border-default hover:border-border-strong"
-                }`}
+                  }`}
               >
                 {cat.label}
               </Link>

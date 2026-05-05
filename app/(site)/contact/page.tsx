@@ -12,9 +12,16 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <section className="w-full max-w-400 mx-auto">
-      <h1 className="text-3xl font-bold tracking-tight mb-2">Get a Quote</h1>
+      <header className="my-16 max-w-2xl">
+        <span className="inline-block text-xs font-mono tracking-widest uppercase text-text-muted border border-border-default rounded-full px-3 py-1 mb-4">
+          Contact us
+        </span>
+        <h1 className="font-display font-black text-[clamp(4.25rem,18vw,8rem)] uppercase leading-[0.85] text-text-primary">
+          Get in touch.
+        </h1>
+      </header>
       <p className="text-text-secondary mb-10">
-        Fill out the form below and we'll get back to you within 1–2 business
+        Ready to print? Tell us about your project and we'll get back to you within 1–2 business
         days. The more detail you give us, the faster we can turn around an
         accurate quote.
       </p>

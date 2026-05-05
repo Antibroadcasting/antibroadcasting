@@ -56,8 +56,8 @@ function Hero() {
   return (
     <section className="relative flex flex-col justify-center min-h-[calc(100svh-4.5rem)] py-12 overflow-hidden">
       {/* Decorative registration marks */}
-      <RegistrationMark className="absolute top-8 right-8 w-10 h-10 text-border-default opacity-80" />
-      <RegistrationMark className="absolute bottom-8 left-0 w-6 h-6 text-border-default opacity-80" />
+      <RegistrationMark className="absolute z-40 top-8 right-8 w-10 h-10 text-border-default opacity-80" />
+      <RegistrationMark className="absolute z-40 bottom-8 left-0 w-6 h-6 text-border-default opacity-80" />
 
       <div className="z-20 xl:px-12">
 
@@ -65,16 +65,14 @@ function Hero() {
         <div className="flex items-center gap-2 mb-8">
           <span className="text-xs font-mono tracking-widest uppercase text-text-muted border border-border-default rounded-full px-3 py-1">
             {/* {siteConfig.contact.location} */}
-            Currently accepting orders for Fall 2026
+            Accepting orders for Fall 2026
           </span>
         </div>
 
         {/* Headline */}
-        <h1 className="font-display font-black uppercase leading-[0.85] tracking-tight text-text-primary">
+        <h1 className="font-display font-black uppercase leading-[0.85] text-text-primary">
           <span className="block text-[clamp(5rem,18vw,8rem)]">Custom</span>
-          <span className="block text-[clamp(5rem,18vw,8rem)] text-[--color-primary-500]">
-            Screen
-          </span>
+          <span className="block text-[clamp(5rem,18vw,8rem)]">Screen</span>
           <span className="block text-[clamp(5rem,18vw,8rem)]">Printing.</span>
         </h1>
 
@@ -96,21 +94,21 @@ function Hero() {
         </div>
       </div>
 
-      <div className="hidden lg:block bg-bg-accent w-full max-w-1/2 aspect-3/4 absolute top-0 right-0 z-0">
+      <div className="hidden lg:block bg-(--color-primary-500) w-full max-w-1/2 aspect-3/4 max-h-[80svh] absolute top-0 right-0 z-0 rounded-card overflow-hidden">
         <Image
           src="/images/hero-img02.jpg"
           alt="Screen printing work by Anti-Broadcasting"
           fill
           priority
-          className="object-cover mix-blend-difference"
+          className="object-cover mix-blend-luminosity brightness-50 saturate-150 rounded-card"
           sizes="50vw"
         />
       </div>
 
       {/* Trust strip */}
-      <div className="flex flex-wrap gap-6 mt-12 pt-8 border-t border-border-subtle">
+      <div className="flex flex-wrap gap-6 mt-12 p-8 pb-0 border-t border-border-subtle">
         {[
-          { value: `${siteConfig.business.minimumOrder}pc`, label: "Minimum" },
+          { value: `${siteConfig.business.minimumOrder} pc`, label: "Minimum" },
           {
             value: siteConfig.business.turnaroundDays,
             label: "Day Turnaround",
@@ -118,7 +116,7 @@ function Hero() {
           { value: `${siteConfig.business.maxColors}`, label: "Color Max" },
         ].map((stat) => (
           <div key={stat.label}>
-            <span className="block text-2xl font-display font-black text-text-primary">
+            <span className="block text-3xl font-display font-black text-text-primary tracking-wider">
               {stat.value}
             </span>
             <span className="block text-xs font-mono uppercase tracking-widest text-text-muted mt-0.5">
@@ -158,11 +156,11 @@ function ProcessStrip() {
             key={step.n}
             className="flex-1 bg-bg-base p-8 flex flex-col gap-3"
           >
-            <span className="text-xs font-mono tracking-widest text-text-muted">
+            <span className="text-xl font-mono tracking-widest text-text-muted">
               {step.n}
             </span>
-            <h3 className="font-semibold text-text-primary">{step.title}</h3>
-            <p className="text-sm text-text-secondary leading-relaxed">
+            <h3 className="font-semibold font-display text-2xl text-text-primary">{step.title}</h3>
+            <p className="text-text-secondary leading-relaxed text-pretty">
               {step.body}
             </p>
           </div>
@@ -183,13 +181,13 @@ function ProcessStrip() {
 function CtaBand() {
   return (
     <section className="relative my-8 rounded-card overflow-hidden bg-bg-subtle border border-border-subtle px-8 md:px-12 py-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-      <RegistrationMark className="absolute top-6 right-8 w-10 h-10 text-border-inverse opacity-20" />
+      <RegistrationMark className="absolute top-6 right-8 w-10 h-10 text-border-primary opacity-20" />
 
       <div>
-        <h2 className="font-display font-black uppercase text-3xl md:text-4xl text-text-base leading-tight">
+        <h2 className="font-display font-black uppercase text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-text-base leading-tight">
           Ready to Print?
         </h2>
-        <p className="mt-2 text-text-base/60 text-sm max-w-sm">
+        <p className="mt-2 text-text-muted text-sm text-pretty max-w-sm">
           Tell us about your project and we'll get back to you within 1–2
           business days with pricing.
         </p>
