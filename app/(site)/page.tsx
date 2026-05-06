@@ -54,16 +54,16 @@ function RegistrationMark({ className }: { className?: string }) {
 
 function Hero() {
   return (
-    <section className="relative flex flex-col justify-center min-h-[calc(100svh-4.5rem)] py-12 overflow-hidden">
+    <section className="relative flex flex-col justify-center min-h-[calc(100svh-4.5rem)] overflow-hidden">
       {/* Decorative registration marks */}
       <RegistrationMark className="absolute z-40 top-8 right-8 w-10 h-10 text-border-default opacity-80" />
-      <RegistrationMark className="absolute z-40 bottom-8 left-0 w-6 h-6 text-border-default opacity-80" />
+      <RegistrationMark className="absolute z-40 bottom-8 left-8 w-6 h-6 text-border-default opacity-80" />
 
       <div className="z-20 xl:px-12">
 
         {/* Location badge */}
         <div className="flex items-center gap-2 mb-8">
-          <span className="text-xs font-mono tracking-widest uppercase text-text-muted border border-border-default rounded-full px-3 py-1">
+          <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-text-warning px-3 py-1">
             {/* {siteConfig.contact.location} */}
             Accepting orders for Fall 2026
           </span>
@@ -106,7 +106,7 @@ function Hero() {
       </div>
 
       {/* Trust strip */}
-      <div className="flex flex-wrap gap-6 mt-12 p-8 pb-0 border-t border-border-subtle">
+      <div className="flex flex-wrap gap-6 mt-12 pt-8 px-4 pb-0 lg:px-8 border-t border-border-subtle">
         {[
           { value: `${siteConfig.business.minimumOrder} pc`, label: "Minimum" },
           {
@@ -159,7 +159,7 @@ function ProcessStrip() {
             <span className="text-xl font-mono tracking-widest text-text-muted">
               {step.n}
             </span>
-            <h3 className="font-semibold font-display text-2xl text-text-primary">{step.title}</h3>
+            <h3 className="font-semibold font-display text-[clamp(2rem,8vw,2.75rem)] leading-[0.85] text-text-primary">{step.title}</h3>
             <p className="text-text-secondary leading-relaxed text-pretty">
               {step.body}
             </p>

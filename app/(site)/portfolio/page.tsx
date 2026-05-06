@@ -56,8 +56,8 @@ export default async function PortfolioPage({
 
   return (
     <section className="w-full max-w-400 mx-auto">
-      <header className="my-16 max-w-2xl">
-        <span className="inline-block text-xs font-mono tracking-widest uppercase text-text-muted border border-border-default rounded-full px-3 py-1 mb-4">
+      <header className="my-12 max-w-2xl">
+        <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-(--color-secondary-500) px-3 py-1 mb-4">
           Portfolio
         </span>
         <h1 className="font-display font-black text-[clamp(4.25rem,18vw,8rem)] uppercase leading-[0.85] text-text-primary">
@@ -77,8 +77,8 @@ export default async function PortfolioPage({
                   cat.value === "all" ? "/portfolio" : `?category=${cat.value}`
                 }
                 className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${isActive
-                    ? "bg-foreground text-background border-foreground"
-                    : "bg-transparent text-text-secondary border-border-default hover:border-border-strong"
+                  ? "bg-foreground text-background border-foreground"
+                  : "bg-transparent text-text-secondary border-border-default hover:border-border-strong"
                   }`}
               >
                 {cat.label}

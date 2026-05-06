@@ -21,7 +21,7 @@ export function Footer() {
           <p className="font-bold font-display text-2xl text-text-primary">
             {siteConfig.company.legalName}
           </p>
-          <p className="text-sm text-text-secondary mt-1">
+          <p className="text-text-secondary mt-1">
             {siteConfig.contact.address.full}
           </p>
           <a

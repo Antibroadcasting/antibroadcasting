@@ -28,8 +28,8 @@ export default async function HowItWorksPage() {
   return (
     <section className="w-full max-w-400 mx-auto">
       {/* ── Page header ──────────────────────────────────────────────── */}
-      <header className="my-16 max-w-2xl">
-        <span className="inline-block text-xs font-mono tracking-widest uppercase text-text-muted border border-border-default rounded-full px-3 py-1 mb-4">
+      <header className="my-12 max-w-2xl">
+        <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-(--color-secondary-500) px-3 py-1 mb-4">
           How it works
         </span>
         <h1 className="font-display font-black text-[clamp(4.25rem,18vw,8rem)] uppercase leading-[0.85] text-text-primary">
@@ -48,7 +48,7 @@ export default async function HowItWorksPage() {
       </p>
 
       {/* Process steps */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-16">
+      <div className="flex flex-col sm:flex-row gap-px bg-border-subtle border border-border-subtle rounded-card overflow-hidden mb-16">
         {[
           {
             step: "01",
@@ -66,14 +66,14 @@ export default async function HowItWorksPage() {
             body: "Standard turnaround is 7–10 business days from when we receive your blanks.",
           },
         ].map((s) => (
-          <div key={s.step}>
-            <span className="text-xs font-mono text-text-muted tracking-widest">
+          <div key={s.step} className="flex-1 bg-bg-base p-8 flex flex-col gap-3">
+            <span className="text-xl font-mono tracking-widest text-text-muted">
               {s.step}
             </span>
-            <h2 className="mt-1 text-lg font-semibold text-text-primary mb-2">
+            <h2 className="font-semibold font-display text-[clamp(2rem,8vw,2.75rem)] leading-[0.85] text-text-primary">
               {s.title}
             </h2>
-            <p className="text-sm text-text-secondary leading-relaxed">
+            <p className="text-text-secondary leading-relaxed text-pretty">
               {s.body}
             </p>
           </div>
@@ -81,10 +81,12 @@ export default async function HowItWorksPage() {
       </div>
 
       {/* FAQ */}
-      <h2 className="text-xl font-bold text-text-primary mb-6">
-        Frequently Asked Questions
-      </h2>
-      <FaqAccordion items={items} />
+      <div className="max-w-2xl">
+        <h2 className="font-display font-black text-[clamp(3rem,12vw,6rem)] uppercase leading-[0.9] text-text-primary text-balance mb-8">
+          Frequently Asked Questions
+        </h2>
+        <FaqAccordion items={items} />
+      </div>
     </section>
   );
 }

@@ -33,8 +33,8 @@ function NavLink({
       href={href}
       onClick={onClick}
       className={`relative rounded-xs border-b-3 border-transparent transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${active
-          ? "pointer-events-none lg:border-b-(--color-primary-500)"
-          : "text-text-muted"
+        ? "pointer-events-none lg:border-b-(--color-primary-500)"
+        : "text-text-muted"
         } ${className || ""}`}
     >
       {children}
@@ -127,7 +127,7 @@ export function Header() {
           <TransitionLink
             ref={logoRef}
             href="/"
-            className="logo font-black text-2xl font-display p-1 my-5 mr-6 tracking-wider text-text-primary uppercase leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="logo font-black text-2xl font-display p-1 my-4 mr-6 tracking-wider text-text-primary uppercase leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             onMouseEnter={handleLogoEnter}
             onMouseLeave={handleLogoLeave}
           >
@@ -140,7 +140,7 @@ export function Header() {
               <NavLink
                 key={item.href}
                 href={item.href}
-                className="text-base hover:text-text-inverse dark:hover:text-text-primary font-medium p-5 relative overflow-hidden before:absolute before:inset-0 before:-z-10 before:transform before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top before:bg-(--color-primary-500) transition-all"
+                className="hover:text-text-inverse dark:hover:text-text-primary font-medium p-5 relative overflow-hidden before:absolute before:inset-0 before:-z-10 before:transform before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top before:bg-(--color-primary-500) transition-all"
               >
                 {item.label}
               </NavLink>
@@ -154,7 +154,7 @@ export function Header() {
                 aria-label="Phone"
               >
                 <PhoneOutlined className="text-lg xl:text-sm" />
-                <span className="hidden xl:inline">
+                <span className="hidden text-sm xl:inline">
                   {siteConfig.contact.phone}
                 </span>
               </a>
@@ -164,7 +164,7 @@ export function Header() {
                 aria-label="Email"
               >
                 <MailOutlined className="text-lg xl:text-sm" />
-                <span className="hidden xl:inline">
+                <span className="hidden text-sm xl:inline">
                   {siteConfig.contact.email}
                 </span>
               </a>
