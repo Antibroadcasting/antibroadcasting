@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 
@@ -28,36 +28,68 @@ function Lightbox({
   onClose,
   onPrev,
   onNext,
+  onRestoreFocus,
 }: {
   item: GalleryItem;
   items: GalleryItem[];
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
+  onRestoreFocus: () => void;
 }) {
   const [isVisible, setIsVisible] = useState(false);
   const currentIndex = items.findIndex((i) => i.slug === item.slug);
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex < items.length - 1;
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    // Trigger fade in after mount
     const timer = setTimeout(() => setIsVisible(true), 10);
     return () => clearTimeout(timer);
   }, []);
 
-  const handleClose = useCallback(() => {
-    setIsVisible(false);
-    // Delay unmount to allow fade out animation
-    setTimeout(onClose, 200);
-  }, [onClose]);
-
+  // Move focus to close button on mount
   useEffect(() => {
+    closeButtonRef.current?.focus();
+  }, []);
+
+  const handleClose = useCallback(() => {
+    onRestoreFocus();
+    setIsVisible(false);
+    setTimeout(onClose, 200);
+  }, [onClose, onRestoreFocus]);
+
+  // Keyboard: Escape, arrows, Tab trap
+  useEffect(() => {
+    const dialog = dialogRef.current;
+
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") handleClose();
-      if (e.key === "ArrowLeft" && hasPrev) onPrev();
-      if (e.key === "ArrowRight" && hasNext) onNext();
+      if (e.key === "Escape") {
+        handleClose();
+        return;
+      }
+      if (e.key === "ArrowLeft" && hasPrev) { onPrev(); return; }
+      if (e.key === "ArrowRight" && hasNext) { onNext(); return; }
+      if (e.key !== "Tab") return;
+
+      const focusable = dialog
+        ? Array.from(dialog.querySelectorAll<HTMLElement>("button:not([disabled])"))
+        : [];
+      if (!focusable.length) { e.preventDefault(); return; }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
+
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [handleClose, onPrev, onNext, hasPrev, hasNext]);
@@ -65,14 +97,13 @@ function Lightbox({
   // Lock scroll while open
   useEffect(() => {
     document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    return () => { document.body.style.overflow = ""; };
   }, []);
 
   return (
     <div
-      className={`fixed inset-0 z-200 flex items-center justify-center bg-bg-inverse/90 backdrop-blur-sm p-4 md:p-8 transition-opacity duration-200 ease-out ${
+      ref={dialogRef}
+      className={`fixed inset-0 z-200 flex items-center justify-center bg-bg-inverse/90 backdrop-blur-sm p-4 md:p-8 transition-opacity duration-200 ease-out motion-reduce:transition-none ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
       onClick={handleClose}
@@ -82,8 +113,9 @@ function Lightbox({
     >
       {/* Close */}
       <button
+        ref={closeButtonRef}
         onClick={handleClose}
-        aria-label="Close"
+        aria-label="Close lightbox"
         className="absolute top-4 right-4 text-text-inverse/60 hover:text-text-inverse transition-colors z-10 p-2"
       >
         <svg
@@ -92,6 +124,7 @@ function Lightbox({
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth={2}
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"
@@ -104,11 +137,8 @@ function Lightbox({
       {/* Prev */}
       {hasPrev && (
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onPrev();
-          }}
-          aria-label="Previous"
+          onClick={(e) => { e.stopPropagation(); onPrev(); }}
+          aria-label="Previous image"
           className="absolute left-4 top-1/2 -translate-y-1/2 text-text-inverse/60 hover:text-text-inverse transition-colors z-10 p-2"
         >
           <svg
@@ -117,6 +147,7 @@ function Lightbox({
             viewBox="0 0 24 24"
             stroke="currentColor"
             strokeWidth={2}
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -130,11 +161,8 @@ function Lightbox({
       {/* Next */}
       {hasNext && (
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onNext();
-          }}
-          aria-label="Next"
+          onClick={(e) => { e.stopPropagation(); onNext(); }}
+          aria-label="Next image"
           className="absolute right-4 top-1/2 -translate-y-1/2 text-text-inverse/60 hover:text-text-inverse transition-colors z-10 p-2"
         >
           <svg
@@ -143,6 +171,7 @@ function Lightbox({
             viewBox="0 0 24 24"
             stroke="currentColor"
             strokeWidth={2}
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -155,7 +184,7 @@ function Lightbox({
 
       {/* Content */}
       <div
-        className={`relative flex flex-col md:flex-row items-center gap-6 max-w-5xl w-full max-h-[90vh] transition-transform duration-200 ease-out ${
+        className={`relative flex flex-col md:flex-row items-center gap-6 max-w-5xl w-full max-h-[90vh] transition-transform duration-200 ease-out motion-reduce:transition-none ${
           isVisible ? "scale-100" : "scale-[0.98]"
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -212,11 +241,16 @@ function Lightbox({
 
 export function GalleryGrid({ items }: { items: GalleryItem[] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   const activeItem = activeIndex !== null ? items[activeIndex] : null;
 
-  const open = useCallback((index: number) => setActiveIndex(index), []);
+  const open = useCallback((index: number, trigger: HTMLButtonElement) => {
+    triggerRef.current = trigger;
+    setActiveIndex(index);
+  }, []);
   const close = useCallback(() => setActiveIndex(null), []);
+  const restoreFocus = useCallback(() => triggerRef.current?.focus(), []);
   const prev = useCallback(
     () => setActiveIndex((i) => (i !== null && i > 0 ? i - 1 : i)),
     [],
@@ -233,7 +267,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
         {items.map((item, index) => (
           <button
             key={item.slug}
-            onClick={() => open(index)}
+            onClick={(e) => open(index, e.currentTarget)}
             aria-label={`View ${item.client ?? item.title}`}
             className="group relative aspect-square overflow-hidden rounded-card bg-bg-inset focus:outline-none focus-visible:ring-2 focus-visible:ring-border-strong"
           >
@@ -243,7 +277,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
                 alt={`${item.client ?? item.title} screen print`}
                 fill
                 sizes="(min-width: 768px) 33vw, 50vw"
-                className="object-cover transition-transform duration-slow group-hover:scale-105"
+                className="object-cover transition-transform duration-slow group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-text-muted text-xs">
@@ -252,7 +286,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
             )}
 
             {/* Hover overlay */}
-            <div className="absolute inset-0 bg-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity duration-base flex flex-col items-start justify-end p-4">
+            <div className="absolute inset-0 bg-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity duration-base motion-reduce:transition-none flex flex-col items-start justify-end p-4">
               <p className="text-background font-semibold text-sm leading-tight">
                 {item.client ?? item.title}
               </p>
@@ -286,6 +320,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
             onClose={close}
             onPrev={prev}
             onNext={next}
+            onRestoreFocus={restoreFocus}
           />,
           document.body,
         )}

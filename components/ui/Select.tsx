@@ -28,6 +28,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         )}
         <select
           id={selectId}
+          defaultValue=""
           aria-describedby={error ? `${selectId}-error` : undefined}
           aria-required={required}
           aria-invalid={error ? true : undefined}

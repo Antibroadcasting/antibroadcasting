@@ -94,4 +94,60 @@ export default config({
       },
     }),
   },
+
+  singletons: {
+    siteInfo: singleton({
+      label: "Site Info",
+      path: "content/site-info",
+      format: { data: "json" },
+      schema: {
+        // ── Company ──────────────────────────────────────────────────
+        companyName: fields.text({ label: "Company name" }),
+        companyLegalName: fields.text({ label: "Legal name" }),
+        companyNickname: fields.text({ label: "Short name / nickname" }),
+        companyTagline: fields.text({ label: "Tagline" }),
+
+        // ── Contact ──────────────────────────────────────────────────
+        phone: fields.text({ label: "Phone (display)" }),
+        phoneHref: fields.text({ label: "Phone href (e.g. tel:6125551234)" }),
+        email: fields.text({ label: "Email address" }),
+        addressStreet: fields.text({ label: "Street address" }),
+        addressCity: fields.text({ label: "City" }),
+        addressState: fields.text({ label: "State" }),
+        addressZip: fields.text({ label: "ZIP code" }),
+
+        // ── Social ───────────────────────────────────────────────────
+        instagramUrl: fields.text({ label: "Instagram URL" }),
+        instagramHandle: fields.text({ label: "Instagram handle" }),
+        facebookUrl: fields.text({ label: "Facebook URL" }),
+        facebookHandle: fields.text({ label: "Facebook handle" }),
+        twitterUrl: fields.text({ label: "X / Twitter URL" }),
+        twitterHandle: fields.text({ label: "X / Twitter handle" }),
+
+        // ── Business rules ───────────────────────────────────────────
+        minimumOrder: fields.number({ label: "Minimum order (pieces)" }),
+        turnaroundDays: fields.text({
+          label: "Standard turnaround",
+          description: 'e.g. "7–10"',
+        }),
+        maxColors: fields.number({ label: "Maximum ink colors" }),
+        responseTime: fields.text({
+          label: "Quote response time",
+          description: 'e.g. "1–2 business days"',
+        }),
+
+        // ── Quote form options (one per line) ─────────────────────────
+        garmentOptions: fields.text({
+          label: "Garment options",
+          description: "One option per line.",
+          multiline: true,
+        }),
+        timelineOptions: fields.text({
+          label: "Timeline options",
+          description: "One option per line.",
+          multiline: true,
+        }),
+      },
+    }),
+  },
 });

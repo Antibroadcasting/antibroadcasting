@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { siteConfig } from "@/lib/site-config";
 import { reader } from "@/lib/keystatic";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
@@ -9,6 +10,13 @@ export const metadata: Metadata = {
   title: "How It Works",
   description:
     "Everything you need to know before placing an order — art requirements, minimums, turnaround, proofing, and the full quote process.",
+  alternates: { canonical: `${siteConfig.site.url}/how-it-works` },
+  openGraph: {
+    title: "How It Works | Antibroadcasting Inc.",
+    description:
+      "Everything you need to know before placing an order — art requirements, minimums, turnaround, proofing, and the full quote process.",
+    url: `${siteConfig.site.url}/how-it-works`,
+  },
 };
 
 export default async function HowItWorksPage() {
@@ -42,8 +50,23 @@ export default async function HowItWorksPage() {
       return a.order - b.order;
     });
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+
   return (
-    <article className="w-full max-w-400 mx-auto">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <div className="w-full max-w-400 mx-auto">
       {/* ── Page header ──────────────────────────────────────────────── */}
       <header className="my-12 max-w-2xl">
         <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-(--color-secondary-500) px-3 py-1 mb-4">
@@ -106,7 +129,7 @@ export default async function HowItWorksPage() {
           <h2 className="font-display font-black text-[clamp(3rem,10vw,5rem)] uppercase leading-[0.9] text-text-primary text-balance mb-8">
             Art Requirements
           </h2>
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 p-4">
             {artSections.map((section) => (
               <div key={section.heading}>
                 <h3 className="font-mono font-black tracking-widest uppercase text-text-muted mb-3">
@@ -158,6 +181,7 @@ export default async function HowItWorksPage() {
           </Button>
         </div>
       </section>
-    </article>
+    </div>
+    </>
   );
 }

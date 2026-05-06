@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { siteConfig } from "@/lib/site-config";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
@@ -10,11 +9,25 @@ import { FileUpload } from "@/components/ui/FileUpload";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
-const GARMENT_OPTIONS = siteConfig.forms.quote.garmentOptions;
+type QuoteFormProps = {
+  garmentOptions: string[];
+  timelineOptions: string[];
+  minimumOrder: number;
+  maxColors: number;
+  responseTime: string;
+  email: string;
+  emailHref: string;
+};
 
-const TIMELINE_OPTIONS = siteConfig.forms.quote.timelineOptions;
-
-export function QuoteForm() {
+export function QuoteForm({
+  garmentOptions,
+  timelineOptions,
+  minimumOrder,
+  maxColors,
+  responseTime,
+  email,
+  emailHref,
+}: QuoteFormProps) {
   const [state, setState] = useState<FormState>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -106,7 +119,7 @@ export function QuoteForm() {
             error={errors.quantity}
           />
           <p className="mt-1 text-xs text-text-tertiary">
-            {siteConfig.business.minimumOrder} piece minimum for custom orders.
+            {minimumOrder} piece minimum for custom orders.
           </p>
         </div>
         <div>
@@ -116,10 +129,10 @@ export function QuoteForm() {
             label="Number of Colors"
             placeholder="e.g. 2"
             min={1}
-            max={8}
+            max={maxColors}
           />
           <p className="mt-1 text-xs text-text-tertiary">
-            Up to {siteConfig.business.maxColors} colors supported.
+            Up to {maxColors} colors supported.
           </p>
         </div>
       </div>
@@ -130,13 +143,13 @@ export function QuoteForm() {
           name="garment"
           label="Garment Type"
           placeholder="Select a garment…"
-          options={GARMENT_OPTIONS.map((opt) => ({ value: opt, label: opt }))}
+          options={garmentOptions.map((opt) => ({ value: opt, label: opt }))}
         />
         <Select
           name="timeline"
           label="Timeline"
           placeholder="Select a timeline…"
-          options={TIMELINE_OPTIONS.map((opt) => ({ value: opt, label: opt }))}
+          options={timelineOptions.map((opt) => ({ value: opt, label: opt }))}
         />
       </div>
 
@@ -154,14 +167,14 @@ export function QuoteForm() {
       <FileUpload
         label="Artwork Files (Optional)"
         accept=".ai,.psd,.pdf,.png,.jpg,.jpeg,.svg"
-        maxSize={20 * 1024 * 1024} // 20MB
+        maxSize={20 * 1024 * 1024}
         multiple
         maxFiles={5}
       />
 
       {/* Submit */}
       <div>
-        <Button type="submit" variant="primary" disabled={state === "loading"}>
+        <Button type="submit" variant="primary" disabled={state === "loading"} aria-busy={state === "loading"}>
           {state === "loading" ? "Sending…" : "Send Quote Request"}
         </Button>
       </div>
@@ -172,8 +185,8 @@ export function QuoteForm() {
           role="alert"
           className="rounded-input bg-bg-success text-text-success px-4 py-3 text-sm border border-border-success"
         >
-          Got it — we'll review your request and get back to you within{" "}
-          {siteConfig.forms.quote.responseTime || "1–2 business days"}.
+          Got it — we&apos;ll review your request and get back to you within{" "}
+          {responseTime}.
         </div>
       )}
       {state === "error" && (
@@ -183,10 +196,10 @@ export function QuoteForm() {
         >
           Something went wrong. Try emailing us directly at{" "}
           <a
-            href={siteConfig.contact.emailHref}
+            href={emailHref}
             className="font-medium text-text-primary hover:underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            {siteConfig.contact.email}
+            {email}
           </a>
           .
         </div>

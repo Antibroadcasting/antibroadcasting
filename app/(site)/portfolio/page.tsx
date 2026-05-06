@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { siteConfig } from "@/lib/site-config";
 import { reader } from "@/lib/keystatic";
 import { GalleryGrid } from "@/components/ui/GalleryGrid";
 import { TransitionLink } from "@/components/layout/TransitionLink";
@@ -9,6 +10,13 @@ export const metadata: Metadata = {
   title: "Portfolio",
   description:
     "Browse our screen printing work — bands, artists, and events across Minneapolis and beyond.",
+  alternates: { canonical: `${siteConfig.site.url}/portfolio` },
+  openGraph: {
+    title: "Portfolio | Antibroadcasting Inc.",
+    description:
+      "Browse our screen printing work — bands, artists, and events across Minneapolis and beyond.",
+    url: `${siteConfig.site.url}/portfolio`,
+  },
 };
 
 /** Turn a raw category slug into a readable label. */
@@ -57,7 +65,7 @@ export default async function PortfolioPage({
       : allItems.filter((item) => item.category === activeCategory);
 
   return (
-    <article className="w-full max-w-400 mx-auto">
+    <div className="w-full max-w-400 mx-auto">
       <header className="my-12 max-w-2xl">
         <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-(--color-secondary-500) px-3 py-1 mb-4">
           Portfolio
@@ -119,7 +127,7 @@ export default async function PortfolioPage({
           </Button>
         </div>
       </div>
-    </article>
+    </div>
   );
 }
 

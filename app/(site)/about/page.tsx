@@ -2,17 +2,28 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { Button } from "@/components/ui/Button";
+import { getSiteInfo } from "@/lib/get-site-info";
 import { siteConfig } from "@/lib/site-config";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: `Artist-run screen printing out of ${siteConfig.contact.location}. Learn who we are and how we work.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const siteInfo = await getSiteInfo();
+  const description = `Artist-run screen printing out of ${siteInfo.contact.address.location}. Learn who we are and how we work.`;
+  return {
+    title: "About",
+    description,
+    alternates: { canonical: `${siteConfig.site.url}/about` },
+    openGraph: {
+      title: "About | Antibroadcasting Inc.",
+      description,
+      url: `${siteConfig.site.url}/about`,
+    },
+  };
+}
 
 export default function AboutPage() {
   return (
-    <article className="w-full max-w-400 mx-auto">
+    <div className="w-full max-w-400 mx-auto">
       {/* ── Page header ──────────────────────────────────────────────── */}
       <header className="my-12 max-w-2xl">
         <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-(--color-secondary-500) px-3 py-1 mb-4">
@@ -205,6 +216,6 @@ export default function AboutPage() {
           </Button>
         </div>
       </section>
-    </article>
+    </div>
   );
 }

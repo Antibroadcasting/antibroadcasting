@@ -30,6 +30,22 @@ export const metadata: Metadata = {
   title: siteConfig.site.title,
   description: siteConfig.site.description,
   metadataBase: new URL(siteConfig.site.url),
+  keywords: [...siteConfig.seo.keywords],
+  alternates: {
+    canonical: siteConfig.site.url,
+  },
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.openGraph.siteName,
+    title: siteConfig.openGraph.title,
+    description: siteConfig.openGraph.description,
+    url: siteConfig.openGraph.url,
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: siteConfig.twitter.site,
+    creator: siteConfig.twitter.creator,
+  },
 };
 
 export default function RootLayout({

@@ -1,11 +1,26 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { reader } from "@/lib/keystatic";
+import { getSiteInfo, type SiteInfo } from "@/lib/get-site-info";
 import { siteConfig } from "@/lib/site-config";
 import { Button } from "@/components/ui/Button";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { GalleryGrid } from "@/components/ui/GalleryGrid";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
+
+export function generateMetadata(): Metadata {
+  return {
+    title: siteConfig.site.title.default,
+    description: siteConfig.site.description,
+    alternates: { canonical: siteConfig.site.url },
+    openGraph: {
+      title: siteConfig.openGraph.title,
+      description: siteConfig.openGraph.description,
+      url: siteConfig.site.url,
+    },
+  };
+}
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -28,7 +43,7 @@ async function getFeaturedWork() {
 
 // ─── Sections ─────────────────────────────────────────────────────────────────
 
-function Hero() {
+function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
   return (
     <section className="relative flex flex-col justify-center min-h-[calc(100svh-4.5rem)]">
       {/* Decorative registration marks */}
@@ -53,9 +68,9 @@ function Hero() {
 
         {/* Sub-headline */}
         <p className="mt-6 max-w-md text-text-secondary leading-relaxed">
-          {siteConfig.company.nickname} is an artist-run shop in Minneapolis. We
+          {siteInfo.company.nickname} is an artist-run shop in Minneapolis. We
           print for bands, artists, events, and our community.{" "}
-          {siteConfig.company.tagline}
+          {siteInfo.company.tagline}
         </p>
 
         {/* CTAs */}
@@ -83,12 +98,12 @@ function Hero() {
       {/* Trust strip */}
       <div className="flex flex-wrap gap-6 mt-12 py-8 px-4 lg:px-8 border-t border-border-subtle">
         {[
-          { value: `${siteConfig.business.minimumOrder} pc`, label: "Minimum" },
+          { value: `${siteInfo.business.minimumOrder} pc`, label: "Minimum" },
           {
-            value: siteConfig.business.turnaroundDays,
+            value: siteInfo.business.turnaroundDays,
             label: "Day Turnaround",
           },
-          { value: `${siteConfig.business.maxColors}`, label: "Color Max" },
+          { value: `${siteInfo.business.maxColors}`, label: "Color Max" },
         ].map((stat) => (
           <div key={stat.label}>
             <span className="block text-3xl font-display font-black text-text-primary tracking-wider">
@@ -134,9 +149,9 @@ function ProcessStrip() {
             <span className="text-xl font-mono tracking-widest text-text-muted">
               {step.n}
             </span>
-            <h3 className="font-semibold font-display text-[clamp(2rem,8vw,2.75rem)] leading-[0.85] text-text-primary">
+            <h2 className="font-semibold font-display text-[clamp(2rem,8vw,2.75rem)] leading-[0.85] text-text-primary">
               {step.title}
-            </h3>
+            </h2>
             <p className="text-text-secondary leading-relaxed text-pretty">
               {step.body}
             </p>
@@ -185,11 +200,41 @@ function CtaBand() {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function Home() {
-  const featuredWork = await getFeaturedWork();
+  const [featuredWork, siteInfo] = await Promise.all([
+    getFeaturedWork(),
+    getSiteInfo(),
+  ]);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: siteInfo.company.legalName,
+    url: siteConfig.site.url,
+    telephone: siteInfo.contact.phone,
+    description: siteConfig.site.description,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: siteInfo.contact.address.street,
+      addressLocality: siteInfo.contact.address.city,
+      addressRegion: siteInfo.contact.address.state,
+      postalCode: siteInfo.contact.address.zip,
+      addressCountry: "US",
+    },
+    sameAs: [
+      siteInfo.social.instagram.url,
+      siteInfo.social.facebook.url,
+      siteInfo.social.twitter.url,
+    ],
+  };
 
   return (
-    <div className="w-full max-w-400 mx-auto">
-      <Hero />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="w-full max-w-400 mx-auto">
+      <Hero siteInfo={siteInfo} />
 
       {/* Featured Work */}
       {featuredWork.length > 0 && (
@@ -209,5 +254,6 @@ export default async function Home() {
       <ProcessStrip />
       <CtaBand />
     </div>
+    </>
   );
 }
