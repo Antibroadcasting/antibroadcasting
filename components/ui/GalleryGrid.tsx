@@ -35,19 +35,32 @@ function Lightbox({
   onPrev: () => void;
   onNext: () => void;
 }) {
+  const [isVisible, setIsVisible] = useState(false);
   const currentIndex = items.findIndex((i) => i.slug === item.slug);
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex < items.length - 1;
 
   useEffect(() => {
+    // Trigger fade in after mount
+    const timer = setTimeout(() => setIsVisible(true), 10);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setIsVisible(false);
+    // Delay unmount to allow fade out animation
+    setTimeout(onClose, 200);
+  }, [onClose]);
+
+  useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") handleClose();
       if (e.key === "ArrowLeft" && hasPrev) onPrev();
       if (e.key === "ArrowRight" && hasNext) onNext();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose, onPrev, onNext, hasPrev, hasNext]);
+  }, [handleClose, onPrev, onNext, hasPrev, hasNext]);
 
   // Lock scroll while open
   useEffect(() => {
@@ -59,17 +72,19 @@ function Lightbox({
 
   return (
     <div
-      className="fixed inset-0 z-200 flex items-center justify-center bg-black/90 p-4 md:p-8"
-      onClick={onClose}
+      className={`fixed inset-0 z-200 flex items-center justify-center bg-bg-inverse/90 backdrop-blur-sm p-4 md:p-8 transition-opacity duration-200 ease-out ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
+      onClick={handleClose}
       role="dialog"
       aria-modal
       aria-label={`${item.client ?? item.title} — lightbox`}
     >
       {/* Close */}
       <button
-        onClick={onClose}
+        onClick={handleClose}
         aria-label="Close"
-        className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors z-10 p-2"
+        className="absolute top-4 right-4 text-text-inverse/60 hover:text-text-inverse transition-colors z-10 p-2"
       >
         <svg
           className="w-6 h-6"
@@ -94,7 +109,7 @@ function Lightbox({
             onPrev();
           }}
           aria-label="Previous"
-          className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors z-10 p-2"
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-text-inverse/60 hover:text-text-inverse transition-colors z-10 p-2"
         >
           <svg
             className="w-8 h-8"
@@ -120,7 +135,7 @@ function Lightbox({
             onNext();
           }}
           aria-label="Next"
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors z-10 p-2"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-text-inverse/60 hover:text-text-inverse transition-colors z-10 p-2"
         >
           <svg
             className="w-8 h-8"
@@ -140,7 +155,9 @@ function Lightbox({
 
       {/* Content */}
       <div
-        className="relative flex flex-col md:flex-row items-center gap-6 max-w-5xl w-full max-h-[90vh]"
+        className={`relative flex flex-col md:flex-row items-center gap-6 max-w-5xl w-full max-h-[90vh] transition-transform duration-200 ease-out ${
+          isVisible ? "scale-100" : "scale-[0.98]"
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Image */}
@@ -155,25 +172,25 @@ function Lightbox({
               priority
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center text-white/30 text-sm">
+            <div className="absolute inset-0 flex items-center justify-center text-text-inverse/30 text-sm">
               No image
             </div>
           )}
         </div>
 
         {/* Meta panel */}
-        <div className="md:w-56 shrink-0 text-white">
-          <p className="font-semibold text-lg leading-tight">
+        <div className="md:w-56 shrink-0 text-text-inverse">
+          <p className="font-semibold text-xl leading-tight">
             {item.client ?? item.title}
           </p>
 
           {item.description && (
-            <p className="mt-2 text-sm text-white/60 leading-relaxed">
+            <p className="mt-2 text-sm text-text-inverse/70 leading-relaxed">
               {item.description}
             </p>
           )}
 
-          <div className="mt-4 space-y-1 text-sm text-white/40">
+          <div className="mt-4 space-y-1 text-sm text-text-inverse/80">
             {item.year && <p>{item.year}</p>}
             {item.colors && <p>{formatColors(item.colors)}</p>}
             {item.category && (
@@ -182,7 +199,7 @@ function Lightbox({
           </div>
 
           {/* Counter */}
-          <p className="mt-6 text-xs text-white/25">
+          <p className="mt-6 text-xs text-text-inverse/50">
             {currentIndex + 1} / {items.length}
           </p>
         </div>

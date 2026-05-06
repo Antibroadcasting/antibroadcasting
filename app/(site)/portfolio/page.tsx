@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { reader } from "@/lib/keystatic";
 import { GalleryGrid } from "@/components/ui/GalleryGrid";
+import { TransitionLink } from "@/components/layout/TransitionLink";
+import { Button } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -55,7 +57,7 @@ export default async function PortfolioPage({
       : allItems.filter((item) => item.category === activeCategory);
 
   return (
-    <section className="w-full max-w-400 mx-auto">
+    <article className="w-full max-w-400 mx-auto">
       <header className="my-12 max-w-2xl">
         <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-(--color-secondary-500) px-3 py-1 mb-4">
           Portfolio
@@ -76,10 +78,11 @@ export default async function PortfolioPage({
                 href={
                   cat.value === "all" ? "/portfolio" : `?category=${cat.value}`
                 }
-                className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${isActive
-                  ? "bg-foreground text-background border-foreground"
-                  : "bg-transparent text-text-secondary border-border-default hover:border-border-strong"
-                  }`}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+                  isActive
+                    ? "bg-foreground text-background border-foreground"
+                    : "bg-transparent text-text-secondary border-border-default hover:border-border-strong"
+                }`}
               >
                 {cat.label}
               </Link>
@@ -94,7 +97,29 @@ export default async function PortfolioPage({
       ) : (
         <EmptyState category={activeCategory} categories={categories} />
       )}
-    </section>
+
+      {/* ── CTA ──────────────────────────────────────────────────────── */}
+      <div className="relative my-8 rounded-card overflow-hidden bg-bg-subtle border border-border-subtle px-8 md:px-12 py-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+        <div>
+          <h2 className="font-display font-black uppercase text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-text-base leading-tight">
+            Ready to Print?
+          </h2>
+          <p className="mt-2 text-text-muted text-sm text-pretty max-w-sm">
+            Tell us about your project and we'll get back to you within 1–2
+            business days with pricing.
+          </p>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+          <Button asChild variant="primary">
+            <TransitionLink href="/contact">Get a Quote</TransitionLink>
+          </Button>
+          <Button asChild variant="outline">
+            <TransitionLink href="/how-it-works">How It Works</TransitionLink>
+          </Button>
+        </div>
+      </div>
+    </article>
   );
 }
 

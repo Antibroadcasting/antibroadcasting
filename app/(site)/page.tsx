@@ -5,6 +5,7 @@ import { siteConfig } from "@/lib/site-config";
 import { Button } from "@/components/ui/Button";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { GalleryGrid } from "@/components/ui/GalleryGrid";
+import { RegistrationMark } from "@/components/ui/RegistrationMark";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -27,40 +28,14 @@ async function getFeaturedWork() {
 
 // ─── Sections ─────────────────────────────────────────────────────────────────
 
-function RegistrationMark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 40 40" fill="none" aria-hidden className={className}>
-      <circle cx="20" cy="20" r="18" stroke="currentColor" strokeWidth="2" />
-      <circle cx="20" cy="20" r="3" fill="currentColor" />
-      <line
-        x1="20"
-        y1="2"
-        x2="20"
-        y2="38"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <line
-        x1="2"
-        y1="20"
-        x2="38"
-        y2="20"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-}
-
 function Hero() {
   return (
-    <section className="relative flex flex-col justify-center min-h-[calc(100svh-4.5rem)] overflow-hidden">
+    <section className="relative flex flex-col justify-center min-h-[calc(100svh-4.5rem)]">
       {/* Decorative registration marks */}
-      <RegistrationMark className="absolute z-40 top-8 right-8 w-10 h-10 text-border-default opacity-80" />
-      <RegistrationMark className="absolute z-40 bottom-8 left-8 w-6 h-6 text-border-default opacity-80" />
+      <RegistrationMark className="absolute z-40 top-8 right-8 w-10 h-10 text-border-default" />
+      <RegistrationMark className="absolute z-40 bottom-32 right-8 w-6 h-6 text-border-default" />
 
       <div className="z-20 xl:px-12">
-
         {/* Location badge */}
         <div className="flex items-center gap-2 mb-8">
           <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-text-warning px-3 py-1">
@@ -85,10 +60,10 @@ function Hero() {
 
         {/* CTAs */}
         <div className="flex flex-wrap gap-3 mt-8">
-          <Button asChild variant="primary" size="md">
+          <Button asChild variant="primary">
             <TransitionLink href="/contact">Get a Quote</TransitionLink>
           </Button>
-          <Button asChild variant="outline" size="md">
+          <Button asChild variant="outline">
             <TransitionLink href="/portfolio">See Our Work</TransitionLink>
           </Button>
         </div>
@@ -106,7 +81,7 @@ function Hero() {
       </div>
 
       {/* Trust strip */}
-      <div className="flex flex-wrap gap-6 mt-12 pt-8 px-4 pb-0 lg:px-8 border-t border-border-subtle">
+      <div className="flex flex-wrap gap-6 mt-12 py-8 px-4 lg:px-8 border-t border-border-subtle">
         {[
           { value: `${siteConfig.business.minimumOrder} pc`, label: "Minimum" },
           {
@@ -159,7 +134,9 @@ function ProcessStrip() {
             <span className="text-xl font-mono tracking-widest text-text-muted">
               {step.n}
             </span>
-            <h3 className="font-semibold font-display text-[clamp(2rem,8vw,2.75rem)] leading-[0.85] text-text-primary">{step.title}</h3>
+            <h3 className="font-semibold font-display text-[clamp(2rem,8vw,2.75rem)] leading-[0.85] text-text-primary">
+              {step.title}
+            </h3>
             <p className="text-text-secondary leading-relaxed text-pretty">
               {step.body}
             </p>
@@ -194,10 +171,10 @@ function CtaBand() {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-        <Button asChild variant="primary" size="lg">
+        <Button asChild variant="primary">
           <TransitionLink href="/contact">Get a Quote</TransitionLink>
         </Button>
-        <Button asChild variant="outline" size="lg">
+        <Button asChild variant="outline">
           <TransitionLink href="/how-it-works">How It Works</TransitionLink>
         </Button>
       </div>

@@ -32,10 +32,11 @@ function NavLink({
     <TransitionLink
       href={href}
       onClick={onClick}
-      className={`relative rounded-xs border-b-3 border-transparent transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${active
-        ? "pointer-events-none lg:border-b-(--color-primary-500)"
-        : "text-text-muted"
-        } ${className || ""}`}
+      className={`relative rounded-xs border-b-3 border-transparent transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+        active
+          ? "pointer-events-none lg:border-b-(--color-primary-500)"
+          : "text-text-muted"
+      } ${className || ""}`}
     >
       {children}
     </TransitionLink>
@@ -197,7 +198,7 @@ export function Header() {
               </a> */}
             </div>
             <Button variant="primary" size="sm">
-              Get a Quote
+              <TransitionLink href="/contact">Get a Quote</TransitionLink>
             </Button>
           </div>
         </div>
@@ -248,7 +249,7 @@ export function Header() {
         </div>
         <div className="px-6 text-sm text-text-muted flex flex-col space-y-2">
           <Button variant="primary" size="sm">
-            Get a Quote
+            <TransitionLink href="/contact">Get a Quote</TransitionLink>
           </Button>
           <div className="flex flex-col gap-3 mt-6">
             <div className="flex items-center gap-3">

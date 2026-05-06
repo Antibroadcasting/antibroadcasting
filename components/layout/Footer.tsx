@@ -6,6 +6,7 @@ import {
   FacebookOutlined,
   XOutlined,
 } from "@ant-design/icons";
+import { TransitionLink } from "./TransitionLink";
 
 export function Footer() {
   return (
@@ -18,7 +19,7 @@ export function Footer() {
     >
       <div className="max-w-400 mx-auto flex flex-col md:flex-row justify-between gap-8">
         <div className="flex flex-col gap-0.5">
-          <p className="font-bold font-display text-2xl text-text-primary">
+          <p className="font-bold font-display text-2xl text-text-primary uppercase">
             {siteConfig.company.legalName}
           </p>
           <p className="text-text-secondary mt-1">
@@ -69,18 +70,18 @@ export function Footer() {
               </a>
             </div>
             <div className="flex items-center gap-3 md:ml-2">
-              <a
+              <TransitionLink
                 href="/privacy"
                 className="font-medium text-text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 Privacy
-              </a>
-              <a
+              </TransitionLink>
+              <TransitionLink
                 href="/terms"
                 className="font-medium text-text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 Terms
-              </a>
+              </TransitionLink>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { config, collection, fields } from "@keystatic/core";
+import { config, collection, singleton, fields } from "@keystatic/core";
 
 export default config({
   storage: {
@@ -57,6 +57,22 @@ export default config({
             { label: "Payment", value: "payment" },
           ],
           defaultValue: "ordering",
+        }),
+        order: fields.number({ label: "Display order" }),
+      },
+    }),
+
+    artRequirements: collection({
+      label: "Art Requirements",
+      slugField: "heading",
+      path: "content/art-requirements/*",
+      format: { data: "json" },
+      schema: {
+        heading: fields.slug({ name: { label: "Section heading" } }),
+        items: fields.text({
+          label: "Items",
+          description: "One item per line — each becomes a bullet point.",
+          multiline: true,
         }),
         order: fields.number({ label: "Display order" }),
       },

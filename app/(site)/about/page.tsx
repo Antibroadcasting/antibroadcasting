@@ -3,36 +3,25 @@ import Image from "next/image";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/lib/site-config";
+import { RegistrationMark } from "@/components/ui/RegistrationMark";
 
 export const metadata: Metadata = {
   title: "About",
   description: `Artist-run screen printing out of ${siteConfig.contact.location}. Learn who we are and how we work.`,
 };
 
-function RegistrationMark({ className }: { className?: string }) {
-  return (
-    <Image
-      src="/images/registration_mark.svg"
-      alt=""
-      aria-hidden
-      width={12}
-      height={12}
-      className={className}
-    />
-  );
-}
-
 export default function AboutPage() {
   return (
     <article className="w-full max-w-400 mx-auto">
-
       {/* ── Page header ──────────────────────────────────────────────── */}
       <header className="my-12 max-w-2xl">
         <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-(--color-secondary-500) px-3 py-1 mb-4">
           About Us
         </span>
         <h1 className="font-display font-black text-[clamp(4.25rem,18vw,8rem)] uppercase leading-[0.85] text-text-primary">
-          Experience<br />That Matters.
+          Experience
+          <br />
+          That Matters.
         </h1>
       </header>
 
@@ -40,12 +29,12 @@ export default function AboutPage() {
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-20 lg:mb-28 items-center">
         <div className="order-2 lg:order-1 flex flex-col gap-6">
           <div className="flex items-center gap-2">
-            <RegistrationMark className="opacity-50 invert dark:invert-0" />
+            <RegistrationMark className="w-6 h-6 text-border-default opacity-80" />
             <span className="text-xs font-mono tracking-widest uppercase text-text-muted">
               01 / What Sets Us Apart
             </span>
           </div>
-          <h2 className="font-display font-black text-[clamp(3rem,12vw,6rem)] uppercase leading-[0.9] text-text-primary text-balance">
+          <h2 className="font-display font-black text-[clamp(3rem,10vw,5.5rem)] uppercase leading-[0.9] text-text-primary text-balance">
             Quality Over Volume.
           </h2>
           <div className="space-y-4 text-text-secondary leading-relaxed max-w-[68ch] text-pretty">
@@ -99,19 +88,20 @@ export default function AboutPage() {
 
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-2">
-            <RegistrationMark className="opacity-50 invert dark:invert-0" />
+            <RegistrationMark className="w-6 h-6 text-border-default opacity-80" />
             <span className="text-xs font-mono tracking-widest uppercase text-text-muted">
               02 / The Story
             </span>
           </div>
-          <h2 className="font-display font-black uppercase text-[clamp(3rem,12vw,6rem)] leading-[0.9] text-text-primary text-balance">
+          <h2 className="font-display font-black uppercase text-[clamp(3rem,10vw,5.5rem)] leading-[0.9] text-text-primary text-balance">
             Built From the Ground Up.
           </h2>
           <div className="space-y-4 text-text-secondary leading-relaxed max-w-[60ch] text-pretty">
             <p>
-              Antibroadcasting was incorporated in 2005. Our owner, Chris, grew up
-              working alongside his uncle and father at their shop in Minot, North Dakota — back when rubylith, hand-cut stencils, and hand-stretched
-              2×2" screens were still standard.
+              Antibroadcasting was incorporated in 2005. Our owner, Chris, grew
+              up working alongside his uncle and father at their shop in Minot,
+              North Dakota — back when rubylith, hand-cut stencils, and
+              hand-stretched 2×2" screens were still standard.
             </p>
             <p>
               Over time, he began slowly acquiring his own equipment and
@@ -149,12 +139,12 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <RegistrationMark className="opacity-50 invert dark:invert-0" />
+              <RegistrationMark className="w-6 h-6 text-border-default opacity-80" />
               <span className="text-xs font-mono tracking-widest uppercase text-text-muted">
                 03 / Who We Work With
               </span>
             </div>
-            <h2 className="font-display font-black text-[clamp(3rem,8vw,4rem)] leading-[0.9] text-text-primary">
+            <h2 className="font-display font-black text-[clamp(3rem,8vw,4rem)] leading-[0.9] text-text-primary text-balance">
               Anyone Who Needs Great Prints.
             </h2>
           </div>
@@ -182,7 +172,9 @@ export default function AboutPage() {
                 key={item.title}
                 className="border border-border-subtle rounded-card p-6 flex flex-col gap-2"
               >
-                <h3 className="font-semibold text-text-primary">{item.title}</h3>
+                <h3 className="font-semibold text-text-primary">
+                  {item.title}
+                </h3>
                 <p className="text-sm text-text-secondary leading-relaxed">
                   {item.body}
                 </p>
@@ -194,26 +186,25 @@ export default function AboutPage() {
 
       {/* ── CTA ──────────────────────────────────────────────────────── */}
       <section className="relative my-8 rounded-card overflow-hidden bg-bg-subtle border border-border-subtle px-8 md:px-12 py-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-        <RegistrationMark className="absolute top-6 right-8 w-10 h-10 text-border-accent opacity-20" />
+        <RegistrationMark className="absolute top-6 right-8 w-10 h-10 text-border-default opacity-20" />
         <div>
           <h2 className="font-display font-black uppercase text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-text-base leading-tight">
             Let's Work Together.
           </h2>
           <p className="mt-2 text-text-muted text-sm text-pretty max-w-sm">
-            We appreciate your business and look forward to getting your images
+            We appreciate your business and look forward to getting your artwork
             onto garments.
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-          <Button asChild variant="primary" size="lg">
+          <Button asChild variant="primary">
             <TransitionLink href="/contact">Get a Quote</TransitionLink>
           </Button>
-          <Button asChild variant="outline" size="lg">
+          <Button asChild variant="outline">
             <TransitionLink href="/portfolio">See Our Work</TransitionLink>
           </Button>
         </div>
       </section>
-
     </article>
   );
 }

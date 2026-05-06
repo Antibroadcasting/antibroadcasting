@@ -1,0 +1,5 @@
+{
+  "heading": "Illustrator / Vector Artwork",
+  "items": "Save as .AI or .EPS (CS5 legacy format preferred)\nUse CMYK color mode\nCreate Outlines on all fonts\nConvert all strokes to outlines\nOrganize each color on separate layers (strongly preferred)\nInclude all imported/placed images and graphics\nAvoid clipping masks; use the Pathfinder tool instead",
+  "order": 2
+}
