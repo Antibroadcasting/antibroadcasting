@@ -200,11 +200,11 @@ export default function AboutPage() {
         <RegistrationMark className="absolute top-6 right-8 w-10 h-10 text-border-default opacity-20" />
         <div>
           <h2 className="font-display font-black uppercase text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-text-base leading-tight">
-            Let's Work Together.
+            Ready to Get Started?
           </h2>
           <p className="mt-2 text-text-muted text-sm text-pretty max-w-sm">
-            We appreciate your business and look forward to getting your artwork
-            onto garments.
+            Reach out and we'll get back to you within 1–2 business days with
+            a custom quote.
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3 shrink-0">
@@ -212,7 +212,7 @@ export default function AboutPage() {
             <TransitionLink href="/contact">Get a Quote</TransitionLink>
           </Button>
           <Button asChild variant="outline">
-            <TransitionLink href="/portfolio">See Our Work</TransitionLink>
+            <TransitionLink href="/how-it-works">How It Works</TransitionLink>
           </Button>
         </div>
       </section>

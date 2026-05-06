@@ -75,7 +75,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
                 </a>
               </Button>
             </div>
-            <div className="flex items-center gap-3 pl-1">
+            <div className="flex items-center self-end gap-4 px-4">
               <TransitionLink
                 href="/privacy"
                 className="font-medium text-text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"

@@ -110,11 +110,11 @@ export default async function PortfolioPage({
       <div className="relative my-8 rounded-card overflow-hidden bg-bg-subtle border border-border-subtle px-8 md:px-12 py-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
         <div>
           <h2 className="font-display font-black uppercase text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-text-base leading-tight">
-            Ready to Print?
+            Like What You See?
           </h2>
           <p className="mt-2 text-text-muted text-sm text-pretty max-w-sm">
-            Tell us about your project and we'll get back to you within 1–2
-            business days with pricing.
+            We print for bands, artists, events, and businesses across
+            Minneapolis. Let's talk about your project.
           </p>
         </div>
 

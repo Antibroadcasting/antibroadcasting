@@ -558,6 +558,10 @@
   --border-inverse: var(--color-neutral-950);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
