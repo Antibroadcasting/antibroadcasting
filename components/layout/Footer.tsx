@@ -9,6 +9,7 @@ import {
   FacebookOutlined,
   XOutlined,
 } from "@ant-design/icons";
+import { ThemeToggle } from "../ui/ThemeToggle";
 
 export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
   return (
@@ -89,6 +90,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
                 Terms
               </TransitionLink>
             </div>
+            <ThemeToggle className="self-end px-4" />
           </div>
         </div>
       </div>

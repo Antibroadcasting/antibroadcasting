@@ -1,7 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransitionProvider } from "@/components/layout/PageTransitionProvider";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { getSiteInfo } from "@/lib/get-site-info";
 
 export default async function SiteLayout({
@@ -21,7 +20,6 @@ export default async function SiteLayout({
         {children}
       </main>
       <Footer siteInfo={siteInfo} />
-      <ThemeToggle className="fixed bottom-4 right-4 z-50" />
     </PageTransitionProvider>
   );
 }
