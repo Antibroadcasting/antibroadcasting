@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="w-full max-w-400 mx-auto animate-pulse">
+    <div className="w-full max-w-300 2xl:max-w-360 3xl:max-w-400 mx-auto animate-pulse">
       {/* Hero */}
       <section className="relative flex flex-col justify-center min-h-[calc(100svh-4.5rem)]">
         {/* Badge */}

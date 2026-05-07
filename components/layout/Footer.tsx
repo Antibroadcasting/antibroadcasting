@@ -25,7 +25,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
         });
       }}
     >
-      <div className="max-w-400 mx-auto flex flex-col md:flex-row justify-between gap-8">
+      <div className="w-full max-w-300 2xl:max-w-360 3xl:max-w-400 mx-auto flex flex-col md:flex-row justify-between gap-8">
         <div className="flex flex-col gap-0.5">
           <p className="font-bold font-display text-2xl text-text-primary uppercase">
             {siteInfo.company.legalName}

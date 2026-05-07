@@ -29,7 +29,7 @@ export default async function ContactPage() {
   const { contact, company, social, forms } = siteInfo;
 
   return (
-    <div className="w-full max-w-400 mx-auto">
+    <div className="w-full max-w-300 2xl:max-w-360 3xl:max-w-400 mx-auto">
       <header className="my-12 max-w-2xl">
         <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-(--color-secondary-500) px-3 py-1 mb-4">
           Contact us

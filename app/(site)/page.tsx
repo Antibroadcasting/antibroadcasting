@@ -233,27 +233,27 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="w-full max-w-400 mx-auto">
-      <Hero siteInfo={siteInfo} />
+      <div className="w-full max-w-300 2xl:max-w-360 3xl:max-w-400 mx-auto">
+        <Hero siteInfo={siteInfo} />
 
-      {/* Featured Work */}
-      {featuredWork.length > 0 && (
-        <section className="py-16 border-t border-border-subtle">
-          <div className="flex items-baseline justify-between mb-8">
-            <h2 className="font-display font-black uppercase text-2xl md:text-3xl text-text-primary">
-              Featured Work
-            </h2>
-            <Button asChild variant="link">
-              <TransitionLink href="/portfolio">All work →</TransitionLink>
-            </Button>
-          </div>
-          <GalleryGrid items={featuredWork} />
-        </section>
-      )}
+        {/* Featured Work */}
+        {featuredWork.length > 0 && (
+          <section className="py-16 border-t border-border-subtle">
+            <div className="flex items-baseline justify-between mb-8">
+              <h2 className="font-display font-black uppercase text-2xl md:text-3xl text-text-primary">
+                Featured Work
+              </h2>
+              <Button asChild variant="link">
+                <TransitionLink href="/portfolio">All work →</TransitionLink>
+              </Button>
+            </div>
+            <GalleryGrid items={featuredWork} />
+          </section>
+        )}
 
-      <ProcessStrip />
-      <CtaBand />
-    </div>
+        <ProcessStrip />
+        <CtaBand />
+      </div>
     </>
   );
 }

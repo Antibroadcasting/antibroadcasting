@@ -66,7 +66,7 @@ export default async function HowItWorksPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      <div className="w-full max-w-400 mx-auto">
+      <div className="w-full max-w-300 2xl:max-w-360 3xl:max-w-400 mx-auto">
         {/* ── Page header ──────────────────────────────────────────────── */}
         <header className="my-12 max-w-2xl">
           <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-(--color-secondary-500) px-3 py-1 mb-4">
@@ -95,7 +95,7 @@ export default async function HowItWorksPage() {
         </p>
 
         {/* Process steps */}
-        <div className="flex flex-col sm:flex-row gap-px bg-border-subtle border border-border-subtle rounded-card overflow-hidden mb-16">
+        <div className="flex flex-col lg:flex-row gap-px bg-border-subtle border border-border-subtle rounded-card overflow-hidden mb-16">
           {[
             {
               step: "01",
