@@ -163,7 +163,7 @@ export default async function HowItWorksPage() {
           {/* Art Requirements */}
           <div className="flex-1" id="art-requirements">
             <h2 className="font-display font-black text-[clamp(3rem,10vw,5rem)] uppercase leading-[0.9] text-text-primary text-balance pt-16 mb-8">
-              Art Requirements
+              Art Requirements.
             </h2>
             <div className="flex flex-col gap-6 p-4">
               {artSections.map((section) => (
@@ -193,7 +193,7 @@ export default async function HowItWorksPage() {
           {/* FAQ */}
           <div className="flex-1" id="faq">
             <h2 className="font-display font-black text-[clamp(3rem,10vw,5rem)] uppercase leading-[0.9] text-text-primary text-balance pt-16 mb-8">
-              Frequently Asked Questions
+              Frequently Asked Questions.
             </h2>
             <FaqAccordion items={items} />
           </div>

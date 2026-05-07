@@ -155,7 +155,7 @@ export default function AboutPage() {
                 03 / Who We Work With
               </span>
             </div>
-            <h2 className="font-display font-black text-[clamp(3rem,8vw,4rem)] leading-[0.9] text-text-primary text-balance">
+            <h2 className="font-display font-black text-[clamp(3rem,8vw,4rem)] leading-[0.9] text-text-primary text-balance uppercase">
               Anyone Who Needs Great Prints.
             </h2>
           </div>

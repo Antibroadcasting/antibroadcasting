@@ -54,7 +54,7 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
         {/* Location badge */}
         <div className="flex items-center gap-2 mb-8">
           <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-text-warning px-3 py-1">
-            {/* {siteConfig.contact.location} */}
+            {/* TODO: Add to Keystatic */}
             Accepting orders for Fall 2026
           </span>
         </div>
@@ -140,7 +140,16 @@ function ProcessStrip() {
 
   return (
     <section className="py-16 border-t border-border-subtle">
-      <div className="flex flex-col sm:flex-row gap-px bg-border-subtle border border-border-subtle rounded-card overflow-hidden">
+      <div className="flex items-baseline justify-between mb-8">
+        <h2 className="font-display font-black text-[clamp(3rem,10vw,5.5rem)] uppercase leading-[0.9] text-text-primary">
+          Our Process.
+        </h2>
+        <Button asChild variant="ghost">
+          <TransitionLink href="/how-it-works">See How It Works →</TransitionLink>
+        </Button>
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-px bg-border-subtle border border-border-subtle rounded-card overflow-hidden">
         {steps.map((step) => (
           <div
             key={step.n}
@@ -149,7 +158,7 @@ function ProcessStrip() {
             <span className="text-xl font-mono tracking-widest text-text-muted">
               {step.n}
             </span>
-            <h2 className="font-semibold font-display text-[clamp(2rem,8vw,2.75rem)] leading-[0.85] text-text-primary">
+            <h2 className="font-semibold font-display text-[clamp(2rem,5vw,2.25rem)] leading-[0.85] text-text-primary">
               {step.title}
             </h2>
             <p className="text-text-secondary leading-relaxed text-pretty">
@@ -157,14 +166,6 @@ function ProcessStrip() {
             </p>
           </div>
         ))}
-      </div>
-
-      <div className="mt-6 flex justify-end">
-        <Button asChild variant="link">
-          <TransitionLink href="/how-it-works">
-            Full process &amp; FAQ →
-          </TransitionLink>
-        </Button>
       </div>
     </section>
   );
@@ -240,11 +241,11 @@ export default async function Home() {
         {featuredWork.length > 0 && (
           <section className="py-16 border-t border-border-subtle">
             <div className="flex items-baseline justify-between mb-8">
-              <h2 className="font-display font-black uppercase text-2xl md:text-3xl text-text-primary">
-                Featured Work
+              <h2 className="font-display font-black text-[clamp(3rem,10vw,5.5rem)] uppercase leading-[0.9] text-text-primary">
+                Featured Work.
               </h2>
-              <Button asChild variant="link">
-                <TransitionLink href="/portfolio">All work →</TransitionLink>
+              <Button asChild variant="ghost">
+                <TransitionLink href="/portfolio">View Our Portfolio →</TransitionLink>
               </Button>
             </div>
             <GalleryGrid items={featuredWork} />
