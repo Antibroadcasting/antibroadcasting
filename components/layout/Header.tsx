@@ -41,11 +41,10 @@ function NavLink({
     <TransitionLink
       href={href}
       onClick={onClick}
-      className={`relative rounded-xs border-b-3 border-transparent transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-        active
+      className={`relative rounded-xs border-b-3 border-transparent transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${active
           ? "pointer-events-none lg:border-b-(--color-primary-500)"
           : "text-text-muted"
-      } ${className || ""}`}
+        } ${className || ""}`}
     >
       {children}
     </TransitionLink>
@@ -227,7 +226,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                 aria-label={`Call ${siteInfo.contact.phone}`}
               >
                 <PhoneOutlined aria-hidden="true" className="text-lg xl:text-sm" />
-                <span className="hidden text-sm xl:inline">
+                <span className="hidden text-sm 2xl:inline">
                   {siteInfo.contact.phone}
                 </span>
               </a>
@@ -237,7 +236,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                 aria-label={`Email ${siteInfo.contact.email}`}
               >
                 <MailOutlined aria-hidden="true" className="text-lg xl:text-sm" />
-                <span className="hidden text-sm xl:inline">
+                <span className="hidden text-sm 2xl:inline">
                   {siteInfo.contact.email}
                 </span>
               </a>
@@ -271,11 +270,10 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
 
       {/* Backdrop — always in DOM so it can fade out in sync with the drawer */}
       <div
-        className={`fixed inset-0 z-40 bg-bg-inset/80 backdrop-blur-xs lg:hidden transition-opacity duration-300 ease-in-out ${
-          open
+        className={`fixed inset-0 z-40 bg-bg-inset/80 backdrop-blur-xs lg:hidden transition-opacity duration-300 ease-in-out ${open
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
-        }`}
+          }`}
         onClick={() => setOpen(false)}
         aria-hidden="true"
       />
@@ -284,9 +282,8 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
       <nav
         ref={drawerRef}
         id={DRAWER_ID}
-        className={`fixed top-16 right-0 z-40 h-full w-72 bg-bg-base shadow-xl transition-transform duration-300 ease-in-out lg:hidden ${
-          open ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-16 right-0 z-40 h-full w-72 bg-bg-base shadow-xl transition-transform duration-300 ease-in-out lg:hidden ${open ? "translate-x-0" : "translate-x-full"
+          }`}
         aria-label="Mobile navigation"
         aria-modal={open ? true : undefined}
         aria-hidden={!open}

@@ -135,7 +135,7 @@ export default async function HowItWorksPage() {
               <span className="text-xl font-mono tracking-widest text-text-muted">
                 {s.step}
               </span>
-              <h2 className="font-semibold font-display text-[clamp(2rem,4vw,2.5rem)] leading-[0.85] text-text-primary">
+              <h2 className="font-semibold font-display text-[clamp(2rem,4vw,2.5rem)] leading-[0.85] text-text-primary mb-2">
                 {s.title}
               </h2>
               <p className="text-text-secondary leading-relaxed text-pretty">
@@ -148,7 +148,7 @@ export default async function HowItWorksPage() {
                     className="flex gap-2.5 items-start text-text-muted text-pretty"
                   >
                     <span
-                      className="mt-[0.4rem] shrink-0 w-1 h-1 rounded-full bg-text-muted"
+                      className="mt-3 shrink-0 w-1 h-1 rounded-full bg-text-accent"
                       aria-hidden="true"
                     />
                     {tip}
@@ -175,9 +175,12 @@ export default async function HowItWorksPage() {
                     {section.items.map((item) => (
                       <li
                         key={item}
-                        className="flex gap-3 text-text-secondary leading-relaxed"
+                        className="flex gap-3 items-start text-text-secondary leading-relaxed text-pretty max-w-[48ch]"
                       >
-                        <span className="mt-1.5 shrink-0 w-1 h-1 rounded-full bg-text-muted" />
+                        <span
+                          className="mt-3 shrink-0 w-1 h-1 rounded-full bg-text-accent"
+                          aria-hidden="true"
+                        />
                         {item}
                       </li>
                     ))}

@@ -86,11 +86,10 @@ export default async function PortfolioPage({
                 href={
                   cat.value === "all" ? "/portfolio" : `?category=${cat.value}`
                 }
-                className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
-                  isActive
-                    ? "bg-foreground text-background border-foreground"
-                    : "bg-transparent text-text-secondary border-border-default hover:border-border-strong"
-                }`}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${isActive
+                  ? "bg-foreground text-background border-foreground"
+                  : "bg-transparent text-text-secondary border-border-default hover:border-border-strong"
+                  }`}
               >
                 {cat.label}
               </Link>
