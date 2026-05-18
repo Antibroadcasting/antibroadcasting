@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, type MouseEvent } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 
@@ -41,82 +41,61 @@ function Lightbox({
   const currentIndex = items.findIndex((i) => i.slug === item.slug);
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex < items.length - 1;
-  const dialogRef = useRef<HTMLDivElement>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
+  // Open via showModal() for native focus trap + backdrop + AT support
   useEffect(() => {
+    dialogRef.current?.showModal();
     const timer = setTimeout(() => setIsVisible(true), 10);
     return () => clearTimeout(timer);
-  }, []);
-
-  // Move focus to close button on mount
-  useEffect(() => {
-    closeButtonRef.current?.focus();
   }, []);
 
   const handleClose = useCallback(() => {
     onRestoreFocus();
     setIsVisible(false);
-    setTimeout(onClose, 200);
+    setTimeout(() => {
+      dialogRef.current?.close();
+      onClose();
+    }, 200);
   }, [onClose, onRestoreFocus]);
 
-  // Keyboard: Escape, arrows, Tab trap
+  // Arrow keys — Escape is intercepted to use animated close instead of native instant close
   useEffect(() => {
-    const dialog = dialogRef.current;
-
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        handleClose();
-        return;
-      }
+      if (e.key === "Escape") { e.preventDefault(); handleClose(); return; }
       if (e.key === "ArrowLeft" && hasPrev) { onPrev(); return; }
       if (e.key === "ArrowRight" && hasNext) { onNext(); return; }
-      if (e.key !== "Tab") return;
-
-      const focusable = dialog
-        ? Array.from(dialog.querySelectorAll<HTMLElement>("button:not([disabled])"))
-        : [];
-      if (!focusable.length) { e.preventDefault(); return; }
-
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
     }
-
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [handleClose, onPrev, onNext, hasPrev, hasNext]);
 
-  // Lock scroll while open
+  // Lock scroll (showModal does not do this automatically)
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
 
+  // Click on backdrop (the dialog element itself, outside the content panel)
+  const handleDialogClick = useCallback((e: React.MouseEvent<HTMLDialogElement>) => {
+    if (e.target === dialogRef.current) handleClose();
+  }, [handleClose]);
+
   return (
-    <div
+    <dialog
       ref={dialogRef}
-      className={`fixed inset-0 z-200 flex items-center justify-center bg-bg-inverse/90 backdrop-blur-sm p-4 md:p-8 transition-opacity duration-200 ease-out motion-reduce:transition-none ${
+      onClick={handleDialogClick}
+      aria-label={`${item.client ?? item.title} — lightbox`}
+      className={`lightbox z-200 transition-opacity duration-200 ease-out motion-reduce:transition-none ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
-      onClick={handleClose}
-      role="dialog"
-      aria-modal
-      aria-label={`${item.client ?? item.title} — lightbox`}
     >
-      {/* Close */}
+      {/* Close — autofocus so keyboard users land here on open */}
       <button
-        ref={closeButtonRef}
+        autoFocus
         onClick={handleClose}
         aria-label="Close lightbox"
-        className="absolute top-4 right-4 text-text-inverse/60 hover:text-text-inverse transition-colors z-10 p-2"
+        className="absolute top-4 right-4 text-paper/60 hover:text-paper transition-colors z-10 p-2"
       >
         <svg
           className="w-6 h-6"
@@ -139,7 +118,7 @@ function Lightbox({
         <button
           onClick={(e) => { e.stopPropagation(); onPrev(); }}
           aria-label="Previous image"
-          className="absolute left-4 top-1/2 -translate-y-1/2 text-text-inverse/60 hover:text-text-inverse transition-colors z-10 p-2"
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-paper/60 hover:text-paper transition-colors z-10 p-2"
         >
           <svg
             className="w-8 h-8"
@@ -163,7 +142,7 @@ function Lightbox({
         <button
           onClick={(e) => { e.stopPropagation(); onNext(); }}
           aria-label="Next image"
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-text-inverse/60 hover:text-text-inverse transition-colors z-10 p-2"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-paper/60 hover:text-paper transition-colors z-10 p-2"
         >
           <svg
             className="w-8 h-8"
@@ -201,25 +180,25 @@ function Lightbox({
               priority
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center text-text-inverse/30 text-sm">
+            <div className="absolute inset-0 flex items-center justify-center text-paper/30 text-sm">
               No image
             </div>
           )}
         </div>
 
         {/* Meta panel */}
-        <div className="md:w-56 shrink-0 text-text-inverse">
+        <div className="md:w-56 shrink-0 text-paper">
           <p className="font-semibold text-xl leading-tight">
             {item.client ?? item.title}
           </p>
 
           {item.description && (
-            <p className="mt-2 text-sm text-text-inverse/70 leading-relaxed">
+            <p className="mt-2 text-sm text-paper/70 leading-relaxed">
               {item.description}
             </p>
           )}
 
-          <div className="mt-4 space-y-1 text-sm text-text-inverse/80">
+          <div className="mt-4 space-y-1 text-sm text-paper/70">
             {item.year && <p>{item.year}</p>}
             {item.colors && <p>{formatColors(item.colors)}</p>}
             {item.category && (
@@ -228,12 +207,12 @@ function Lightbox({
           </div>
 
           {/* Counter */}
-          <p className="mt-6 text-xs text-text-inverse/50">
+          <p className="mt-6 text-xs text-paper/50">
             {currentIndex + 1} / {items.length}
           </p>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 }
 
@@ -269,7 +248,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
             key={item.slug}
             onClick={(e) => open(index, e.currentTarget)}
             aria-label={`View ${item.client ?? item.title}`}
-            className="group relative aspect-square overflow-hidden rounded-card bg-bg-inset focus:outline-none focus-visible:ring-2 focus-visible:ring-border-strong"
+            className="group relative aspect-square overflow-hidden rounded-card bg-bg-inset focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             {item.image ? (
               <Image

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
@@ -30,6 +30,7 @@ export function QuoteForm({
 }: QuoteFormProps) {
   const [state, setState] = useState<FormState>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const statusRef = useRef<HTMLSpanElement>(null);
 
   function validate(data: FormData) {
     const errs: Record<string, string> = {};
@@ -54,6 +55,10 @@ export function QuoteForm({
 
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
+      // Move focus to the first invalid field so keyboard/AT users land there
+      const firstKey = Object.keys(errs)[0];
+      const firstInput = form.querySelector<HTMLElement>(`[name="${firstKey}"]`);
+      setTimeout(() => firstInput?.focus(), 0);
       return;
     }
 
@@ -85,6 +90,14 @@ export function QuoteForm({
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-6">
+      {/* Polite live region — announces "Sending…" and result states to screen readers */}
+      <span ref={statusRef} role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {state === "loading" ? "Sending your request…" : ""}
+      </span>
+
+      <p className="font-mono text-[10px] uppercase tracking-widest text-text-tertiary -mb-2">
+        Fields marked <span aria-hidden="true" className="text-text-accent">*</span> are required
+      </p>
       {/* Name + Email */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <Input
@@ -118,8 +131,8 @@ export function QuoteForm({
             required
             error={errors.quantity}
           />
-          <p className="mt-1 text-xs text-text-tertiary">
-            {minimumOrder} piece minimum for custom orders.
+          <p className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-text-tertiary">
+            {minimumOrder} piece minimum
           </p>
         </div>
         <div>
@@ -131,8 +144,8 @@ export function QuoteForm({
             min={1}
             max={maxColors}
           />
-          <p className="mt-1 text-xs text-text-tertiary">
-            Up to {maxColors} colors supported.
+          <p className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-text-tertiary">
+            Up to {maxColors} colors
           </p>
         </div>
       </div>
@@ -183,25 +196,34 @@ export function QuoteForm({
       {state === "success" && (
         <div
           role="alert"
-          className="rounded-input bg-bg-success text-text-success px-4 py-3 text-sm border border-border-success"
+          className="border-l-4 border-gold px-5 py-4 bg-gold/5"
         >
-          Got it — we&apos;ll review your request and get back to you within{" "}
-          {responseTime}.
+          <p className="font-mono text-xs uppercase tracking-widest text-text-accent mb-1">
+            Request Received
+          </p>
+          <p className="text-sm text-text-secondary leading-relaxed">
+            We&apos;ll review your request and get back to you within {responseTime}.
+          </p>
         </div>
       )}
       {state === "error" && (
         <div
           role="alert"
-          className="rounded-input bg-bg-error text-text-error px-4 py-3 text-sm border border-border-error"
+          className="border-l-4 border-text-error px-5 py-4"
         >
-          Something went wrong. Try emailing us directly at{" "}
-          <a
-            href={emailHref}
-            className="font-medium text-text-primary hover:underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          >
-            {email}
-          </a>
-          .
+          <p className="font-mono text-xs uppercase tracking-widest text-text-error mb-1">
+            Something Went Wrong
+          </p>
+          <p className="text-sm text-text-secondary leading-relaxed">
+            Try emailing us directly at{" "}
+            <a
+              href={emailHref}
+              className="text-text-accent hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              {email}
+            </a>
+            .
+          </p>
         </div>
       )}
     </form>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getSiteInfo } from "@/lib/get-site-info";
 import { siteConfig } from "@/lib/site-config";
 import { QuoteForm } from "@/components/ui/QuoteForm";
-import { Button } from "@/components/ui/Button";
+import { RegistrationMark } from "@/components/ui/RegistrationMark";
 import {
   FacebookOutlined,
   InstagramOutlined,
@@ -29,88 +29,63 @@ export default async function ContactPage() {
   const { contact, company, social, forms } = siteInfo;
 
   return (
-    <div className="w-full max-w-300 2xl:max-w-360 3xl:max-w-400 mx-auto">
-      <header className="my-12 max-w-2xl">
-        <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-(--color-secondary-500) px-3 py-1 mb-4">
-          Contact us
-        </span>
-        <h1 className="font-display font-black text-[clamp(4.25rem,18vw,8rem)] uppercase leading-[0.85] text-text-primary">
-          Get in touch.
-        </h1>
-      </header>
+    <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
 
-      <div className="flex flex-col lg:flex-row gap-8">
-        <div className="w-full lg:w-1/3 lg:order-2">
-          <div className="text-text-secondary flex flex-col space-y-2 lg:max-w-96 mx-auto p-8 xl:p-16 bg-bg-muted border border-border-subtle rounded-md">
-            <p className="font-display font-black text-[clamp(2rem,4vw,2.25rem)] uppercase leading-[0.9] text-text-primary text-balance mb-4">
-              {company.name}
-            </p>
-            <p className="text-lg">
-              {contact.address.street}
-              <br />
-              {contact.address.city},{" "}
-              {contact.address.state}{" "}
-              {contact.address.zip}
-            </p>
-            <a
-              href={contact.phoneHref}
-              className="font-medium text-text-primary hover:underline self-start"
-            >
-              {contact.phone}
-            </a>
-            <a
-              href={`mailto:${contact.email}`}
-              className="font-medium text-text-primary hover:underline self-start"
-            >
-              {contact.email}
-            </a>
-            <div className="flex items-center gap-1 -ml-2">
-              <Button asChild variant="ghost" size="icon">
-                <a
-                  href={social.instagram.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram (opens in new tab)"
-                >
-                  <InstagramOutlined className="text-lg" />
-                </a>
-              </Button>
-              <Button asChild variant="ghost" size="icon">
-                <a
-                  href={social.facebook.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Facebook (opens in new tab)"
-                >
-                  <FacebookOutlined className="text-lg" />
-                </a>
-              </Button>
-              <Button asChild variant="ghost" size="icon">
-                <a
-                  href={social.twitter.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="X / Twitter (opens in new tab)"
-                >
-                  <XOutlined className="text-lg" />
-                </a>
-              </Button>
-            </div>
-            <span className="inline-block text-xs font-mono tracking-widest uppercase text-text-secondary">
-              Hours by Appointment Only
-            </span>
-          </div>
+      {/* ── Hero ──────────────────────────────────────────────────────── */}
+      <section className="pt-10 pb-16 border-b border-foreground/10">
+
+        {/* Meta row */}
+        <div className="flex items-center gap-4 mb-6">
+          <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
+            Est. Minneapolis · Artist-Run
+          </span>
+          <span className="h-px w-16 bg-gold hidden sm:block" />
         </div>
 
-        <div className="flex-1 border border-border-subtle rounded-md p-8 lg:p-16">
-          <p className="font-display font-black text-[clamp(2rem,5vw,3rem)] uppercase leading-[0.9] text-text-primary text-balance mb-4">
-            Ready to print? Get a quote.
-          </p>
-          <p className="text-text-secondary max-w-[60ch] text-pretty text-sm mb-10">
+        <h1 className="font-display font-black uppercase leading-[0.85] text-[clamp(5rem,18vw,12rem)]">
+          Get in Touch<span className="text-gold">.</span>
+        </h1>
+
+        {/* Response time note */}
+        <div className="mt-10 pt-8 border-t border-foreground/10 flex flex-wrap items-center gap-6">
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-2 w-2 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
+            </span>
+            <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
+              We respond within {forms.quote.responseTime}
+            </span>
+          </div>
+          <span className="h-px flex-1 bg-foreground/10 hidden sm:block" />
+          <RegistrationMark className="w-5 h-5 text-foreground/20 hidden lg:block" />
+        </div>
+      </section>
+
+      {/* ── Main layout ───────────────────────────────────────────────── */}
+      <div className="py-20 lg:py-28 flex flex-col lg:flex-row gap-16 xl:gap-24 items-start">
+
+        {/* ── Form — left, dominant ──────────────────────────────────── */}
+        <div className="flex-[2] min-w-0">
+
+          {/* Section label */}
+          <div className="flex items-center gap-3 mb-10">
+            <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
+              01 / Quote Request
+            </span>
+            <span className="flex-1 h-px bg-gold/30" />
+            <RegistrationMark className="w-4 h-4 text-text-accent shrink-0" />
+          </div>
+
+          <h2 className="font-display font-black uppercase text-[clamp(2.5rem,6vw,4rem)] leading-[0.9] text-text-primary mb-3">
+            Ready to Print<span className="text-text-accent">?</span>
+          </h2>
+          <p className="text-text-secondary leading-relaxed max-w-[60ch] mb-10">
             Tell us about your project and we&apos;ll get back to you within{" "}
             {forms.quote.responseTime}. The more detail you give us, the faster
             we can turn around an accurate quote.
           </p>
+
           <QuoteForm
             garmentOptions={forms.quote.garmentOptions}
             timelineOptions={forms.quote.timelineOptions}
@@ -121,6 +96,102 @@ export default async function ContactPage() {
             emailHref={`mailto:${contact.email}`}
           />
         </div>
+
+        {/* ── Info sidebar — right ───────────────────────────────────── */}
+        <aside className="flex-1 lg:pt-[4.5rem] flex flex-col gap-10 lg:sticky lg:top-8">
+
+          {/* Section label */}
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
+              02 / Find Us
+            </span>
+            <span className="flex-1 h-px bg-gold/30" />
+          </div>
+
+          {/* Company name */}
+          <div>
+            <p className="font-display font-black uppercase text-2xl leading-tight text-text-primary mb-5">
+              {company.name}
+            </p>
+
+            {/* Address */}
+            <div className="flex flex-col gap-1 mb-6">
+              <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
+                {contact.address.street}
+              </span>
+              <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
+                {contact.address.city}, {contact.address.state}{" "}
+                {contact.address.zip}
+              </span>
+            </div>
+
+            {/* Contact links */}
+            <div className="flex flex-col gap-2 mb-6">
+              <a
+                href={contact.phoneHref}
+                className="font-mono text-xs uppercase tracking-widest text-text-accent hover:text-text-primary transition-colors self-start"
+              >
+                {contact.phone}
+              </a>
+              <a
+                href={`mailto:${contact.email}`}
+                className="font-mono text-xs uppercase tracking-widest text-text-accent hover:text-text-primary transition-colors self-start"
+              >
+                {contact.email}
+              </a>
+            </div>
+
+            {/* Hours */}
+            <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
+              By Appointment Only
+            </span>
+          </div>
+
+          {/* Divider */}
+          <div className="h-px bg-foreground/10" />
+
+          {/* Social */}
+          <div>
+            <p className="font-mono text-xs uppercase tracking-widest text-text-tertiary mb-4">
+              Follow Along
+            </p>
+            <div className="flex items-center gap-5">
+              <a
+                href={social.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram (opens in new tab)"
+                className="font-mono text-xs uppercase tracking-widest text-text-secondary hover:text-text-accent transition-colors flex items-center gap-2"
+              >
+                <InstagramOutlined className="text-base" />
+                <span>Instagram</span>
+              </a>
+              <a
+                href={social.facebook.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook (opens in new tab)"
+                className="font-mono text-xs uppercase tracking-widest text-text-secondary hover:text-text-accent transition-colors flex items-center gap-2"
+              >
+                <FacebookOutlined className="text-base" />
+                <span>Facebook</span>
+              </a>
+              <a
+                href={social.twitter.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X / Twitter (opens in new tab)"
+                className="font-mono text-xs uppercase tracking-widest text-text-secondary hover:text-text-accent transition-colors flex items-center gap-2"
+              >
+                <XOutlined className="text-base" />
+                <span>X</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Registration mark */}
+          <RegistrationMark className="w-8 h-8 text-foreground/10 mt-4 hidden lg:block" />
+        </aside>
       </div>
     </div>
   );

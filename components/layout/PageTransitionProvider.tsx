@@ -31,6 +31,28 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const transitionIdRef = useRef(0);
   const pathname = usePathname();
 
+  // ── Announce page change to screen readers after each navigation ───────────
+  // Skips mount (initial load). On real navigations, after the wipe-out phase
+  // finishes, moves focus to #main-content so AT/keyboard users start at the top.
+  const isFirstRenderRef = useRef(true);
+  useEffect(() => {
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false;
+      return;
+    }
+    // Delay past PRINT_MS so new page content is committed to the DOM.
+    const timer = setTimeout(() => {
+      const mainContent = document.getElementById("main-content");
+      if (mainContent) {
+        // tabindex="-1" makes it programmatically focusable without a tab stop.
+        mainContent.setAttribute("tabindex", "-1");
+        mainContent.focus({ preventScroll: true });
+      }
+    }, PRINT_MS + 50);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
   useEffect(() => {
     if (!printPhaseRef.current) return;
     const startPrint = printPhaseRef.current;

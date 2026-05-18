@@ -20,10 +20,10 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         {label && (
           <label
             htmlFor={selectId}
-            className="block text-sm font-medium text-label-text"
+            className="block font-mono text-xs uppercase tracking-widest text-text-tertiary"
           >
             {label}
-            {required && <span className="text-text-error ml-1">*</span>}
+            {required && <span className="text-text-accent ml-1" aria-hidden="true">*</span>}
           </label>
         )}
         <select

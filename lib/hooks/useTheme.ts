@@ -6,16 +6,11 @@ export type Theme = "light" | "dark" | "system";
 
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
 
-  if (theme === "dark" || (theme === "system" && prefersDark)) {
-    root.classList.add("dark");
-    root.classList.remove("light");
-  } else if (theme === "light") {
+  if (theme === "light" || (theme === "system" && prefersLight)) {
     root.classList.add("light");
-    root.classList.remove("dark");
   } else {
-    root.classList.remove("dark");
     root.classList.remove("light");
   }
 
@@ -32,20 +27,16 @@ export function useTheme() {
     const stored = (localStorage.getItem("theme") as Theme | null) ?? "system";
     setThemeState(stored);
     // applyTheme is mostly a no-op here since the inline <head> script already
-    // set the dark class, but it keeps data-theme and the class list in sync.
+    // set the class, but it keeps data-theme and the class list in sync.
     applyTheme(stored);
   }, []);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: light)");
     const handleChange = () => {
       const current = (localStorage.getItem("theme") as Theme | null) ?? "system";
-      if (current === "system") {
-        applyTheme("system");
-        setThemeState("system");
-      }
+      if (current === "system") applyTheme("system");
     };
-
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);

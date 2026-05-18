@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Figtree, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
-import Script from "next/script";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -27,7 +26,7 @@ const dominique = localFont({
 });
 
 export const metadata: Metadata = {
-  title: siteConfig.site.title,
+  title: siteConfig.site.title, // already { default, template } from site-config
   description: siteConfig.site.description,
   metadataBase: new URL(siteConfig.site.url),
   keywords: [...siteConfig.seo.keywords],
@@ -56,11 +55,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <Script
-          id="theme-init"
-          strategy="beforeInteractive"
+        {/* Plain inline script — render-blocking by spec, so the correct theme
+            class is always on <html> before the browser paints a single pixel.
+            next/script "beforeInteractive" is NOT equivalent in the App Router. */}
+        <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');var dark=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(dark)document.documentElement.classList.add('dark');document.documentElement.dataset.theme=t||'system';}catch(_){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');var light=t==='light'||(t!=='dark'&&window.matchMedia('(prefers-color-scheme: light)').matches);if(light)document.documentElement.classList.add('light');document.documentElement.dataset.theme=t||'system';}catch(_){}})();`,
           }}
         />
       </head>

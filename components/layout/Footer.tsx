@@ -1,104 +1,174 @@
 "use client";
 
 import { type SiteInfo } from "@/lib/get-site-info";
-import { Button } from "@/components/ui/Button";
 import { CopyEmailButton } from "@/components/ui/CopyEmailButton";
+import { RegistrationMark } from "@/components/ui/RegistrationMark";
 import { TransitionLink } from "./TransitionLink";
+import { ThemeToggle } from "../ui/ThemeToggle";
+import { buttonVariants } from "../ui/Button";
 import {
   InstagramOutlined,
   FacebookOutlined,
   XOutlined,
 } from "@ant-design/icons";
-import { ThemeToggle } from "../ui/ThemeToggle";
+
+const FOCUS_RING =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+
+const COL_LINK =
+  `relative inline-block text-sm text-text-secondary hover:text-text-accent transition-colors py-1 self-start ${FOCUS_RING}`;
 
 export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
   return (
     <footer
-      className="p-6 md:p-8 lg:p-10 xl:p-12 bg-bg-inset sticky bottom-0 z-0"
-      onFocus={() => {
-        const reduced = window.matchMedia(
-          "(prefers-reduced-motion: reduce)",
-        ).matches;
+      className="bg-bg-subtle sticky bottom-0 z-0 border-t border-foreground/10"
+      onFocus={(e) => {
+        // Only trigger when focus enters the footer from outside — not on every
+        // child re-focus. This prevents the jarring scroll-to-bottom firing on
+        // each Tab keypress while navigating footer links.
+        if (e.currentTarget.contains(e.relatedTarget as Node | null)) return;
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         window.scrollTo({
           top: document.body.scrollHeight,
           behavior: reduced ? "instant" : "smooth",
         });
       }}
     >
-      <div className="w-full max-w-300 2xl:max-w-360 3xl:max-w-400 mx-auto flex flex-col md:flex-row justify-between gap-8">
-        <div className="flex flex-col gap-0.5">
-          <p className="font-bold font-display text-2xl text-text-primary uppercase">
-            {siteInfo.company.legalName}
-          </p>
-          <p className="text-text-secondary mt-1">
-            {siteInfo.contact.address.full}
-          </p>
-          <a
-            href={siteInfo.contact.phoneHref}
-            className="font-medium text-text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background self-start"
-          >
-            {siteInfo.contact.phone}
-          </a>
-          <CopyEmailButton email={siteInfo.contact.email} />
-        </div>
+      <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto px-4 md:px-6 lg:px-8 xl:px-12 pt-16 pb-8">
 
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-sm text-text-secondary">
-          <div className="flex flex-col items-start gap-3">
-            <div className="flex items-center gap-1">
-              <Button asChild variant="ghost" size="icon">
-                <a
-                  href={siteInfo.social.instagram.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram (opens in new tab)"
-                >
-                  <InstagramOutlined className="text-lg" />
-                </a>
-              </Button>
-              <Button asChild variant="ghost" size="icon">
-                <a
-                  href={siteInfo.social.facebook.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Facebook (opens in new tab)"
-                >
-                  <FacebookOutlined className="text-lg" />
-                </a>
-              </Button>
-              <Button asChild variant="ghost" size="icon">
-                <a
-                  href={siteInfo.social.twitter.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="X / Twitter (opens in new tab)"
-                >
-                  <XOutlined className="text-lg" />
-                </a>
-              </Button>
+        {/* ── Main grid ──────────────────────────────────────────────────── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-10 lg:gap-12 pb-12 border-b border-foreground/10">
+
+          {/* Col 1 — Wordmark */}
+          <div className="flex flex-col gap-0">
+            <p className="font-display font-black uppercase text-[clamp(2rem,4vw,3.75rem)] leading-[0.85] text-text-primary">
+              Antibroad-<br />casting
+              <span className="text-gold">.</span>
+            </p>
+            <div className="flex items-center gap-2 mt-5">
+              <RegistrationMark className="w-3.5 h-3.5 text-text-accent shrink-0" />
+              <span className="font-mono text-[11px] uppercase tracking-widest text-text-tertiary">
+                Artist-Run · Independent · Minneapolis
+              </span>
             </div>
-            <div className="flex items-center self-end gap-4 px-4">
+
+            {/* CTA — separated by a thin rule so it reads as a distinct action */}
+            <div className="mt-5 pt-5 border-t border-foreground/10">
               <TransitionLink
-                href="/privacy"
-                className="font-medium text-text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                href="/contact"
+                className={buttonVariants({ variant: "neutral", size: "sm" })}
               >
-                Privacy
-              </TransitionLink>
-              <TransitionLink
-                href="/terms"
-                className="font-medium text-text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              >
-                Terms
+                Request a Quote →
               </TransitionLink>
             </div>
-            <ThemeToggle className="self-end px-4" />
+          </div>
+
+          {/* Col 2 — Visit */}
+          <div>
+            <h4 className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-tertiary mb-5">
+              Visit
+            </h4>
+            <p className="text-sm text-text-secondary leading-relaxed">
+              {siteInfo.contact.address.street}
+            </p>
+            <p className="text-sm text-text-secondary leading-relaxed">
+              {siteInfo.contact.address.city}, {siteInfo.contact.address.state}{" "}
+              {siteInfo.contact.address.zip}
+            </p>
+            <p className="font-mono text-[11px] uppercase tracking-widest text-text-tertiary mt-4">
+              By Appointment Only
+            </p>
+          </div>
+
+          {/* Col 3 — Get in Touch */}
+          <div>
+            <h4 className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-tertiary mb-5">
+              Get in Touch
+            </h4>
+
+            {/* Contact info */}
+            <div className="flex flex-col gap-0.5">
+              <a
+                href={siteInfo.contact.phoneHref}
+                className={COL_LINK}
+                aria-label={`Call ${siteInfo.contact.phone}`}
+              >
+                {siteInfo.contact.phone}
+              </a>
+              <CopyEmailButton email={siteInfo.contact.email} />
+            </div>
+          </div>
+
+          {/* Col 4 — Elsewhere */}
+          <div>
+            <h4 className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-tertiary mb-5">
+              Elsewhere
+            </h4>
+            <div className="flex flex-col gap-1">
+              <a
+                href={siteInfo.social.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram (opens in new tab)"
+                className={`flex items-center gap-2.5 ${COL_LINK}`}
+              >
+                <InstagramOutlined className="text-base mr-2" aria-hidden="true" />
+                <span>Instagram</span>
+              </a>
+              <a
+                href={siteInfo.social.facebook.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook (opens in new tab)"
+                className={`flex items-center gap-2.5 ${COL_LINK}`}
+              >
+                <FacebookOutlined className="text-base mr-2" aria-hidden="true" />
+                <span>Facebook</span>
+              </a>
+              <a
+                href={siteInfo.social.twitter.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X / Twitter (opens in new tab)"
+                className={`flex items-center gap-2.5 ${COL_LINK}`}
+              >
+                <XOutlined className="text-base mr-2" aria-hidden="true" />
+                <span>X / Twitter</span>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <p className="md:text-center text-xs text-pretty text-text-muted mt-8">
-        &copy; {new Date().getFullYear()} {siteInfo.company.name}. All rights
-        reserved.
-      </p>
+        {/* ── Bottom bar ─────────────────────────────────────────────────── */}
+        {/* Theme toggle + legal links live here — same mono-uppercase register
+            as copyright, clearly meta/utility content separate from navigation. */}
+        <div className="pt-7 flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-[0.2em] text-text-tertiary">
+          <span>
+            &copy; {new Date().getFullYear()} {siteInfo.company.legalName} — All Rights Reserved.
+          </span>
+          <span className="flex items-center gap-3">
+            <RegistrationMark className="w-3.5 h-3.5" aria-hidden="true" />
+            Pressed by Hand
+            <RegistrationMark className="w-3.5 h-3.5" aria-hidden="true" />
+          </span>
+          <ThemeToggle />
+          <div className="flex items-center gap-4">
+            <TransitionLink
+              href="/privacy"
+              className={`font-mono text-[10px] uppercase tracking-widest text-text-tertiary hover:text-text-secondary transition-colors ${FOCUS_RING}`}
+            >
+              Privacy
+            </TransitionLink>
+            <TransitionLink
+              href="/terms"
+              className={`font-mono text-[10px] uppercase tracking-widest text-text-tertiary hover:text-text-secondary transition-colors ${FOCUS_RING}`}
+            >
+              Terms
+            </TransitionLink>
+          </div>
+        </div>
+
+      </div>
     </footer>
   );
 }

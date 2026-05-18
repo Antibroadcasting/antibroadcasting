@@ -88,10 +88,10 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-sm font-medium text-label-text"
+            className="block font-mono text-xs uppercase tracking-widest text-text-tertiary"
           >
             {label}
-            {required && <span className="text-text-error ml-1">*</span>}
+            {required && <span className="text-text-accent ml-1" aria-hidden="true">*</span>}
           </label>
         )}
 
@@ -125,18 +125,14 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           />
 
           <div className="p-6 text-center">
-            <div className="text-text-secondary">
-              <p className="text-sm">
-                {dragActive
-                  ? "Drop files here"
-                  : "Drag & drop files here or click to browse"}
-              </p>
-              <p className="text-xs text-text-muted mt-1">
-                {accept && `Accepted: ${accept.replace("*", "")}`}
-                {maxSize && ` • Max ${(maxSize / 1024 / 1024).toFixed(1)}MB`}
-                {maxFiles > 1 && ` • Max ${maxFiles} files`}
-              </p>
-            </div>
+            <p className="font-mono text-xs uppercase tracking-widest text-text-secondary">
+              {dragActive ? "Drop files here" : "Drag & drop or click to browse"}
+            </p>
+            <p className="font-mono text-[10px] uppercase tracking-widest text-text-tertiary mt-2">
+              {accept && `${accept.replace(/\./g, "").replace(/,/g, " · ").toUpperCase()}`}
+              {maxSize && ` · Max ${(maxSize / 1024 / 1024).toFixed(0)}MB`}
+              {maxFiles > 1 && ` · Up to ${maxFiles} files`}
+            </p>
           </div>
         </div>
 

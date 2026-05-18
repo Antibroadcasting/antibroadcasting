@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
 import { FileUpload } from "@/components/ui/FileUpload";
+import { RegistrationMark } from "@/components/ui/RegistrationMark";
 import {
   PhoneOutlined,
   MailOutlined,
@@ -11,38 +12,65 @@ import {
   XOutlined,
 } from "@ant-design/icons";
 
-// ─── Token Definitions ──────────────────────────────────────────────────────
-// All color data references CSS custom properties directly.
-// Changing globals.css automatically flows through — no manual sync needed.
+// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const PALETTE_SCALES = [
-  {
-    name: "Primary (hue 12 — --color-primary)",
-    prefix: "--color-primary",
-    shades: [100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
-  },
-  {
-    name: "Secondary (hue 195 — --color-secondary)",
-    prefix: "--color-secondary",
-    shades: [100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
-  },
-  {
-    name: "Neutral (hue 195 — near-achromatic)",
-    prefix: "--color-neutral",
-    shades: [100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
-  },
+  { name: "Primary — --color-primary", prefix: "--color-primary", shades: [100, 200, 300, 400, 500, 600, 700, 800, 900, 950] },
+  { name: "Secondary — --color-secondary", prefix: "--color-secondary", shades: [100, 200, 300, 400, 500, 600, 700, 800, 900, 950] },
+  { name: "Neutral — --color-neutral", prefix: "--color-neutral", shades: [100, 200, 300, 400, 500, 600, 700, 800, 900, 950] },
 ] as const;
 
-const STATE_COLORS = [
-  "accent",
-  "muted",
-  "success",
-  "error",
-  "warning",
-  "destructive",
-] as const;
-
+const STATE_COLORS = ["accent", "muted", "success", "error", "warning", "destructive"] as const;
 type StateColor = (typeof STATE_COLORS)[number];
+
+const MOTION_DURATIONS = [
+  { label: "Fast", class: "duration-150", ms: "150ms", use: "Micro-interactions, icon swaps" },
+  { label: "Base", class: "duration-300", ms: "300ms", use: "Buttons, hover transitions" },
+  { label: "Slow", class: "duration-500", ms: "500ms", use: "Page reveals, modals" },
+  { label: "X-Slow", class: "duration-700", ms: "700ms", use: "Page transitions, hero sequences" },
+];
+
+const MOTION_EASINGS = [
+  { label: "ease-in-out", class: "ease-in-out", value: "cubic-bezier(0.4, 0, 0.2, 1)", use: "Default — buttons, fills" },
+  { label: "ease-out", class: "ease-out", value: "cubic-bezier(0, 0, 0.2, 1)", use: "Decelerate — elements entering" },
+  { label: "ease-in", class: "ease-in", value: "cubic-bezier(0.4, 0, 1, 1)", use: "Accelerate — elements exiting" },
+];
+
+const SPACING_SCALE = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24];
+
+const SECTIONS = [
+  { id: "typography", label: "01 · Typography" },
+  { id: "colors", label: "02 · Colors" },
+  { id: "motifs", label: "03 · Motifs" },
+  { id: "motion", label: "04 · Motion" },
+  { id: "components", label: "05 · Components" },
+  { id: "tokens", label: "06 · Tokens" },
+];
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function SectionHead({ n, title }: { n: string; title: string }) {
+  return (
+    <div className="mb-12">
+      <div className="flex items-center gap-4 mb-4">
+        <span className="font-mono text-xs text-text-accent uppercase tracking-widest shrink-0">Index {n}</span>
+        <span className="flex-1 h-px bg-foreground/10" />
+        <RegistrationMark className="w-4 h-4 text-foreground/20 shrink-0" />
+      </div>
+      <h2 className="font-display font-black uppercase text-[clamp(2.5rem,6vw,5rem)] leading-[0.9]">
+        {title}<span className="text-gold">.</span>
+      </h2>
+    </div>
+  );
+}
+
+function SubHead({ children }: { children: React.ReactNode }) {
+  return (
+    <h3 className="font-mono text-xs uppercase tracking-widest text-text-tertiary mb-4 pt-8 pb-2 border-b border-foreground/10">
+      {children}
+    </h3>
+  );
+}
 
 function stateTokens(name: StateColor) {
   return {
@@ -53,1540 +81,511 @@ function stateTokens(name: StateColor) {
   };
 }
 
-function renderPaletteScale(scale: (typeof PALETTE_SCALES)[number]) {
-  return (
-    <div className="mb-8" key={scale.name}>
-      <h3 className="text-sm font-medium text-text-muted mb-3 uppercase tracking-wider">
-        {scale.name}
-      </h3>
-      <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
-        {scale.shades.map((shade) => {
-          const token = `${scale.prefix}-${shade}`;
-          return (
-            <div key={shade} className="group">
-              <div
-                className="h-16 rounded-md shadow-sm border border-border-subtle"
-                style={{ backgroundColor: `var(${token})` }}
-                title={token}
-              />
-              <p className="text-xs text-text-secondary mt-1 text-center">
-                {shade}
-              </p>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function StyleGuide() {
   return (
-    <section>
-      <div className="max-w-6xl mx-auto">
-        <header className="mb-16 pb-8 border-b border-border-default">
-          <p className="text-sm font-medium text-text-muted uppercase tracking-wider mb-2">
-            Antibroadcasting Inc.
-          </p>
-          <h1
-            className="text-5xl font-display text-text-primary mb-4"
-            style={{ fontWeight: 700 }}
-          >
-            Style Guide
-          </h1>
-          <p className="text-lg text-text-secondary">
-            Typography, colors, and components reference
-          </p>
-        </header>
+    <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
 
-        {/* Typography Section */}
-        <section className="mb-20">
-          <h2
-            className="text-3xl font-display text-text-primary mb-8 pb-2 border-b border-border-default"
-            style={{ fontWeight: 600 }}
-          >
-            Typography
-          </h2>
+      {/* ── Cover ───────────────────────────────────────────────────────────── */}
+      <header className="py-20 border-b border-foreground/10">
+        <div className="flex items-center gap-3 mb-6">
+          <RegistrationMark className="w-4 h-4 text-text-accent" />
+          <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
+            Antibroadcasting Inc. · Design System · Catalog No. 2026-A
+          </span>
+        </div>
+        <h1 className="font-display font-black uppercase leading-[0.85] text-[clamp(4rem,12vw,9rem)]">
+          Style Guide<span className="text-gold">.</span>
+        </h1>
+        <p className="font-mono text-xs uppercase tracking-widest text-text-tertiary mt-6">
+          Internal Reference · Not User Facing
+        </p>
+      </header>
 
-          {/* Background Variance Demo */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-3"
-              style={{ fontWeight: 500 }}
+      {/* ── Anchor Nav ──────────────────────────────────────────────────────── */}
+      <nav className="sticky top-0 z-50 bg-bg-base/95 backdrop-blur-sm border-b border-foreground/10 py-3 -mx-4 px-4 md:-mx-6 md:px-6 lg:-mx-8 lg:px-8 xl:-mx-12 xl:px-12">
+        <div className="flex gap-6 overflow-x-auto scrollbar-none">
+          {SECTIONS.map((s) => (
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              className="font-mono text-xs uppercase tracking-widest text-text-tertiary hover:text-text-accent transition-colors whitespace-nowrap"
             >
-              Background Variance Tokens
-            </h3>
-            <div className="grid sm:grid-cols-3 lg:grid-cols-5 gap-4">
-              <div className="bg-bg-base rounded-card p-4 border border-border-subtle">
-                <p className="text-sm text-text-primary font-medium">bg-base</p>
-                <p className="text-xs text-text-tertiary">Page background</p>
-              </div>
-              <div className="bg-bg-subtle rounded-card p-4 border border-border-subtle">
-                <p className="text-sm text-text-primary font-medium">
-                  bg-subtle
-                </p>
-                <p className="text-xs text-text-tertiary">Subtle sections</p>
-              </div>
-              <div className="bg-bg-elevated rounded-card p-4 border border-border-subtle">
-                <p className="text-sm text-text-primary font-medium">
-                  bg-elevated
-                </p>
-                <p className="text-xs text-text-tertiary">Cards, popovers</p>
-              </div>
-              <div className="bg-bg-inset rounded-card p-4 border border-border-subtle">
-                <p className="text-sm text-text-primary font-medium">
-                  bg-inset
-                </p>
-                <p className="text-xs text-text-tertiary">Inset areas</p>
-              </div>
-              <div className="bg-bg-inverse rounded-card p-4 border border-border-inverse">
-                <p className="text-sm text-text-inverse font-medium">
-                  bg-inverse
-                </p>
-                <p className="text-xs text-text-inverse opacity-70">
-                  Banners, footers
-                </p>
-              </div>
+              {s.label}
+            </a>
+          ))}
+        </div>
+      </nav>
+
+      {/* ── 01 · Typography ─────────────────────────────────────────────────── */}
+      <section id="typography" className="py-16 border-b border-foreground/10 scroll-mt-12">
+        <SectionHead n="01" title="Typography" />
+
+        <SubHead>Display — Dominique (font-display)</SubHead>
+        <div className="space-y-2 font-display mb-8">
+          {[
+            { w: 900, label: "900 Black", size: "text-5xl" },
+            { w: 700, label: "700 Bold", size: "text-4xl" },
+            { w: 500, label: "500 Medium", size: "text-3xl" },
+            { w: 400, label: "400 Regular", size: "text-2xl" },
+          ].map(({ w, label, size }) => (
+            <div key={w} className="flex items-baseline gap-4">
+              <span className="font-mono text-xs text-text-tertiary w-24 shrink-0">{label}</span>
+              <p className={`${size} text-text-primary uppercase`} style={{ fontWeight: w }}>
+                Custom Screen Printing
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <SubHead>Body — Figtree Sans (font-sans)</SubHead>
+        <div className="space-y-3 mb-8">
+          {[
+            { label: "text-xl", size: "text-xl", w: 700, sample: "Large lead copy and subheadings" },
+            { label: "text-lg", size: "text-lg", w: 400, sample: "Body copy — comfortable reading size" },
+            { label: "text-base", size: "text-base", w: 400, sample: "Default UI text for labels and metadata" },
+            { label: "text-sm", size: "text-sm", w: 400, sample: "Small print, captions, secondary info" },
+          ].map(({ label, size, w, sample }) => (
+            <div key={label} className="flex items-baseline gap-4">
+              <span className="font-mono text-xs text-text-tertiary w-24 shrink-0">{label}</span>
+              <p className={`${size} text-text-secondary`} style={{ fontWeight: w }}>{sample}</p>
+            </div>
+          ))}
+        </div>
+
+        <SubHead>Mono — Geist Mono (font-mono)</SubHead>
+        <div className="space-y-3 mb-8 font-mono">
+          <div className="flex items-baseline gap-4">
+            <span className="text-xs text-text-tertiary w-24 shrink-0">Eyebrow</span>
+            <p className="text-xs uppercase tracking-widest text-text-tertiary">Est. Minneapolis · Artist-Run</p>
+          </div>
+          <div className="flex items-baseline gap-4">
+            <span className="text-xs text-text-tertiary w-24 shrink-0">Label</span>
+            <p className="text-xs uppercase tracking-widest text-text-accent">Step 01 · Press Running</p>
+          </div>
+          <div className="flex items-baseline gap-4">
+            <span className="text-xs text-text-tertiary w-24 shrink-0">Code</span>
+            <code className="text-sm text-text-primary px-2 py-1 bg-bg-elevated border border-border-subtle rounded">
+              const turnaround = &apos;7-10 days&apos;;
+            </code>
+          </div>
+        </div>
+
+        <SubHead>Background Variance</SubHead>
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+          {[
+            { cls: "bg-bg-base", label: "bg-base", desc: "Page background" },
+            { cls: "bg-bg-subtle", label: "bg-subtle", desc: "Subtle sections" },
+            { cls: "bg-bg-elevated", label: "bg-elevated", desc: "Cards, popovers" },
+            { cls: "bg-bg-inset", label: "bg-inset", desc: "Inset areas" },
+            { cls: "bg-bg-inverse", label: "bg-inverse", desc: "Banners, footer" },
+          ].map(({ cls, label, desc }) => (
+            <div key={label} className={`${cls} rounded-card p-4 border border-border-subtle`}>
+              <p className="text-sm font-mono font-medium text-text-primary">{label}</p>
+              <p className="text-xs text-text-tertiary mt-1">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── 02 · Colors ─────────────────────────────────────────────────────── */}
+      <section id="colors" className="py-16 border-b border-foreground/10 scroll-mt-12">
+        <SectionHead n="02" title="Colors" />
+
+        {/* Palette scales */}
+        {PALETTE_SCALES.map((scale) => (
+          <div key={scale.name} className="mb-8">
+            <SubHead>{scale.name}</SubHead>
+            <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
+              {scale.shades.map((shade) => {
+                const token = `${scale.prefix}-${shade}`;
+                return (
+                  <div key={shade}>
+                    <div
+                      className="h-12 rounded border border-border-subtle"
+                      style={{ backgroundColor: `var(${token})` }}
+                      title={token}
+                    />
+                    <p className="text-xs text-text-tertiary mt-1 text-center font-mono">{shade}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
+        ))}
 
-          {/* Figtree Sans */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Figtree Sans — Primary UI Font (var(--font-sans))
-            </h3>
-            <div className="space-y-4">
-              <div className="flex items-baseline gap-4">
-                <span className="text-sm text-text-tertiary w-16">H1</span>
-                <h1
-                  className="text-5xl font-sans text-text-primary"
-                  style={{ fontWeight: 700 }}
-                >
-                  Heading One
-                </h1>
-              </div>
-              <div className="flex items-baseline gap-4">
-                <span className="text-sm text-text-tertiary w-16">H2</span>
-                <h2
-                  className="text-4xl font-sans text-text-primary"
-                  style={{ fontWeight: 600 }}
-                >
-                  Heading Two
-                </h2>
-              </div>
-              <div className="flex items-baseline gap-4">
-                <span className="text-sm text-text-tertiary w-16">H3</span>
-                <h3
-                  className="text-3xl font-sans text-text-primary"
-                  style={{ fontWeight: 500 }}
-                >
-                  Heading Three
-                </h3>
-              </div>
-              <div className="flex items-baseline gap-4">
-                <span className="text-sm text-text-tertiary w-16">Body</span>
-                <p className="text-base text-text-secondary leading-relaxed">
-                  The quick brown fox jumps over the lazy dog. Pack my box with
-                  five dozen liquor jugs.
-                </p>
-              </div>
-              <div className="flex items-baseline gap-4">
-                <span className="text-sm text-text-tertiary w-16">Small</span>
-                <p className="text-sm text-text-tertiary">
-                  Secondary text, captions, and metadata information.
-                </p>
-              </div>
+        {/* Fixed palette — ink / paper / gold */}
+        <SubHead>Fixed Palette — Ink · Paper · Gold</SubHead>
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          {[
+            { label: "ink", token: "--color-ink", cls: "bg-ink" },
+            { label: "paper", token: "--color-paper", cls: "bg-paper" },
+            { label: "gold", token: "--color-gold", cls: "bg-gold" },
+          ].map(({ label, token, cls }) => (
+            <div key={label}>
+              <div className={`${cls} h-16 rounded border border-border-subtle`} />
+              <p className="font-mono text-xs text-text-secondary mt-1">{label}</p>
+              <p className="font-mono text-xs text-text-tertiary">{token}</p>
             </div>
+          ))}
+        </div>
+
+        {/* State colors */}
+        <SubHead>State Colors</SubHead>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+          {STATE_COLORS.map((name) => {
+            const t = stateTokens(name);
+            return (
+              <div key={name}>
+                <div
+                  className="h-12 rounded border border-border-subtle"
+                  style={{ backgroundColor: `var(${t.base})` }}
+                  title={t.base}
+                />
+                <p className="font-mono text-xs text-text-secondary mt-1 capitalize">{name}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Badges */}
+        <SubHead>Badges — Semantic State</SubHead>
+        <div className="flex flex-wrap gap-3">
+          {[
+            { name: "Success", surface: "--color-success-surface", text: "--color-success-text", border: "--color-success-border" },
+            { name: "Warning", surface: "--color-warning-surface", text: "--color-warning-text", border: "--color-warning-border" },
+            { name: "Error", surface: "--color-error-surface", text: "--color-error-text", border: "--color-error-border" },
+            { name: "Info", surface: "--color-accent-surface", text: "--color-accent-text", border: "--color-accent-border" },
+            { name: "Muted", surface: "--color-muted-surface", text: "--color-muted-text", border: "--color-muted-border" },
+            { name: "Destructive", surface: "--color-destructive-surface", text: "--color-destructive-text", border: "--color-destructive-border" },
+          ].map(({ name, surface, text, border }) => (
+            <span
+              key={name}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono uppercase tracking-widest border rounded-button"
+              style={{
+                backgroundColor: `var(${surface})`,
+                color: `var(${text})`,
+                borderColor: `var(${border})`,
+              }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: `var(${text})` }} />
+              {name}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* ── 03 · Visual Motifs ──────────────────────────────────────────────── */}
+      <section id="motifs" className="py-16 border-b border-foreground/10 scroll-mt-12">
+        <SectionHead n="03" title="Visual Motifs" />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+          {/* Diagonal stripe */}
+          <div>
+            <SubHead>Diagonal Stripe</SubHead>
+            <div className="relative h-32 bg-bg-elevated border border-border-subtle overflow-hidden rounded-card">
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 8px, oklch(0% 0 0 / 0.15) 8px, oklch(0% 0 0 / 0.15) 9px)",
+                }}
+              />
+            </div>
+            <p className="font-mono text-xs text-text-tertiary mt-3">Used on: featured work cards, hero image overlay, CtaBand</p>
+            <code className="block font-mono text-xs text-text-secondary mt-1 bg-bg-elevated border border-border-subtle p-2 rounded">
+              repeating-linear-gradient(45deg, transparent 8px, oklch(0% 0 0 / .15) 9px)
+            </code>
           </div>
 
-          {/* Dominique Variable Font */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Dominique — Display Font (var(--font-display))
-            </h3>
-            <div className="space-y-4 font-display">
-              <div className="flex items-baseline gap-4">
-                <span className="text-sm text-text-muted w-16 font-sans">
-                  900
-                </span>
-                <p
-                  className="text-4xl text-text-primary"
-                  style={{ fontWeight: 900 }}
-                >
-                  Heavy Weight Display
-                </p>
+          {/* Broadside dot (on gold) */}
+          <div>
+            <SubHead>Broadside Dot</SubHead>
+            <div className="relative h-32 bg-gold overflow-hidden rounded-card">
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: "radial-gradient(oklch(12% 0.008 40) 1px, transparent 1.4px)",
+                  backgroundSize: "9px 9px",
+                  opacity: 0.12,
+                }}
+              />
+            </div>
+            <p className="font-mono text-xs text-text-tertiary mt-3">Used on: CtaBand (gold surface)</p>
+            <code className="block font-mono text-xs text-text-secondary mt-1 bg-bg-elevated border border-border-subtle p-2 rounded">
+              radial-gradient(oklch(12% 0.008 40) 1px, transparent 1.4px) / 9px 9px · opacity 12%
+            </code>
+          </div>
+
+          {/* Registration mark */}
+          <div>
+            <SubHead>Registration Mark</SubHead>
+            <div className="flex items-center justify-around h-32 bg-bg-elevated border border-border-subtle rounded-card px-6">
+              <div className="flex flex-col items-center gap-2">
+                <RegistrationMark className="w-5 h-5 text-text-accent" />
+                <span className="font-mono text-xs text-text-tertiary">gold · sm</span>
               </div>
-              <div className="flex items-baseline gap-4">
-                <span className="text-sm text-text-muted w-16 font-sans">
-                  700
-                </span>
-                <p
-                  className="text-3xl text-text-primary"
-                  style={{ fontWeight: 700 }}
-                >
-                  Bold Display Text
-                </p>
+              <div className="flex flex-col items-center gap-2">
+                <RegistrationMark className="w-8 h-8 text-foreground/30" />
+                <span className="font-mono text-xs text-text-tertiary">muted · md</span>
               </div>
-              <div className="flex items-baseline gap-4">
-                <span className="text-sm text-text-muted w-16 font-sans">
-                  500
-                </span>
-                <p
-                  className="text-2xl text-text-primary"
-                  style={{ fontWeight: 500 }}
-                >
-                  Medium Weight Display
-                </p>
-              </div>
-              <div className="flex items-baseline gap-4">
-                <span className="text-sm text-text-muted w-16 font-sans">
-                  400
-                </span>
-                <p
-                  className="text-xl text-text-primary"
-                  style={{ fontWeight: 400 }}
-                >
-                  Regular Display Text
-                </p>
+              <div className="flex flex-col items-center gap-2">
+                <RegistrationMark className="w-12 h-12 text-foreground/15" />
+                <span className="font-mono text-xs text-text-tertiary">faint · lg</span>
               </div>
             </div>
-            <p className="text-sm text-text-muted mt-4 font-sans">
-              Variable font — supports weights 100-900 (or full range depending
-              on font capabilities)
+            <p className="font-mono text-xs text-text-tertiary mt-3">Used on: step headers, footer bottom bar, hero image center, process section</p>
+          </div>
+
+          {/* Corner brackets */}
+          <div>
+            <SubHead>Corner Brackets</SubHead>
+            <div className="relative h-32 bg-bg-elevated border border-border-subtle overflow-hidden rounded-card">
+              <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-foreground/40" />
+              <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-foreground/40" />
+              <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-foreground/40" />
+              <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-foreground/40" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="font-mono text-xs text-text-tertiary uppercase tracking-widest">Framed Content</span>
+              </div>
+            </div>
+            <p className="font-mono text-xs text-text-tertiary mt-3">Used on: hero image editorial overlay — 2px border, w-8/h-8</p>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── 04 · Motion ─────────────────────────────────────────────────────── */}
+      <section id="motion" className="py-16 border-b border-foreground/10 scroll-mt-12">
+        <SectionHead n="04" title="Motion" />
+
+        <SubHead>Duration Scale</SubHead>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {MOTION_DURATIONS.map(({ label, class: cls, ms, use }) => (
+            <div key={label} className="bg-bg-elevated border border-border-subtle rounded-card p-4">
+              <p className="font-display font-black uppercase text-2xl text-text-primary">{ms}</p>
+              <p className="font-mono text-xs text-text-accent uppercase tracking-widest mt-1">{cls}</p>
+              <p className="text-xs text-text-tertiary mt-2 leading-relaxed">{use}</p>
+            </div>
+          ))}
+        </div>
+
+        <SubHead>Easing Functions</SubHead>
+        <div className="space-y-3 mb-8">
+          {MOTION_EASINGS.map(({ label, class: cls, value, use }) => (
+            <div key={label} className="flex items-center gap-4 py-3 border-b border-foreground/10 last:border-0">
+              <span className="font-mono text-xs text-text-accent uppercase tracking-widest w-32 shrink-0">{cls}</span>
+              <span className="font-mono text-xs text-text-secondary flex-1 truncate">{value}</span>
+              <span className="text-xs text-text-tertiary shrink-0 hidden sm:block">{use}</span>
+            </div>
+          ))}
+        </div>
+
+        <SubHead>Button Animation — Hover to preview</SubHead>
+        <p className="text-sm text-text-tertiary mb-4">All button variants use <code className="font-mono text-xs bg-bg-elevated px-1 py-0.5 border border-border-subtle rounded">before:scale-y-0 → hover:before:scale-y-100</code> with 300ms ease-in-out.</p>
+        <div className="flex flex-wrap gap-4">
+          <Button variant="primary">Primary Wipe</Button>
+          <Button variant="outline">Outline Fill</Button>
+          <Button variant="ghost">Ghost Fill</Button>
+        </div>
+      </section>
+
+      {/* ── 05 · Components ─────────────────────────────────────────────────── */}
+      <section id="components" className="py-16 border-b border-foreground/10 scroll-mt-12">
+        <SectionHead n="05" title="Components" />
+
+        {/* Buttons */}
+        <SubHead>Button — Variants</SubHead>
+        <div className="flex flex-wrap gap-4 mb-8">
+          <Button variant="primary">Primary</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="neutral">Neutral</Button>
+          <Button variant="outline">Outline</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button variant="link">Link</Button>
+          <Button variant="destructive">Destructive</Button>
+        </div>
+
+        <SubHead>Button — Sizes</SubHead>
+        <div className="flex flex-wrap items-center gap-4 mb-8">
+          <Button variant="primary" size="sm">Small</Button>
+          <Button variant="primary" size="md">Medium</Button>
+          <Button variant="primary" size="lg">Large</Button>
+          <Button variant="primary" disabled>Disabled</Button>
+        </div>
+
+        {/* Forms */}
+        <SubHead>Form Elements</SubHead>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mb-8">
+          <Input label="Text Input" placeholder="Enter text..." />
+          <Input label="Email" type="email" placeholder="email@example.com" required />
+          <Input label="Error State" placeholder="Invalid" error="This field has an error" />
+          <Select
+            label="Select"
+            placeholder="Choose..."
+            options={[
+              { value: "t-shirt", label: "T-Shirt" },
+              { value: "hoodie", label: "Hoodie" },
+              { value: "tank", label: "Tank Top" },
+            ]}
+          />
+          <div className="sm:col-span-2">
+            <Textarea label="Message" placeholder="Tell us about your project..." rows={3} />
+          </div>
+          <div className="sm:col-span-2">
+            <FileUpload label="Artwork Files" accept=".ai,.psd,.pdf,.png,.jpg" multiple maxSize={10 * 1024 * 1024} />
+          </div>
+        </div>
+
+        {/* Cards */}
+        <SubHead>Cards</SubHead>
+        <div className="grid sm:grid-cols-3 gap-6 mb-8">
+          <div className="bg-card-surface rounded-card p-6 border border-card-border">
+            <h4 className="font-display font-black uppercase text-card-text text-lg mb-2">Standard</h4>
+            <p className="text-card-text text-sm leading-relaxed opacity-70">
+              card-surface + card-border + card-text tokens.
             </p>
           </div>
-
-          {/* Geist Mono */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Geist Mono — Monospace Font (var(--font-mono))
-            </h3>
-            <div className="space-y-4 font-mono">
-              <div className="flex items-baseline gap-4">
-                <span className="text-sm text-text-muted">Code Block</span>
-                <code className="px-3 py-2 bg-bg-subtle rounded text-sm text-text-primary border border-border-subtle">
-                  const fontWeight = 400;
-                </code>
-              </div>
-              <p className="text-sm text-text-secondary leading-relaxed">
-                Monospace font for code, technical content, and data display.
-                Excellent readability at small sizes.
-              </p>
-            </div>
+          <div className="bg-card-surface-inverse rounded-card p-6">
+            <h4 className="font-display font-black uppercase text-card-text-inverse text-lg mb-2">Inverse</h4>
+            <p className="text-card-text-inverse-muted text-sm leading-relaxed">
+              card-surface-inverse + card-text-inverse tokens.
+            </p>
           </div>
+          <div className="bg-card-surface-tonal rounded-card p-6 border border-card-border-tonal">
+            <h4 className="font-display font-black uppercase text-card-text-tonal text-lg mb-2">Tonal</h4>
+            <p className="text-card-text-tonal-muted text-sm leading-relaxed">
+              card-surface-tonal + card-border-tonal tokens.
+            </p>
+          </div>
+        </div>
 
-          {/* Font Pairings */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Font Pairings — Reusable Typographic Styles
-            </h3>
-
-            {/* Hero Heading Style */}
-            <div className="mb-8 p-6 bg-bg-elevated rounded-card border border-border-subtle">
-              <h4 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
-                Hero Heading
-              </h4>
-              <h2
-                className="text-4xl md:text-5xl font-display text-text-primary mb-4"
-                style={{ fontWeight: 700 }}
-              >
-                Make a Statement with Dominique
-              </h2>
-              <p className="text-lg text-text-secondary leading-relaxed font-sans">
-                Pair bold display typography with clean, readable body text for
-                maximum impact and clarity.
-              </p>
+        {/* Icons */}
+        <SubHead>Icons — Ant Design</SubHead>
+        <div className="flex flex-wrap gap-6">
+          {[
+            { icon: <PhoneOutlined />, name: "PhoneOutlined" },
+            { icon: <MailOutlined />, name: "MailOutlined" },
+            { icon: <InstagramOutlined />, name: "InstagramOutlined" },
+            { icon: <FacebookOutlined />, name: "FacebookOutlined" },
+            { icon: <XOutlined />, name: "XOutlined" },
+          ].map(({ icon, name }) => (
+            <div key={name} className="flex flex-col items-center gap-2">
+              <div className="text-xl text-text-secondary">{icon}</div>
+              <span className="font-mono text-xs text-text-tertiary">{name}</span>
             </div>
+          ))}
+        </div>
 
-            {/* Section Heading Style */}
-            <div className="mb-8 p-6 bg-bg-elevated rounded-card border border-border-subtle">
-              <h4 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
-                Section Heading
-              </h4>
-              <h3
-                className="text-2xl md:text-3xl font-display text-text-primary mb-3"
-                style={{ fontWeight: 600 }}
-              >
-                Section Title with Purpose
-              </h3>
-              <p className="text-base text-text-secondary leading-relaxed font-sans">
-                Clear hierarchy helps users navigate content. Use medium weight
-                display fonts for section breaks and content organization.
-              </p>
+        {/* Spacing */}
+        <SubHead>Spacing Scale</SubHead>
+        <div className="flex flex-wrap items-end gap-2">
+          {SPACING_SCALE.map((n) => (
+            <div key={n} className="flex flex-col items-center gap-1">
+              <div className="bg-gold/60" style={{ width: `${n * 4}px`, height: `${n * 4}px`, minWidth: "4px" }} />
+              <span className="font-mono text-xs text-text-tertiary">{n}</span>
             </div>
+          ))}
+        </div>
 
-            {/* Card Heading Style */}
-            <div className="mb-8 p-6 bg-bg-elevated rounded-card border border-border-subtle">
-              <h4 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
-                Card Heading
-              </h4>
-              <h3
-                className="text-xl font-display text-text-primary mb-3"
-                style={{ fontWeight: 500 }}
-              >
-                Card Component Title
-              </h3>
-              <p className="text-sm text-text-secondary leading-relaxed font-sans">
-                Compact headings work well in constrained spaces. Use lighter
-                weights for cards, sidebars, and nested content.
-              </p>
+        {/* Radius */}
+        <SubHead>Border Radius</SubHead>
+        <div className="flex flex-wrap gap-6 items-end">
+          {[
+            { label: "rounded-button", cls: "rounded-button" },
+            { label: "rounded-card", cls: "rounded-card" },
+            { label: "rounded-input", cls: "rounded-input" },
+            { label: "rounded-full", cls: "rounded-full" },
+          ].map(({ label, cls }) => (
+            <div key={label} className="flex flex-col items-center gap-2">
+              <div className={`w-16 h-16 bg-bg-elevated border-2 border-gold/40 ${cls}`} />
+              <span className="font-mono text-xs text-text-tertiary text-center">{label}</span>
             </div>
+          ))}
+        </div>
+      </section>
 
-            {/* Body Text Variations */}
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div className="p-6 bg-bg-elevated rounded-card border border-border-subtle">
-                <h4 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
-                  Primary Body Text
-                </h4>
-                <p className="text-base text-text-primary leading-relaxed font-sans">
-                  This is the main body text style. It's designed for optimal
-                  readability with comfortable line height and clear contrast.
-                  Perfect for articles, descriptions, and primary content.
-                </p>
-              </div>
+      {/* ── 06 · Tokens ─────────────────────────────────────────────────────── */}
+      <section id="tokens" className="py-16 scroll-mt-12">
+        <SectionHead n="06" title="Design Tokens" />
 
-              <div className="p-6 bg-bg-elevated rounded-card border border-border-subtle">
-                <h4 className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
-                  Secondary Body Text
-                </h4>
-                <p className="text-sm text-text-secondary leading-relaxed font-sans">
-                  Secondary text uses a smaller size and muted color. Ideal for
-                  captions, metadata, supporting information, and content that
-                  should be present but not prominent.
-                </p>
-              </div>
-            </div>
-
-            {/* Usage Guidelines */}
-            <div className="mt-8 p-4 bg-bg-subtle rounded-md border border-border-subtle">
-              <h4 className="text-sm font-medium text-text-primary mb-2">
-                Usage Guidelines
-              </h4>
-              <ul className="text-sm text-text-secondary space-y-1 font-sans">
-                <li>
-                  • Use{" "}
-                  <span className="font-display font-medium">Dominique</span>{" "}
-                  for headings and display text
-                </li>
-                <li>
-                  • Use <span className="font-sans font-medium">Figtree</span>{" "}
-                  for body text and UI elements
-                </li>
-                <li>
-                  • Reserve heavier weights (700-900) for hero sections and
-                  major headings
-                </li>
-                <li>
-                  • Use medium weights (500-600) for section headings and card
-                  titles
-                </li>
-                <li>
-                  • Apply lighter weights (400-500) for secondary headings and
-                  accents
-                </li>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 text-sm">
+          {[
+            {
+              title: "Typography",
+              items: ["--font-sans (Figtree)", "--font-display (Dominique)", "--font-mono (Geist Mono)"],
+            },
+            {
+              title: "Button",
+              items: [
+                "--button-primary-surface / -hover / -active",
+                "--button-primary-text / -hover",
+                "--button-outline-surface / -hover / -active",
+                "--button-outline-text / -hover",
+                "--button-outline-border / -hover",
+                "--button-secondary / neutral / destructive",
+              ],
+            },
+            {
+              title: "Form",
+              items: [
+                "--input-surface",
+                "--input-border / -hover / -focus",
+                "--input-text / -placeholder",
+                "--input-ring-focus / -error",
+                "--label-text",
+              ],
+            },
+            {
+              title: "Card",
+              items: [
+                "--card-surface / -inverse / -tonal",
+                "--card-border / -tonal",
+                "--card-text / -inverse / -tonal",
+                "--card-text-inverse-muted",
+                "--card-text-tonal-muted",
+              ],
+            },
+            {
+              title: "Background",
+              items: ["--bg-subtle", "--bg-elevated", "--bg-inset", "--bg-inverse"],
+            },
+            {
+              title: "Text",
+              items: ["--text-secondary", "--text-tertiary", "--text-inverse", "--text-on-inverse-muted"],
+            },
+            {
+              title: "Border",
+              items: ["--border-default", "--border-subtle", "--border-strong", "--border-inverse"],
+            },
+            {
+              title: "Radius",
+              items: ["--radius-button", "--radius-card", "--radius-input"],
+            },
+            {
+              title: "State Colors",
+              items: [
+                "--color-{state} (base)",
+                "--color-{state}-text",
+                "--color-{state}-surface",
+                "--color-{state}-border",
+                "States: success · warning · error · accent · muted · destructive",
+              ],
+            },
+          ].map(({ title, items }) => (
+            <div key={title}>
+              <h3 className="font-mono text-xs uppercase tracking-widest text-text-accent mb-3">{title}</h3>
+              <ul className="space-y-1">
+                {items.map((item) => (
+                  <li key={item} className="font-mono text-xs text-text-secondary">{item}</li>
+                ))}
               </ul>
             </div>
-          </div>
-        </section>
+          ))}
+        </div>
+      </section>
 
-        {/* Colors Section */}
-        <section className="mb-20">
-          <h2
-            className="text-3xl font-display text-text-primary mb-8 pb-2 border-b border-border-default"
-            style={{ fontWeight: 600 }}
-          >
-            Colors
-          </h2>
-
-          {PALETTE_SCALES.map(renderPaletteScale)}
-
-          {/* State Color Swatches - Compact Grid */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              State Colors (Full Variation Sets)
-            </h3>
-
-            {STATE_COLORS.map((name) => {
-              const t = stateTokens(name);
-              return (
-                <div key={name} className="mb-6">
-                  <h4 className="text-sm font-medium text-text-muted mb-3 capitalize">
-                    {name}
-                  </h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    {/* Base */}
-                    <div>
-                      <div
-                        className="h-16 rounded-md shadow-sm border border-border-subtle"
-                        style={{ backgroundColor: `var(${t.base})` }}
-                        title={t.base}
-                      />
-                      <p className="text-xs text-text-secondary mt-1">Base</p>
-                      <p className="text-xs text-text-muted font-mono">
-                        {t.base}
-                      </p>
-                    </div>
-                    {/* Surface */}
-                    <div>
-                      <div
-                        className="h-16 rounded-md shadow-sm border border-border-subtle"
-                        style={{ backgroundColor: `var(${t.surface})` }}
-                        title={t.surface}
-                      />
-                      <p className="text-xs text-text-secondary mt-1">
-                        Surface
-                      </p>
-                      <p className="text-xs text-text-muted font-mono">
-                        {t.surface}
-                      </p>
-                    </div>
-                    {/* Text on surface */}
-                    <div>
-                      <div
-                        className="h-16 rounded-md shadow-sm flex items-center justify-center"
-                        style={{
-                          backgroundColor: `var(${t.surface})`,
-                          borderColor: `var(${t.border})`,
-                          borderWidth: "2px",
-                        }}
-                      >
-                        <span
-                          className="text-sm font-medium"
-                          style={{ color: `var(${t.text})` }}
-                        >
-                          Text
-                        </span>
-                      </div>
-                      <p className="text-xs text-text-secondary mt-1">
-                        Text + Border
-                      </p>
-                      <p className="text-xs text-text-muted font-mono">
-                        {t.text}
-                      </p>
-                    </div>
-                    {/* Border on base */}
-                    <div>
-                      <div
-                        className="h-16 rounded-md shadow-sm border-2 flex items-center justify-center"
-                        style={{
-                          backgroundColor: "var(--bg-base)",
-                          borderColor: `var(${t.border})`,
-                        }}
-                      >
-                        <span
-                          className="text-sm font-medium"
-                          style={{ color: `var(${t.base})` }}
-                        >
-                          Border
-                        </span>
-                      </div>
-                      <p className="text-xs text-text-secondary mt-1">
-                        Border Only
-                      </p>
-                      <p className="text-xs text-text-muted font-mono">
-                        {t.border}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* State Color Usage Examples */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Usage Examples
-            </h3>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {/* Success Example */}
-              <div className="bg-bg-success rounded-card p-4 border border-border-success">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-2 h-2 rounded-full bg-success"></div>
-                  <h5 className="text-sm font-medium text-text-success">
-                    Success
-                  </h5>
-                </div>
-                <p className="text-xs text-text-success">
-                  Operation completed successfully
-                </p>
-              </div>
-
-              {/* Error Example */}
-              <div className="bg-bg-error rounded-card p-4 border border-border-error">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-2 h-2 rounded-full bg-error"></div>
-                  <h5 className="text-sm font-medium text-text-error">Error</h5>
-                </div>
-                <p className="text-xs text-text-error">Validation failed</p>
-              </div>
-
-              {/* Warning Example */}
-              <div className="bg-bg-warning rounded-card p-4 border border-border-warning">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-2 h-2 rounded-full bg-warning"></div>
-                  <h5 className="text-sm font-medium text-text-warning">
-                    Warning
-                  </h5>
-                </div>
-                <p className="text-xs text-text-warning">Action required</p>
-              </div>
-
-              {/* Accent Example */}
-              <div className="bg-bg-accent rounded-card p-4 border border-border-accent">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-2 h-2 rounded-full bg-accent"></div>
-                  <h5 className="text-sm font-medium text-text-accent">
-                    Accent Feature
-                  </h5>
-                </div>
-                <p className="text-xs text-text-accent">
-                  Highlighted feature or CTA
-                </p>
-              </div>
-
-              {/* Muted Example */}
-              <div className="bg-bg-muted rounded-card p-4 border border-border-muted">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-2 h-2 rounded-full bg-muted"></div>
-                  <h5 className="text-sm font-medium text-text-muted">
-                    Muted Element
-                  </h5>
-                </div>
-                <p className="text-xs text-text-muted">Subtle information</p>
-              </div>
-
-              {/* Destructive Example */}
-              <div className="bg-bg-destructive rounded-card p-4 border border-border-destructive">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-2 h-2 rounded-full bg-destructive"></div>
-                  <h5 className="text-sm font-medium text-text-destructive">
-                    Destructive Action
-                  </h5>
-                </div>
-                <p className="text-xs text-text-destructive">
-                  Permanent deletion
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Components Section */}
-        <section className="mb-20">
-          <h2
-            className="text-3xl font-display text-text-primary mb-8 pb-2 border-b border-border-default"
-            style={{ fontWeight: 600 }}
-          >
-            Components
-          </h2>
-
-          {/* Buttons */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Buttons (WCAG 2.2 AA Compliant)
-            </h3>
-
-            {/* Button Variants */}
-            <div className="mb-8">
-              <h4 className="text-sm font-medium text-text-muted mb-3 uppercase tracking-wider">
-                Button Variants
-              </h4>
-              <div className="flex flex-wrap gap-4">
-                <Button variant="primary">Primary Button</Button>
-                <Button variant="secondary">Secondary Button</Button>
-                <Button variant="neutral">Neutral Button</Button>
-                <Button variant="outline">Outline Button</Button>
-                <Button variant="ghost">Ghost Button</Button>
-                <Button variant="link">Link Button</Button>
-                <Button variant="destructive">Destructive Button</Button>
-              </div>
-            </div>
-
-            {/* Button Sizes */}
-            <div className="mb-8">
-              <h4 className="text-sm font-medium text-text-muted mb-3 uppercase tracking-wider">
-                Button Sizes
-              </h4>
-              <div className="flex flex-wrap items-center gap-4">
-                <Button variant="primary" size="sm">
-                  Small
-                </Button>
-                <Button variant="primary" size="md">
-                  Medium
-                </Button>
-                <Button variant="primary" size="lg">
-                  Large
-                </Button>
-                <Button variant="primary" size="icon">
-                  🚀
-                </Button>
-              </div>
-            </div>
-
-            {/* States */}
-            <div className="mb-8">
-              <h4 className="text-sm font-medium text-text-muted mb-3 uppercase tracking-wider">
-                Button States
-              </h4>
-              <div className="flex flex-wrap gap-4">
-                <Button variant="primary">Default</Button>
-                <Button variant="primary" disabled>
-                  Disabled
-                </Button>
-                <Button variant="secondary" disabled>
-                  Disabled
-                </Button>
-                <Button variant="outline" disabled>
-                  Disabled
-                </Button>
-              </div>
-            </div>
-
-            {/* Usage Example */}
-            <div className="bg-bg-elevated rounded-card p-4 border border-border-subtle">
-              <h4 className="text-sm font-medium text-text-primary mb-2">
-                Usage Example
-              </h4>
-              <pre className="text-xs text-text-secondary overflow-x-auto font-mono">
-                {`import { Button } from "@/components/ui/Button";
-
-// Basic usage
-<Button>Click me</Button>
-
-// With variant and size
-<Button variant="primary" size="lg">Large Primary</Button>
-
-// Ghost and link variants
-<Button variant="ghost">Ghost Button</Button>
-<Button variant="link">Link Button</Button>
-
-// Disabled state
-<Button disabled>Disabled</Button>`}
-              </pre>
-            </div>
-          </div>
-
-          {/* Form Elements */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Form Elements (WCAG 2.2 AA Compliant)
-            </h3>
-
-            {/* Input Components */}
-            <div className="mb-8">
-              <h4 className="text-sm font-medium text-text-muted mb-3 uppercase tracking-wider">
-                Input Components
-              </h4>
-              <div className="max-w-md space-y-4">
-                <Input label="Text Input" placeholder="Enter text..." />
-                <Input
-                  label="Email Input"
-                  type="email"
-                  placeholder="email@example.com"
-                  required
-                />
-                <Input
-                  label="Number Input"
-                  type="number"
-                  placeholder="123"
-                  error="This field has an error"
-                />
-              </div>
-            </div>
-
-            {/* Select Component */}
-            <div className="mb-8">
-              <h4 className="text-sm font-medium text-text-muted mb-3 uppercase tracking-wider">
-                Select Component
-              </h4>
-              <div className="max-w-md space-y-4">
-                <Select
-                  label="Choose an option"
-                  placeholder="Select an option..."
-                  options={[
-                    { value: "option1", label: "Option 1" },
-                    { value: "option2", label: "Option 2" },
-                    { value: "option3", label: "Option 3" },
-                  ]}
-                />
-                <Select
-                  label="Required Select"
-                  placeholder="Please select..."
-                  options={[
-                    { value: "a", label: "Choice A" },
-                    { value: "b", label: "Choice B" },
-                  ]}
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Textarea Component */}
-            <div className="mb-8">
-              <h4 className="text-sm font-medium text-text-muted mb-3 uppercase tracking-wider">
-                Textarea Component
-              </h4>
-              <div className="max-w-md space-y-4">
-                <Textarea
-                  label="Message"
-                  placeholder="Enter your message..."
-                  rows={4}
-                />
-                <Textarea
-                  label="Project Description"
-                  placeholder="Tell us about your project..."
-                  rows={3}
-                  required
-                  error="Please provide at least 10 characters"
-                />
-              </div>
-            </div>
-
-            {/* File Upload Component */}
-            <div className="mb-8">
-              <h4 className="text-sm font-medium text-text-muted mb-3 uppercase tracking-wider">
-                File Upload Component
-              </h4>
-              <div className="max-w-md space-y-4">
-                <FileUpload
-                  label="Upload Files"
-                  accept="image/*,.pdf"
-                  maxSize={5 * 1024 * 1024} // 5MB
-                  multiple
-                  maxFiles={3}
-                />
-                <FileUpload
-                  label="Artwork File"
-                  accept=".ai,.psd,.pdf,.png,.jpg"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Error States - Explicit Examples */}
-            <div className="mb-8">
-              <h4 className="text-sm font-medium text-text-muted mb-3 uppercase tracking-wider">
-                Error States (for testing focus vs error distinction)
-              </h4>
-              <div className="max-w-md space-y-4 p-4 bg-bg-subtle rounded-card border border-border-subtle">
-                <p className="text-xs text-text-secondary mb-2">
-                  Focus uses primary ring, Error uses red border
-                </p>
-                <Input
-                  label="Normal Focus State"
-                  placeholder="Click to see focus ring..."
-                />
-                <Input
-                  label="Error State"
-                  placeholder="This has an error"
-                  error="This field has an error message"
-                />
-                <Select
-                  label="Select with Error"
-                  placeholder="Choose..."
-                  options={[
-                    { value: "a", label: "Option A" },
-                    { value: "b", label: "Option B" },
-                  ]}
-                  error="Please select an option"
-                />
-                <Textarea
-                  label="Textarea with Error"
-                  placeholder="Error state example..."
-                  rows={3}
-                  error="Please provide more details"
-                />
-              </div>
-            </div>
-
-            {/* Usage Example */}
-            <div className="bg-bg-elevated rounded-card p-4 border border-border-subtle">
-              <h4 className="text-sm font-medium text-text-primary mb-2">
-                Usage Example
-              </h4>
-              <pre className="text-xs text-text-secondary overflow-x-auto font-mono">
-                {`import { Input, Select, Textarea, FileUpload } from "@/components/ui";
-
-// Input components
-<Input label="Name" required />
-<Input label="Email" type="email" error="Invalid email" />
-
-// Select component
-<Select 
-  label="Country"
-  options={[
-    { value: "us", label: "United States" },
-    { value: "ca", label: "Canada" }
-  ]}
-  placeholder="Select country..."
-/>
-
-// Textarea component
-<Textarea 
-  label="Message"
-  placeholder="Enter your message..."
-  rows={4}
-  required
-/>
-
-// File upload component
-<FileUpload
-  label="Upload files"
-  accept="image/*,.pdf"
-  multiple
-  maxSize={10 * 1024 * 1024}
-/>`}
-              </pre>
-            </div>
-          </div>
-
-          {/* Complete Form Demo */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Complete Form Demo
-            </h3>
-            <div className="bg-bg-elevated rounded-card p-6 border border-border-subtle">
-              <p className="text-sm text-text-secondary mb-4">
-                Full quote form using all form components with validation and
-                file upload.
-              </p>
-
-              {/* Import QuoteForm for demo */}
-              <div className="space-y-4">
-                <Input label="Name" placeholder="Your name" required />
-                <Input
-                  type="email"
-                  label="Email"
-                  placeholder="your@email.com"
-                  required
-                />
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <Input
-                    type="number"
-                    label="Quantity"
-                    placeholder="100"
-                    min={1}
-                    required
-                  />
-                  <Input
-                    type="number"
-                    label="Colors"
-                    placeholder="2"
-                    min={1}
-                    max={8}
-                  />
-                </div>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <Select
-                    label="Garment Type"
-                    placeholder="Select garment..."
-                    options={[
-                      { value: "t-shirt", label: "T-Shirt" },
-                      { value: "hoodie", label: "Hoodie" },
-                      { value: "tank", label: "Tank Top" },
-                    ]}
-                  />
-                  <Select
-                    label="Timeline"
-                    placeholder="Select timeline..."
-                    options={[
-                      { value: "standard", label: "Standard (7-10 days)" },
-                      { value: "rush", label: "Rush (3-5 days)" },
-                    ]}
-                  />
-                </div>
-                <Textarea
-                  label="Project Details"
-                  placeholder="Tell us about your project..."
-                  rows={4}
-                  required
-                />
-                <FileUpload
-                  label="Artwork Files"
-                  accept=".ai,.psd,.pdf,.png,.jpg"
-                  multiple
-                  maxSize={10 * 1024 * 1024}
-                />
-                <div className="pt-4">
-                  <Button variant="primary">Send Quote Request</Button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Cards */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Cards (Token-Based)
-            </h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-card-surface rounded-card p-6 shadow-sm border border-card-border">
-                <h4
-                  className="text-lg font-display text-card-text mb-2"
-                  style={{ fontWeight: 500 }}
-                >
-                  Standard Card
-                </h4>
-                <p className="text-card-text text-sm leading-relaxed opacity-70">
-                  Uses card-surface, card-border, and card-text tokens for a
-                  clean appearance.
-                </p>
-              </div>
-              <div className="bg-card-surface-inverse rounded-card p-6">
-                <h4
-                  className="text-lg font-display text-card-text-inverse mb-2"
-                  style={{ fontWeight: 500 }}
-                >
-                  Inverse Card
-                </h4>
-                <p className="text-card-text-inverse-muted text-sm leading-relaxed">
-                  Uses card-surface-inverse and card-text-inverse tokens for
-                  contrast.
-                </p>
-              </div>
-              <div className="bg-card-surface-tonal rounded-card p-6 border border-card-border-tonal">
-                <h4
-                  className="text-lg font-display text-card-text-tonal mb-2"
-                  style={{ fontWeight: 500 }}
-                >
-                  Tonal Card
-                </h4>
-                <p className="text-card-text-tonal-muted text-sm leading-relaxed">
-                  Uses card-surface-tonal and card-border-tonal for secondary
-                  emphasis.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Icons Section */}
-        <section className="mb-20">
-          <h2
-            className="text-3xl font-display text-text-primary mb-8 pb-2 border-b border-border-default"
-            style={{ fontWeight: 600 }}
-          >
-            Icons
-          </h2>
-
-          {/* Icon Set Information */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Icon Set — Ant Design Icons
-            </h3>
-            <div className="bg-bg-elevated rounded-card p-6 border border-border-subtle">
-              <p className="text-text-secondary mb-4">
-                We use <strong>@ant-design/icons</strong> for consistent,
-                high-quality icons across the application. This library provides
-                a comprehensive set of icons with excellent accessibility
-                support and consistent styling.
-              </p>
-              <div className="grid sm:grid-cols-2 gap-4 text-sm">
-                <div>
-                  <h4 className="font-medium text-text-primary mb-2">
-                    Benefits
-                  </h4>
-                  <ul className="space-y-1 text-text-secondary">
-                    <li>• Consistent visual style</li>
-                    <li>• Built-in accessibility</li>
-                    <li>• Tree-shakeable (only used icons bundled)</li>
-                    <li>
-                      • Multiple icon variants (outlined, filled, two-tone)
-                    </li>
-                    <li>• Excellent TypeScript support</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-medium text-text-primary mb-2">
-                    Usage Guidelines
-                  </h4>
-                  <ul className="space-y-1 text-text-secondary">
-                    <li>• Use outlined variants by default</li>
-                    <li>• Maintain consistent sizing (text-base, text-lg)</li>
-                    <li>• Include proper aria-labels for screen readers</li>
-                    <li>• Use semantic colors for actions (success, error)</li>
-                    <li>• Add hover states for interactive icons</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Currently Used Icons */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Currently Used Icons
-            </h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Contact Icons */}
-              <div className="bg-bg-elevated rounded-card p-4 border border-border-subtle">
-                <h4 className="text-sm font-medium text-text-muted uppercase tracking-wider mb-3">
-                  Contact & Communication
-                </h4>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <PhoneOutlined className="text-lg text-text-muted" />
-                    <div>
-                      <p className="text-sm font-mono text-text-secondary">
-                        PhoneOutlined
-                      </p>
-                      <p className="text-xs text-text-tertiary">
-                        Phone numbers, click-to-call
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <MailOutlined className="text-lg text-text-muted" />
-                    <div>
-                      <p className="text-sm font-mono text-text-secondary">
-                        MailOutlined
-                      </p>
-                      <p className="text-xs text-text-tertiary">
-                        Email addresses, contact forms
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Social Media Icons */}
-              <div className="bg-bg-elevated rounded-card p-4 border border-border-subtle">
-                <h4 className="text-sm font-medium text-text-muted uppercase tracking-wider mb-3">
-                  Social Media
-                </h4>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <InstagramOutlined className="text-lg text-text-muted" />
-                    <div>
-                      <p className="text-sm font-mono text-text-secondary">
-                        InstagramOutlined
-                      </p>
-                      <p className="text-xs text-text-tertiary">
-                        Instagram profile links
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <FacebookOutlined className="text-lg text-text-muted" />
-                    <div>
-                      <p className="text-sm font-mono text-text-secondary">
-                        FacebookOutlined
-                      </p>
-                      <p className="text-xs text-text-tertiary">
-                        Facebook page links
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <XOutlined className="text-lg text-text-muted" />
-                    <div>
-                      <p className="text-sm font-mono text-text-secondary">
-                        XOutlined
-                      </p>
-                      <p className="text-xs text-text-tertiary">
-                        X (Twitter) profile links
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Usage Examples */}
-              <div className="bg-bg-elevated rounded-card p-4 border border-border-subtle">
-                <h4 className="text-sm font-medium text-text-muted uppercase tracking-wider mb-3">
-                  Implementation Examples
-                </h4>
-                <div className="space-y-3">
-                  <div className="p-2 bg-bg-subtle rounded border border-border-subtle">
-                    <p className="text-xs text-text-secondary mb-1">
-                      Header Usage:
-                    </p>
-                    <div className="flex gap-2">
-                      <PhoneOutlined className="text-base text-text-muted hover:text-text-primary transition-colors cursor-pointer" />
-                      <MailOutlined className="text-base text-text-muted hover:text-text-primary transition-colors cursor-pointer" />
-                      <InstagramOutlined className="text-base text-text-muted hover:text-text-primary transition-colors cursor-pointer" />
-                    </div>
-                  </div>
-                  <div className="p-2 bg-bg-subtle rounded border border-border-subtle">
-                    <p className="text-xs text-text-secondary mb-1">
-                      Footer Usage:
-                    </p>
-                    <div className="flex gap-2">
-                      <FacebookOutlined className="text-lg text-text-muted hover:text-text-primary transition-colors cursor-pointer" />
-                      <XOutlined className="text-lg text-text-muted hover:text-text-primary transition-colors cursor-pointer" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Code Examples */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Code Examples
-            </h3>
-            <div className="bg-bg-elevated rounded-card p-6 border border-border-subtle">
-              <h4 className="text-sm font-medium text-text-primary mb-3">
-                Import and Usage
-              </h4>
-              <pre className="text-xs text-text-secondary overflow-x-auto font-mono mb-4">
-                {`// Import specific icons (tree-shakeable)
-import { PhoneOutlined, MailOutlined, InstagramOutlined } from "@ant-design/icons";
-
-// Basic usage with styling
-<PhoneOutlined className="text-lg text-text-muted" />
-
-// Interactive icon with hover state
-<a href="tel:6128369488" className="font-medium text-text-primary hover:underline">
-  <PhoneOutlined className="text-lg" />
-</a>
-
-// Accessible icon with label
-<PhoneOutlined 
-  className="text-lg" 
-  aria-label="Phone number: 612-836-9488"
-/>`}
-              </pre>
-
-              <h4 className="text-sm font-medium text-text-primary mb-3 mt-4">
-                Installation
-              </h4>
-              <pre className="text-xs text-text-secondary overflow-x-auto font-mono">
-                {`# Install the package
-pnpm add @ant-design/icons
-
-# The package is already installed in this project
-# Check package.json for current version`}
-              </pre>
-            </div>
-          </div>
-
-          {/* Icon Sizing Guidelines */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Icon Sizing Guidelines
-            </h3>
-            <div className="bg-bg-elevated rounded-card p-6 border border-border-subtle">
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="text-sm font-medium text-text-primary mb-3">
-                    Recommended Sizes
-                  </h4>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-3">
-                      <PhoneOutlined className="text-xs text-text-muted" />
-                      <span className="text-sm text-text-secondary">
-                        <code>text-xs</code> — 12px (compact UI)
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <PhoneOutlined className="text-sm text-text-muted" />
-                      <span className="text-sm text-text-secondary">
-                        <code>text-sm</code> — 14px (small elements)
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <PhoneOutlined className="text-base text-text-muted" />
-                      <span className="text-sm text-text-secondary">
-                        <code>text-base</code> — 16px (default size)
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <PhoneOutlined className="text-lg text-text-muted" />
-                      <span className="text-sm text-text-secondary">
-                        <code>text-lg</code> — 18px (header icons)
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <PhoneOutlined className="text-xl text-text-muted" />
-                      <span className="text-sm text-text-secondary">
-                        <code>text-xl</code> — 20px (featured icons)
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-text-primary mb-3">
-                    Color Classes
-                  </h4>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-3">
-                      <PhoneOutlined className="text-base text-text-primary" />
-                      <span className="text-sm text-text-secondary">
-                        <code>text-text-primary</code> — Primary text
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <PhoneOutlined className="text-base text-text-secondary" />
-                      <span className="text-sm text-text-secondary">
-                        <code>text-text-secondary</code> — Secondary text
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <PhoneOutlined className="text-base text-text-muted" />
-                      <span className="text-sm text-text-secondary">
-                        <code>text-text-muted</code> — Muted/Disabled
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <PhoneOutlined className="text-base text-accent" />
-                      <span className="text-sm text-text-secondary">
-                        <code>text-accent</code> — Accent color
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <PhoneOutlined className="text-base text-success" />
-                      <span className="text-sm text-text-secondary">
-                        <code>text-success</code> — Success state
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Best Practices */}
-          <div className="mb-12">
-            <h3
-              className="text-xl font-display text-text-primary mb-4"
-              style={{ fontWeight: 500 }}
-            >
-              Best Practices
-            </h3>
-            <div className="bg-bg-elevated rounded-card p-6 border border-border-subtle">
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="text-sm font-medium text-text-primary mb-2">
-                    Do's
-                  </h4>
-                  <ul className="space-y-1 text-sm text-text-secondary">
-                    <li>✓ Include aria-labels for standalone icons</li>
-                    <li>✓ Use consistent sizing within components</li>
-                    <li>✓ Add hover states for interactive icons</li>
-                    <li>✓ Import only the icons you need</li>
-                    <li>✓ Use semantic colors for actions</li>
-                    <li>✓ Maintain adequate spacing around icons</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-text-primary mb-2">
-                    Don'ts
-                  </h4>
-                  <ul className="space-y-1 text-sm text-text-secondary">
-                    <li>✗ Use icons without text labels when possible</li>
-                    <li>✗ Mix different icon styles (outlined/filled)</li>
-                    <li>✗ Use inconsistent sizes in the same context</li>
-                    <li>✗ Import the entire icon library</li>
-                    <li>✗ Use icons for decorative purposes only</li>
-                    <li>✗ Override icon colors with arbitrary values</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Design Tokens Reference */}
-        <section className="mb-20">
-          <h2
-            className="text-3xl font-display text-text-primary mb-8 pb-2 border-b border-border-default"
-            style={{ fontWeight: 600 }}
-          >
-            Design Tokens Reference
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
-            <div>
-              <h3
-                className="text-lg font-display text-text-primary mb-3"
-                style={{ fontWeight: 500 }}
-              >
-                Button Tokens
-              </h3>
-              <ul className="space-y-1 text-text-secondary font-mono text-xs">
-                <li>--button-primary-surface</li>
-                <li>--button-primary-surface-hover</li>
-                <li>--button-primary-surface-active</li>
-                <li>--button-primary-text</li>
-                <li>--button-primary-border</li>
-                <li>--button-secondary-surface</li>
-                <li>--button-secondary-surface-hover</li>
-                <li>--button-secondary-surface-active</li>
-                <li>--button-secondary-text</li>
-                <li>--button-secondary-border</li>
-                <li>--button-neutral-surface</li>
-                <li>--button-neutral-surface-hover</li>
-                <li>--button-neutral-surface-active</li>
-                <li>--button-neutral-text</li>
-                <li>--button-neutral-border</li>
-                <li>--button-outline-surface</li>
-                <li>--button-outline-surface-hover</li>
-                <li>--button-outline-surface-active</li>
-                <li>--button-outline-text</li>
-                <li>--button-outline-text-hover</li>
-                <li>--button-outline-border</li>
-                <li>--button-outline-border-hover</li>
-              </ul>
-            </div>
-            <div>
-              <h3
-                className="text-lg font-display text-text-primary mb-3"
-                style={{ fontWeight: 500 }}
-              >
-                Form Tokens
-              </h3>
-              <ul className="space-y-1 text-text-secondary font-mono text-xs">
-                <li>--input-surface</li>
-                <li>--input-surface-focus</li>
-                <li>--input-border</li>
-                <li>--input-border-hover</li>
-                <li>--input-border-focus</li>
-                <li>--input-text</li>
-                <li>--input-text-placeholder</li>
-                <li>--input-ring-focus</li>
-                <li>--label-text</li>
-              </ul>
-            </div>
-            <div>
-              <h3
-                className="text-lg font-display text-text-primary mb-3"
-                style={{ fontWeight: 500 }}
-              >
-                Card Tokens
-              </h3>
-              <ul className="space-y-1 text-text-secondary font-mono text-xs">
-                <li>--card-surface</li>
-                <li>--card-surface-inverse</li>
-                <li>--card-surface-tonal</li>
-                <li>--card-border</li>
-                <li>--card-border-tonal</li>
-                <li>--card-text</li>
-                <li>--card-text-inverse</li>
-                <li>--card-text-inverse-muted</li>
-                <li>--card-text-tonal</li>
-                <li>--card-text-tonal-muted</li>
-              </ul>
-            </div>
-            <div>
-              <h3
-                className="text-lg font-display text-text-primary mb-3"
-                style={{ fontWeight: 500 }}
-              >
-                Border Tokens
-              </h3>
-              <ul className="space-y-1 text-text-secondary font-mono text-xs">
-                <li>--border-default</li>
-                <li>--border-subtle</li>
-                <li>--border-strong</li>
-                <li>--border-inverse</li>
-                <li>--border-focus</li>
-              </ul>
-            </div>
-            <div>
-              <h3
-                className="text-lg font-display text-text-primary mb-3"
-                style={{ fontWeight: 500 }}
-              >
-                Text Color Tokens
-              </h3>
-              <ul className="space-y-1 text-text-secondary font-mono text-xs">
-                <li>--text-primary</li>
-                <li>--text-secondary</li>
-                <li>--text-tertiary</li>
-                <li>--text-muted</li>
-                <li>--text-inverse</li>
-                <li>--text-accent</li>
-              </ul>
-            </div>
-            <div>
-              <h3
-                className="text-lg font-display text-text-primary mb-3"
-                style={{ fontWeight: 500 }}
-              >
-                Background Tokens
-              </h3>
-              <ul className="space-y-1 text-text-secondary font-mono text-xs">
-                <li>--bg-base</li>
-                <li>--bg-subtle</li>
-                <li>--bg-elevated</li>
-                <li>--bg-inset</li>
-                <li>--bg-inverse</li>
-              </ul>
-            </div>
-            <div>
-              <h3
-                className="text-lg font-display text-text-primary mb-3"
-                style={{ fontWeight: 500 }}
-              >
-                Radius Tokens
-              </h3>
-              <ul className="space-y-1 text-text-secondary font-mono text-xs">
-                <li>--radius-button</li>
-                <li>--radius-card</li>
-                <li>--radius-input</li>
-              </ul>
-            </div>
-            <div>
-              <h3
-                className="text-lg font-display text-text-primary mb-3"
-                style={{ fontWeight: 500 }}
-              >
-                Color Palette
-              </h3>
-              <ul className="space-y-1 text-text-secondary font-mono text-xs">
-                <li>--color-primary-100 to -950</li>
-                <li>--color-secondary-100 to -950</li>
-                <li>--color-neutral-100 to -950</li>
-                <li>--color-accent</li>
-                <li>--color-muted</li>
-              </ul>
-            </div>
-            <div>
-              <h3
-                className="text-lg font-display text-text-primary mb-3"
-                style={{ fontWeight: 500 }}
-              >
-                State Color Tokens
-              </h3>
-              <ul className="space-y-1 text-text-secondary font-mono text-xs">
-                <li>--color-accent</li>
-                <li>--color-accent-text</li>
-                <li>--color-accent-surface</li>
-                <li>--color-accent-border</li>
-                <li>--color-muted</li>
-                <li>--color-muted-text</li>
-                <li>--color-muted-surface</li>
-                <li>--color-muted-border</li>
-                <li>--color-destructive</li>
-                <li>--color-destructive-text</li>
-                <li>--color-destructive-surface</li>
-                <li>--color-destructive-border</li>
-                <li>--color-success</li>
-                <li>--color-success-surface</li>
-                <li>--color-success-text</li>
-                <li>--color-success-border</li>
-                <li>--color-error</li>
-                <li>--color-error-surface</li>
-                <li>--color-error-text</li>
-                <li>--color-error-border</li>
-                <li>--color-warning</li>
-                <li>--color-warning-surface</li>
-                <li>--color-warning-text</li>
-                <li>--color-warning-border</li>
-                <li>--color-bg-success</li>
-                <li>--color-bg-error</li>
-                <li>--color-bg-warning</li>
-                <li>--color-bg-destructive</li>
-                <li>--color-bg-accent</li>
-                <li>--color-bg-muted</li>
-                <li>--color-text-success</li>
-                <li>--color-text-error</li>
-                <li>--color-text-warning</li>
-                <li>--color-text-accent</li>
-                <li>--color-text-muted</li>
-                <li>--color-text-destructive</li>
-              </ul>
-            </div>
-            <div>
-              <h3
-                className="text-lg font-display text-text-primary mb-3"
-                style={{ fontWeight: 500 }}
-              >
-                Typography Tokens
-              </h3>
-              <ul className="space-y-1 text-text-secondary font-mono text-xs">
-                <li>--font-sans (Figtree)</li>
-                <li>--font-display (Dominique)</li>
-                <li>--font-mono (Geist)</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* Usage Notes */}
-        <section>
-          <h2
-            className="text-3xl font-display text-text-primary mb-8 pb-2 border-b border-border-default"
-            style={{ fontWeight: 600 }}
-          >
-            Usage Notes
-          </h2>
-          <div className="prose prose-neutral dark:prose-invert max-w-none">
-            <ul className="space-y-2 text-text-secondary">
-              <li>
-                <strong className="text-text-primary">Fonts:</strong> Use{" "}
-                <code>font-sans</code> (Figtree) for UI text,{" "}
-                <code>font-display</code> for headlines/accents,{" "}
-                <code>font-mono</code> for code
-              </li>
-              <li>
-                <strong className="text-text-primary">Colors:</strong> Use
-                primary for brand elements, secondary for accents, neutral for
-                structure
-              </li>
-              <li>
-                <strong className="text-text-primary">Spacing:</strong> Default
-                Tailwind spacing scale applies
-              </li>
-              <li>
-                <strong className="text-text-primary">Border Radius:</strong>{" "}
-                Use <code>rounded-button</code> for buttons,{" "}
-                <code>rounded-card</code> for cards — both map to your design
-                token values
-              </li>
-              <li>
-                <strong className="text-text-primary">Accessibility:</strong>{" "}
-                All text meets WCAG 2.2 AA contrast (4.5:1)
-              </li>
-            </ul>
-          </div>
-        </section>
-      </div>
-    </section>
+    </div>
   );
 }

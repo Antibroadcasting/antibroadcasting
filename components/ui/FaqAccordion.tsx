@@ -34,11 +34,18 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
 
   return (
     <div>
-      {/* Category filter */}
+      {/* Screen-reader status: announces filter result count on category change */}
+      <span role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {activeCategory === "all"
+          ? `Showing all ${filtered.length} questions`
+          : `Showing ${filtered.length} question${filtered.length !== 1 ? "s" : ""} in ${CATEGORY_LABELS[activeCategory] ?? activeCategory}`}
+      </span>
+
+      {/* Category filter — matches portfolio chip style */}
       <div
         role="group"
         aria-label="Filter by category"
-        className="flex flex-wrap gap-2 mb-8"
+        className="flex flex-wrap gap-2 mb-10"
       >
         {categories.map((cat) => (
           <button
@@ -48,11 +55,10 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
               setOpen(null);
             }}
             aria-pressed={activeCategory === cat}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-              activeCategory === cat
-                ? "bg-bg-inverse text-text-inverse border-bg-inverse"
-                : "bg-bg-elevated text-text-secondary border-border-default hover:border-border-strong"
-            }`}
+            className={`px-4 py-1.5 font-mono text-xs uppercase tracking-widest border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${activeCategory === cat
+              ? "bg-gold text-ink border-gold"
+              : "bg-transparent text-text-secondary border-foreground/20 hover:border-gold hover:text-text-accent"
+              }`}
           >
             {cat === "all" ? "All" : (CATEGORY_LABELS[cat] ?? cat)}
           </button>
@@ -60,7 +66,7 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
       </div>
 
       {/* Accordion items */}
-      <div className="divide-y divide-border-default border-y border-border-default">
+      <div className="divide-y divide-foreground/10 border-y border-foreground/10">
         {filtered.map((item) => {
           const isOpen = open === item.slug;
           return (
@@ -68,20 +74,20 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
               <button
                 id={`faq-question-${item.slug}`}
                 onClick={() => setOpen(isOpen ? null : item.slug)}
-                className="flex w-full items-center justify-between py-5 text-left gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm"
+                className="flex w-full items-center justify-between py-5 text-left gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-expanded={isOpen}
                 aria-controls={`faq-answer-${item.slug}`}
               >
-                <span className="font-medium text-text-primary">
+                <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
                   {item.question}
                 </span>
+                {/* + / − indicator — aria-hidden, state conveyed by aria-expanded */}
                 <span
                   aria-hidden="true"
-                  className={`shrink-0 text-text-muted text-lg transition-transform ${
-                    isOpen ? "rotate-45" : ""
-                  }`}
+                  className={`shrink-0 font-mono text-base leading-none select-none transition-colors ${isOpen ? "text-text-accent" : "text-text-muted"
+                    }`}
                 >
-                  +
+                  {isOpen ? "−" : "+"}
                 </span>
               </button>
               <div
@@ -89,7 +95,7 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
                 role="region"
                 aria-labelledby={`faq-question-${item.slug}`}
                 hidden={!isOpen}
-                className="pb-5 text-sm text-text-secondary leading-relaxed max-w-2xl"
+                className="pb-6 pr-8 text-sm text-text-secondary leading-relaxed max-w-2xl"
               >
                 {item.answer}
               </div>

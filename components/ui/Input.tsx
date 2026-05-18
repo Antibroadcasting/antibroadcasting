@@ -15,10 +15,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-sm font-medium text-label-text"
+            className="block font-mono text-xs uppercase tracking-widest text-text-tertiary"
           >
             {label}
-            {required && <span className="text-text-error ml-1">*</span>}
+            {required && <span className="text-text-accent ml-1" aria-hidden="true">*</span>}
           </label>
         )}
         <input

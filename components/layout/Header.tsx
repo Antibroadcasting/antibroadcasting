@@ -7,6 +7,7 @@ import { type SiteInfo } from "@/lib/get-site-info";
 import { TransitionLink } from "./TransitionLink";
 import { Button } from "../ui/Button";
 import { CopyEmailButton } from "../ui/CopyEmailButton";
+import { RegistrationMark } from "../ui/RegistrationMark";
 import {
   PhoneOutlined,
   MailOutlined,
@@ -41,10 +42,10 @@ function NavLink({
     <TransitionLink
       href={href}
       onClick={onClick}
-      className={`relative border-b-3 border-transparent transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${active
-        ? "pointer-events-none lg:border-b-(--color-primary-500)"
-        : "text-text-muted"
-        } ${className || ""}`}
+      aria-current={active ? "page" : undefined}
+      className={`relative border-b-3 border-transparent transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+        active ? "pointer-events-none lg:border-b-gold" : "text-text-secondary"
+      } ${className || ""}`}
     >
       {children}
     </TransitionLink>
@@ -58,7 +59,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
 
   const drawerRef = useRef<HTMLElement>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
-  const logoRef = useRef<HTMLAnchorElement>(null);
+  const logoRef = useRef<HTMLSpanElement>(null);
   const logoCleanup = useRef<(() => void) | null>(null);
 
   const pathname = usePathname();
@@ -121,12 +122,29 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // ── Body overflow lock ──────────────────────────────────────────────────────
+  // ── Body overflow lock + page-body inert ───────────────────────────────────
+  // When the drawer is open: lock scroll AND mark page siblings inert so AT
+  // browse mode can't wander outside the drawer (supplements the focus trap).
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+
+    // Make main content and footer inert while the drawer is open so screen
+    // readers in browse/virtual mode can't reach off-screen content.
+    const siblings: HTMLElement[] = Array.from(
+      document.querySelectorAll<HTMLElement>("main, footer"),
+    );
+    siblings.forEach((el) => {
+      if (open) {
+        el.setAttribute("inert", "");
+      } else {
+        el.removeAttribute("inert");
+      }
+    });
+
     return () => {
       document.body.style.overflow = "";
+      siblings.forEach((el) => el.removeAttribute("inert"));
     };
   }, [open]);
 
@@ -190,28 +208,36 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
       </a>
 
       <header
-        className={`fixed top-0 left-0 right-0 z-100 px-4 md:px-6 lg:px-8 xl:px-12 flex items-center justify-between bg-bg-base border-b border-border-default transition-transform duration-300 ease-in-out ${hidden ? "-translate-y-full" : "translate-y-0"}`}
+        className={`fixed top-0 left-0 right-0 z-100 px-4 md:px-6 lg:px-8 xl:px-12 flex items-center justify-between bg-bg-base border-b border-foreground/10 transition-transform duration-300 ease-in-out ${hidden ? "-translate-y-full" : "translate-y-0"}`}
         onFocus={() => setHidden(false)}
       >
-        <div className="w-full max-w-300 2xl:max-w-360 3xl:max-w-400 mx-auto flex flex-1 items-center gap-2">
+        <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto flex flex-1 items-center gap-2">
           <TransitionLink
-            ref={logoRef}
             href="/"
-            className="logo font-black text-2xl font-display p-1 my-4 mr-6 tracking-wider text-text-primary uppercase leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="flex items-center gap-2 p-1 my-4 mr-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             onMouseEnter={handleLogoEnter}
             onMouseLeave={handleLogoLeave}
           >
-            {siteInfo.company.nickname}
+            <RegistrationMark className="w-5 h-5 text-text-accent shrink-0" />
+            <span
+              ref={logoRef}
+              className="logo font-black text-2xl font-display tracking-wider text-text-primary uppercase leading-none"
+            >
+              {siteInfo.company.nickname}
+            </span>
           </TransitionLink>
 
           {/* Desktop nav */}
-          <nav aria-label="Main navigation" className="hidden lg:flex items-center self-end gap-0.5">
+          <nav
+            aria-label="Main navigation"
+            className="hidden lg:flex items-center self-end gap-0.5"
+          >
             {nav.map((item) => (
               <NavLink
                 key={item.href}
                 href={item.href}
                 pathname={pathname}
-                className="hover:text-text-inverse dark:hover:text-text-primary font-medium p-5 relative overflow-hidden before:absolute before:inset-0 before:-z-10 before:transform before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top before:bg-(--color-primary-500) transition-all"
+                className="hover:text-ink font-medium px-5 py-9 relative overflow-hidden before:absolute before:inset-0 before:-z-10 before:transform before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top before:bg-gold transition-all"
               >
                 {item.label}
               </NavLink>
@@ -225,7 +251,10 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                 className="flex items-center gap-1 font-medium text-text-primary hover:underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label={`Call ${siteInfo.contact.phone}`}
               >
-                <PhoneOutlined aria-hidden="true" className="text-lg xl:text-sm" />
+                <PhoneOutlined
+                  aria-hidden="true"
+                  className="text-lg xl:text-sm"
+                />
                 <span className="hidden text-sm 2xl:inline">
                   {siteInfo.contact.phone}
                 </span>
@@ -235,13 +264,16 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                 className="flex items-center gap-1 font-medium text-text-primary hover:underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label={`Email ${siteInfo.contact.email}`}
               >
-                <MailOutlined aria-hidden="true" className="text-lg xl:text-sm" />
+                <MailOutlined
+                  aria-hidden="true"
+                  className="text-lg xl:text-sm"
+                />
                 <span className="hidden text-sm 2xl:inline">
                   {siteInfo.contact.email}
                 </span>
               </a>
             </div>
-            <Button variant="primary" size="sm">
+            <Button variant="outline" size="sm">
               <TransitionLink href="/contact">Get a Quote</TransitionLink>
             </Button>
           </div>
@@ -270,10 +302,11 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
 
       {/* Backdrop — always in DOM so it can fade out in sync with the drawer */}
       <div
-        className={`fixed inset-0 z-40 bg-bg-inset/80 backdrop-blur-xs lg:hidden transition-opacity duration-300 ease-in-out ${open
-          ? "opacity-100 pointer-events-auto"
-          : "opacity-0 pointer-events-none"
-          }`}
+        className={`fixed inset-0 z-40 bg-bg-base/80 backdrop-blur-xs lg:hidden transition-opacity duration-300 ease-in-out ${
+          open
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
         onClick={() => setOpen(false)}
         aria-hidden="true"
       />
@@ -282,8 +315,9 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
       <nav
         ref={drawerRef}
         id={DRAWER_ID}
-        className={`fixed top-16 right-0 z-40 h-full w-72 bg-bg-base shadow-xl transition-transform duration-300 ease-in-out lg:hidden ${open ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed top-24 right-0 z-40 h-full w-72 bg-bg-base shadow-xl transition-transform duration-300 ease-in-out lg:hidden ${
+          open ? "translate-x-0" : "translate-x-full"
+        }`}
         aria-label="Mobile navigation"
         aria-modal={open ? true : undefined}
         aria-hidden={!open}
@@ -299,12 +333,14 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
               pathname={pathname}
               onClick={() => setOpen(false)}
             >
-              <span className="block py-2 text-lg">{item.label}</span>
+              <span className="block py-2 text-lg text-text-primary">
+                {item.label}
+              </span>
             </NavLink>
           ))}
         </div>
 
-        <div className="px-6 text-sm text-text-muted flex flex-col space-y-2">
+        <div className="px-6 text-sm text-text-secondary flex flex-col space-y-2">
           <Button variant="primary" size="sm">
             <TransitionLink href="/contact">Get a Quote</TransitionLink>
           </Button>
@@ -312,13 +348,16 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
           <div className="flex flex-col gap-3 mt-6">
             <a
               href={siteInfo.contact.phoneHref}
-              className="flex items-center gap-2 text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              <PhoneOutlined aria-hidden="true" className="text-base shrink-0" />
+              <PhoneOutlined
+                aria-hidden="true"
+                className="text-base shrink-0"
+              />
               <span>{siteInfo.contact.phone}</span>
             </a>
 
-            <div className="flex items-center gap-2 text-text-muted">
+            <div className="flex items-center gap-2 text-text-secondary">
               <MailOutlined aria-hidden="true" className="text-base shrink-0" />
               <CopyEmailButton email={siteInfo.contact.email} />
             </div>

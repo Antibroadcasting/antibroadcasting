@@ -2,67 +2,10 @@
 
 import { useTheme, type Theme } from "@/lib/hooks/useTheme";
 
-const THEMES: { value: Theme; label: string; icon: React.ReactNode }[] = [
-  {
-    value: "light",
-    label: "Light",
-    icon: (
-      <svg
-        className="w-4 h-4"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-        />
-      </svg>
-    ),
-  },
-  {
-    value: "dark",
-    label: "Dark",
-    icon: (
-      <svg
-        className="w-4 h-4"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-        />
-      </svg>
-    ),
-  },
-  {
-    value: "system",
-    label: "System",
-    icon: (
-      <svg
-        className="w-4 h-4"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-        />
-      </svg>
-    ),
-  },
+const THEMES: { value: Theme; label: string }[] = [
+  { value: "light",  label: "Light"  },
+  { value: "dark",   label: "Dark"   },
+  { value: "system", label: "Auto"   },
 ];
 
 interface ThemeToggleProps {
@@ -77,27 +20,25 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
       role="group"
       aria-label="Color theme"
       suppressHydrationWarning
-      className={`flex items-center gap-1 p-1 rounded-xs bg-bg-inset ${className || ""}`}
+      className={`flex items-center gap-3 ${className || ""}`}
     >
-      {THEMES.map(({ value, label, icon }) => {
+      {THEMES.map(({ value, label }) => {
         const isActive = theme === value;
         return (
           <button
             key={value}
             onClick={() => setTheme(value)}
-            aria-label={`${label} mode`}
             aria-pressed={isActive}
-            title={label}
             className={[
-              "p-1.5 rounded-xs transition-colors",
-              "text-text-secondary",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+              "font-mono text-[10px] uppercase tracking-widest transition-colors whitespace-nowrap",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background rounded-none",
               isActive
-                ? "bg-bg-elevated shadow-sm text-text-primary"
-                : "hover:bg-border-subtle hover:text-text-primary",
+                ? "text-text-accent"
+                : "text-text-tertiary hover:text-text-secondary",
             ].join(" ")}
           >
-            {icon}
+            {/* Brackets wrap the active label — unambiguous, no extra colour needed */}
+            {isActive ? `[ ${label} ]` : label}
           </button>
         );
       })}

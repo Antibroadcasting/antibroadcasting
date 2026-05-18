@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 import { reader } from "@/lib/keystatic";
 import { GalleryGrid } from "@/components/ui/GalleryGrid";
+import { RegistrationMark } from "@/components/ui/RegistrationMark";
+import { CtaBand } from "@/components/ui/CtaBand";
+import Link from "next/link";
 import { TransitionLink } from "@/components/layout/TransitionLink";
-import { Button } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -19,7 +20,6 @@ export const metadata: Metadata = {
   },
 };
 
-/** Turn a raw category slug into a readable label. */
 function formatCategoryLabel(value: string): string {
   return value
     .split("-")
@@ -49,7 +49,6 @@ export default async function PortfolioPage({
     year: entry.entry.year,
   }));
 
-  // Build category list dynamically from actual content
   const categoryValues = Array.from(
     new Set(allItems.map((i) => i.category).filter(Boolean)),
   ).sort();
@@ -65,68 +64,108 @@ export default async function PortfolioPage({
       : allItems.filter((item) => item.category === activeCategory);
 
   return (
-    <div className="w-full max-w-300 2xl:max-w-360 3xl:max-w-400 mx-auto">
-      <header className="my-12 max-w-2xl">
-        <span className="inline-block text-xs font-mono font-black tracking-widest uppercase text-text-inverse bg-(--color-secondary-500) px-3 py-1 mb-4">
-          Portfolio
-        </span>
-        <h1 className="font-display font-black text-[clamp(4.25rem,18vw,8rem)] uppercase leading-[0.85] text-text-primary">
-          Our work.
-        </h1>
-      </header>
+    <>
+      {/* ── Constrained wrapper ───────────────────────────────────────── */}
+      <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
 
-      {/* Category filter — only shown when there are multiple categories */}
-      {categoryValues.length > 1 && (
-        <div className="flex flex-wrap gap-2 mb-10">
-          {categories.map((cat) => {
-            const isActive = activeCategory === cat.value;
-            return (
-              <Link
-                key={cat.value}
-                href={
-                  cat.value === "all" ? "/portfolio" : `?category=${cat.value}`
-                }
-                className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${isActive
-                  ? "bg-foreground text-background border-foreground"
-                  : "bg-transparent text-text-secondary border-border-default hover:border-border-strong"
+        {/* ── Hero ──────────────────────────────────────────────────── */}
+        <section className="pt-10 pb-16 border-b border-foreground/10">
+
+          {/* Meta row */}
+          <div className="flex items-center gap-4 mb-6">
+            <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
+              Est. Minneapolis · Artist-Run
+            </span>
+            <span className="h-px w-16 bg-gold hidden sm:block" />
+          </div>
+
+          <h1 className="font-display font-black uppercase leading-[0.85] text-[clamp(5rem,18vw,12rem)]">
+            Our Work<span className="text-gold">.</span>
+          </h1>
+
+          {/* Stats strip */}
+          <div className="mt-10 pt-8 border-t border-foreground/10 flex flex-wrap items-end gap-x-16 gap-y-6">
+            {[
+              { value: `${allItems.length}`, label: "Pieces in Archive" },
+              { value: `${categoryValues.length || "—"}`, label: "Categories" },
+              { value: "20+", label: "Years Running" },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <span className="block font-display font-black text-[clamp(2.5rem,5vw,4rem)] leading-none text-text-primary">
+                  {stat.value}
+                </span>
+                <span className="block font-mono uppercase tracking-widest text-xs text-text-tertiary mt-1">
+                  {stat.label}
+                </span>
+              </div>
+            ))}
+            <div className="ml-auto hidden lg:flex items-center gap-2">
+              <RegistrationMark className="w-5 h-5 text-foreground/20" />
+            </div>
+          </div>
+        </section>
+
+        {/* ── Category filter ───────────────────────────────────────── */}
+        {categoryValues.length > 0 && (
+          <div className="py-8 flex flex-wrap items-center gap-3 border-b border-foreground/10">
+            <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary shrink-0 mr-2">
+              Filter
+            </span>
+            {categories.map((cat) => {
+              const isActive = activeCategory === cat.value;
+              const count =
+                cat.value === "all"
+                  ? allItems.length
+                  : allItems.filter((i) => i.category === cat.value).length;
+              return (
+                <Link
+                  key={cat.value}
+                  href={cat.value === "all" ? "/portfolio" : `?category=${cat.value}`}
+                  aria-current={isActive ? "true" : undefined}
+                  className={`inline-flex items-center gap-2 px-4 py-1.5 font-mono text-xs uppercase tracking-widest border transition-colors ${
+                    isActive
+                      ? "bg-gold text-ink border-gold"
+                      : "bg-transparent text-text-secondary border-foreground/20 hover:border-gold hover:text-text-accent"
                   }`}
-              >
-                {cat.label}
-              </Link>
-            );
-          })}
-        </div>
-      )}
+                >
+                  {cat.label}
+                  <span
+                    className={`text-[10px] ${
+                      isActive ? "text-ink/60" : "text-text-tertiary"
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </Link>
+              );
+            })}
+            {activeCategory !== "all" && (
+              <span className="font-mono text-xs text-text-tertiary ml-auto">
+                {filteredItems.length} result{filteredItems.length !== 1 ? "s" : ""}
+              </span>
+            )}
+          </div>
+        )}
 
-      {/* Gallery grid */}
-      {filteredItems.length > 0 ? (
-        <GalleryGrid items={filteredItems} />
-      ) : (
-        <EmptyState category={activeCategory} categories={categories} />
-      )}
-
-      {/* ── CTA ──────────────────────────────────────────────────────── */}
-      <div className="relative my-8 rounded-card overflow-hidden bg-bg-subtle border border-border-subtle px-8 md:px-12 py-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-        <div>
-          <h2 className="font-display font-black uppercase text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-text-base leading-tight">
-            Like What You See?
-          </h2>
-          <p className="mt-2 text-text-muted text-sm text-pretty max-w-sm">
-            We print for bands, artists, events, and businesses across
-            Minneapolis. Let's talk about your project.
-          </p>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-          <Button asChild variant="primary">
-            <TransitionLink href="/contact">Get a Quote</TransitionLink>
-          </Button>
-          <Button asChild variant="outline">
-            <TransitionLink href="/how-it-works">How It Works</TransitionLink>
-          </Button>
+        {/* ── Gallery ───────────────────────────────────────────────── */}
+        <div className="pt-12">
+          {filteredItems.length > 0 ? (
+            <GalleryGrid items={filteredItems} />
+          ) : (
+            <EmptyState category={activeCategory} categories={categories} />
+          )}
         </div>
       </div>
-    </div>
+
+      {/* ── CTA — full-bleed ──────────────────────────────────────── */}
+      <CtaBand
+        heading={<>Like What<br />You See?</>}
+        description="We print for bands, artists, events, and businesses across Minneapolis. Let's talk about your project."
+        primaryCta={{ label: "Get a Quote", href: "/contact" }}
+        secondaryCta={{ label: "How It Works", href: "/how-it-works" }}
+        broadsideNo="015"
+      />
+    </>
   );
 }
 
@@ -139,25 +178,14 @@ function EmptyState({
 }) {
   const label =
     categories.find((c) => c.value === category)?.label ?? "this category";
+
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
-      <div className="w-16 h-16 rounded-full bg-bg-inset flex items-center justify-center mb-6">
-        <svg
-          className="w-8 h-8 text-text-muted"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={1.5}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909"
-          />
-        </svg>
-      </div>
-      <h2 className="text-lg font-semibold mb-2">No work here yet</h2>
-      <p className="text-text-secondary text-sm max-w-xs">
+      <RegistrationMark className="w-12 h-12 text-foreground/10 mb-8" />
+      <h2 className="font-display font-black uppercase text-2xl text-text-primary mb-2">
+        Nothing Here Yet<span className="text-gold">.</span>
+      </h2>
+      <p className="font-mono text-xs uppercase tracking-widest text-text-tertiary max-w-xs leading-relaxed">
         {category === "all"
           ? "Portfolio images will appear here once they've been added to the CMS."
           : `No ${label.toLowerCase()} work has been added yet.`}
@@ -165,9 +193,9 @@ function EmptyState({
       {category !== "all" && (
         <Link
           href="/portfolio"
-          className="mt-6 text-sm font-medium text-text-primary underline underline-offset-4"
+          className="mt-8 font-mono text-xs uppercase tracking-widest text-text-accent hover:text-text-primary transition-colors"
         >
-          View all work
+          ← View All Work
         </Link>
       )}
     </div>

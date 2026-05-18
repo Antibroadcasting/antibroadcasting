@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Antibroadcasting — Custom Screen Printing, Minneapolis</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Big+Shoulders+Display:wght@800;900&family=Bowlby+One&family=Figtree:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<style>
+  :root {
+    /* Palette — gritty ink + warm paper */
+    --ink: oklch(12% 0.008 40);        /* near-black, warm */
+    --ink-2: oklch(16% 0.01 40);
+    --ink-3: oklch(22% 0.012 40);
+    --paper: oklch(96% 0.012 75);      /* warm off-white */
+    --paper-2: oklch(88% 0.018 75);
+    --paper-3: oklch(72% 0.02 75);
+    --accent: oklch(62% 0.22 32);      /* screen-print red-orange */
+    --accent-deep: color-mix(in oklab, var(--accent) 35%, var(--ink));
+    --accent-soft: color-mix(in oklab, var(--accent) 18%, transparent);
+    --rule: oklch(96% 0.012 75 / 0.12);
+
+    --display: 'Anton', 'Big Shoulders Display', 'Bowlby One', 'Impact', sans-serif;
+    --body: 'Figtree', system-ui, -apple-system, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Global grain via SVG noise — applied as a fixed overlay */
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    mix-blend-mode: overlay;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* Halftone dot pattern utility */
+  .halftone {
+    background-image: radial-gradient(var(--paper) 1px, transparent 1.4px);
+    background-size: 8px 8px;
+  }
+
+  /* Display type */
+  .display {
+    font-family: var(--display);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .mono {
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* Layout */
+  .wrap { max-width: 1480px; margin: 0 auto; padding: 0 40px; }
+  @media (max-width: 720px) { .wrap { padding: 0 22px; } }
+
+  /* Buttons — Travis's vertical-wipe hover idiom (components/ui/Button.tsx).
+     ::before is scale-y-0 from origin-bottom; on hover scales to 1 from
+     origin-top — mimics the screen-print "flood/pull" page transition. */
+  .btn {
+    position: relative; z-index: 0; overflow: hidden;
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 18px 26px;
+    font-family: var(--body); font-weight: 600;
+    font-size: 14px; text-transform: uppercase; letter-spacing: 0.14em;
+    border: 0; cursor: pointer;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1), border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    transform: scaleY(0); transform-origin: bottom center;
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  .btn:hover::before { transform: scaleY(1); transform-origin: top center; }
+  .btn:active::before { transform: scaleY(0.96); }
+
+  .btn-primary { background: var(--accent); color: var(--paper); }
+  .btn-primary::before { background: var(--accent-deep); }
+  .btn-primary:hover { color: var(--paper); }
+
+  .btn-outline {
+    background: transparent; color: var(--paper);
+    box-shadow: inset 0 0 0 2px var(--paper);
+  }
+  .btn-outline::before { background: var(--paper); }
+  .btn-outline:hover { color: var(--ink); }
+
+  .btn-ghost {
+    padding: 14px 18px;
+    color: var(--paper); background: transparent;
+  }
+  .btn-ghost::before { background: var(--paper); }
+  .btn-ghost:hover { color: var(--ink); }
+
+  .btn .arrow { display: inline-block; transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+  .btn:hover .arrow { transform: translateX(4px); }
+
+  /* Registration mark */
+  .regmark {
+    width: 28px; height: 28px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* Misregistration headline effect */
+  .misreg { position: relative; display: inline-block; }
+  .misreg .ghost {
+    position: absolute; inset: 0;
+    color: var(--accent);
+    transform: translate(0.18ch, -0.05ch);
+    z-index: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+  .misreg .ink {
+    position: relative; z-index: 1;
+    color: var(--paper);
+  }
+
+  /* Hero stacked headline */
+  .hero-headline {
+    font-family: var(--display);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.82;
+    letter-spacing: -0.015em;
+    font-size: clamp(80px, 18vw, 280px);
+  }
+
+  /* Section heading */
+  .sec-heading {
+    font-family: var(--display);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    font-size: clamp(56px, 9vw, 148px);
+  }
+
+  /* Eyebrow label */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--paper-3);
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .eyebrow .bar { width: 28px; height: 1px; background: var(--accent); }
+
+  /* "Now Booking" status badge — promoted from a quiet eyebrow to a proper
+     warning-yellow badge per the page.tsx Hero (bg-text-warning, font-black,
+     uppercase, mono). Same vertical-wipe hover as buttons. */
+  .booking-badge {
+    position: relative; z-index: 0; overflow: hidden;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 9px 14px;
+    font-family: var(--mono); font-size: 11px;
+    font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--accent);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .booking-badge::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: var(--paper);
+    transform: scaleY(0); transform-origin: bottom center;
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .booking-badge:hover::before { transform: scaleY(1); transform-origin: top center; }
+  .booking-badge .pulse {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--ink);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+
+  /* Header */
+  header.site {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in oklab, var(--ink) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  header.site .row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 0;
+    gap: 24px;
+  }
+  /* Wordmark — Travis's 3-stripe gradient text-clip animation
+     (.logo + @keyframes logo-hover-in/out in app/globals.css). Gradient
+     scrolls upward; both end stripes are paper, middle stripe is accent,
+     so enter AND leave flash the accent color through the type. */
+  .wordmark {
+    font-family: var(--display); font-weight: 900;
+    font-size: 22px; letter-spacing: -0.005em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 10px;
+    text-decoration: none;
+    color: transparent;
+  }
+  .wordmark .logo-text {
+    display: inline-block;
+    background: linear-gradient(
+      to bottom,
+      var(--paper) 0% 33.33%,
+      var(--accent) 33.33% 66.67%,
+      var(--paper) 66.67% 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 100% 300%;
+    background-position: 0 100%;
+  }
+  @keyframes logo-hover-in {
+    from { background-position: 0 100%; }
+    to   { background-position: 0 50%; }
+  }
+  @keyframes logo-hover-out {
+    from { background-position: 0 50%; }
+    to   { background-position: 0 0%; }
+  }
+  /* Main nav — vertical-wipe hover (matches NavLink in Header.tsx).
+     Padded link surface so the wipe block has substance. Active link gets
+     a 3px bottom border in --accent. */
+  nav.main { display: flex; gap: 2px; align-items: stretch; }
+  nav.main a {
+    position: relative; z-index: 0; overflow: hidden;
+    color: var(--paper); text-decoration: none;
+    font-size: 13px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    padding: 22px 18px;
+    display: inline-flex; align-items: center;
+    border-bottom: 3px solid transparent;
+    transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1), border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  nav.main a::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: var(--accent);
+    transform: scaleY(0); transform-origin: bottom center;
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  nav.main a:hover::before { transform: scaleY(1); transform-origin: top center; }
+  nav.main a:hover { color: var(--ink); }
+  nav.main a.is-active {
+    border-bottom-color: var(--accent);
+    pointer-events: none;
+  }
+  .header-right { display: flex; align-items: center; gap: 22px; }
+  .phone { font-family: var(--mono); font-size: 13px; color: var(--paper-2); letter-spacing: 0.04em; }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    padding-top: 40px;
+    padding-bottom: 0;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .hero-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 56px;
+    padding-top: 40px;
+    padding-bottom: 56px;
+  }
+  @media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+  .hero-meta {
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    border-left: 1px solid var(--rule);
+    padding-left: 28px;
+  }
+  .hero-meta .stack { display: flex; flex-direction: column; gap: 18px; }
+  .hero-meta .photo-slot {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    background: var(--ink-2);
+    overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+  .hero-meta .photo-slot .stripes {
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in oklab, var(--paper) 5%, transparent) 14px 15px);
+  }
+  .hero-meta .photo-slot .label {
+    position: absolute; left: 14px; bottom: 14px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .hero-meta .photo-slot .corner {
+    position: absolute; width: 18px; height: 18px;
+    border: 1px solid var(--paper-3);
+  }
+  .hero-meta .photo-slot .corner.tl { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+  .hero-meta .photo-slot .corner.tr { top: 10px; right: 10px; border-left: 0; border-bottom: 0; }
+  .hero-meta .photo-slot .corner.bl { bottom: 10px; left: 10px; border-right: 0; border-top: 0; }
+  .hero-meta .photo-slot .corner.br { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+
+  .subhead {
+    font-size: 19px; line-height: 1.5; color: var(--paper-2);
+    max-width: 640px; margin: 28px 0 36px;
+    font-weight: 400;
+  }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  /* Trust strip */
+  .trust {
+    border-top: 1px solid var(--rule);
+    padding: 24px 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    align-items: center;
+  }
+  @media (max-width: 720px) { .trust { grid-template-columns: 1fr 1fr; } }
+  .trust .item { display: flex; flex-direction: column; gap: 4px; }
+  .trust .num {
+    font-family: var(--display); font-weight: 900;
+    font-size: 48px; line-height: 0.9; letter-spacing: -0.01em;
+    color: var(--paper);
+  }
+  .trust .lbl {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .trust .ticker {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em;
+    color: var(--paper-3); text-transform: uppercase;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .trust .ticker .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  /* Featured Work */
+  .section { padding: 120px 0; position: relative; }
+  .section + .section { padding-top: 0; }
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 72px;
+  }
+  .section-head .right {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 14px;
+    padding-bottom: 14px;
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 32px 28px;
+  }
+  .work-card { cursor: pointer; }
+  .work-card .img {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: var(--ink-2);
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    transition: transform 0.3s ease;
+  }
+  .work-card:hover .img { transform: translateY(-4px); }
+  .work-card .img .stripes {
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(135deg, transparent 0 12px, color-mix(in oklab, var(--paper) 6%, transparent) 12px 13px);
+  }
+  .work-card .img .badge {
+    position: absolute; top: 14px; left: 14px;
+    background: var(--ink); color: var(--paper);
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    padding: 6px 9px; text-transform: uppercase;
+    border: 1px solid var(--rule);
+  }
+  .work-card .img .placeholder {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  .work-card .meta {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+  }
+  .work-card .name {
+    font-family: var(--display); font-weight: 900;
+    font-size: 26px; line-height: 1; text-transform: uppercase;
+    letter-spacing: -0.005em;
+    color: var(--paper);
+  }
+  .work-card:hover .name { color: var(--accent); }
+  .work-card .spec { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; color: var(--paper-3); text-transform: uppercase; text-align: right; line-height: 1.6; }
+
+  .work-card.span-5 { grid-column: span 5; }
+  .work-card.span-4 { grid-column: span 4; }
+  .work-card.span-3 { grid-column: span 3; }
+  .work-card.offset-1 { margin-top: 56px; }
+  @media (max-width: 980px) {
+    .work-card.span-5, .work-card.span-4, .work-card.span-3 { grid-column: span 12; }
+    .work-card.offset-1 { margin-top: 0; }
+  }
+
+  /* Process */
+  .process { background: var(--paper); color: var(--ink); padding: 140px 0; }
+  .process .eyebrow { color: oklch(40% 0.02 75); }
+  .process .eyebrow .bar { background: var(--accent); }
+  .process .sec-heading { color: var(--ink); }
+  .process-steps {
+    margin-top: 80px;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border-top: 2px solid var(--ink);
+  }
+  @media (max-width: 900px) { .process-steps { grid-template-columns: 1fr; } }
+  .step {
+    padding: 40px 28px 56px 0;
+    border-right: 1px solid color-mix(in oklab, var(--ink) 20%, transparent);
+    position: relative;
+  }
+  .step:last-child { border-right: 0; padding-right: 0; }
+  @media (max-width: 900px) {
+    .step { border-right: 0; border-bottom: 1px solid color-mix(in oklab, var(--ink) 20%, transparent); padding-right: 0; }
+  }
+  .step .num {
+    font-family: var(--mono); font-size: 13px; letter-spacing: 0.2em;
+    color: var(--accent); margin-bottom: 56px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .step .num .line { flex: 1; height: 1px; background: color-mix(in oklab, var(--ink) 30%, transparent); }
+  .step h3 {
+    font-family: var(--display); font-weight: 900;
+    font-size: clamp(36px, 4.6vw, 64px);
+    line-height: 0.9;
+    margin: 0 0 28px;
+    text-transform: uppercase; letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .step p {
+    font-size: 17px; line-height: 1.55;
+    color: oklch(28% 0.012 40);
+    max-width: 32ch;
+    margin: 0;
+  }
+  .step .reg {
+    position: absolute; top: 36px; right: 24px;
+    color: var(--accent);
+    opacity: 0.85;
+  }
+  .step:last-child .reg { right: 0; }
+
+  /* CTA Band — broadside */
+  .broadside {
+    position: relative;
+    background: var(--accent);
+    color: var(--ink);
+    padding: 140px 0;
+    overflow: hidden;
+  }
+  .broadside .deco {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(oklch(12% 0.008 40) 1px, transparent 1.4px);
+    background-size: 9px 9px;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+  .broadside .inner {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 1.4fr 1fr;
+    gap: 60px; align-items: flex-end;
+  }
+  @media (max-width: 880px) { .broadside .inner { grid-template-columns: 1fr; } }
+  .broadside h2 {
+    font-family: var(--display); font-weight: 900;
+    font-size: clamp(72px, 11vw, 200px);
+    line-height: 0.85; letter-spacing: -0.015em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--ink);
+  }
+  .broadside .lede { font-size: 19px; line-height: 1.5; color: var(--ink); max-width: 42ch; margin: 0 0 28px; }
+  .broadside .ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  /* Broadside overrides — buttons sit on the accent surface so swap palette */
+  .broadside .btn-primary { background: var(--ink); color: var(--paper); }
+  .broadside .btn-primary::before { background: oklch(28% 0.012 40); }
+  .broadside .btn-primary:hover { color: var(--paper); }
+  .broadside .btn-outline { color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
+  .broadside .btn-outline::before { background: var(--ink); }
+  .broadside .btn-outline:hover { color: var(--paper); }
+  .broadside .top-rule {
+    position: absolute; top: 24px; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 40px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em;
+    color: var(--ink); text-transform: uppercase;
+  }
+  .broadside .top-rule .line { flex: 1; height: 1px; background: var(--ink); margin: 0 18px; opacity: 0.5; }
+
+  /* Footer */
+  footer.site {
+    background: var(--ink);
+    padding: 100px 0 32px;
+    border-top: 1px solid var(--rule);
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 64px;
+    border-bottom: 1px solid var(--rule);
+  }
+  @media (max-width: 880px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+  .footer-wordmark {
+    font-family: var(--display); font-weight: 900;
+    font-size: clamp(40px, 5vw, 72px); line-height: 0.85;
+    text-transform: uppercase; letter-spacing: -0.01em;
+    color: var(--paper);
+  }
+  .footer-tagline {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+    color: var(--paper-3); text-transform: uppercase; margin-top: 18px;
+  }
+  .footer-col h4 {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em;
+    color: var(--paper-3); text-transform: uppercase;
+    margin: 0 0 20px; font-weight: 500;
+  }
+  .footer-col a {
+    position: relative; display: inline-block;
+    color: var(--paper);
+    text-decoration: none; font-size: 15px; padding: 5px 0;
+    transition: color 250ms ease;
+  }
+  .footer-col a::after {
+    content: ''; position: absolute; left: 0; bottom: 2px;
+    width: 100%; height: 1px; background: var(--accent);
+    transform: scaleX(0); transform-origin: right center;
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .footer-col a:hover::after { transform: scaleX(1); transform-origin: left center; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-col p { margin: 0 0 8px; color: var(--paper-2); font-size: 15px; line-height: 1.5; }
+  .footer-bottom {
+    padding-top: 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+    color: var(--paper-3); text-transform: uppercase;
+  }
+  @media (max-width: 720px) { .footer-bottom { flex-direction: column; align-items: flex-start; } }
+
+  /* Marquee strip */
+  .marquee {
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+    overflow: hidden;
+    padding: 18px 0;
+    background: var(--ink-2);
+  }
+  .marquee .track {
+    display: flex; gap: 64px; align-items: center;
+    white-space: nowrap;
+    animation: marquee 40s linear infinite;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.22em;
+    color: var(--paper-2); text-transform: uppercase;
+  }
+  .marquee .track span { display: inline-flex; align-items: center; gap: 64px; }
+  .marquee .track .star { color: var(--accent); }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Hero floating reg-mark accents */
+  .hero-reg-tl { position: absolute; top: 24px; right: 40px; color: var(--accent); opacity: 0.9; }
+  .hero-reg-br { position: absolute; bottom: 80px; left: 40px; color: var(--paper-3); }
+
+  /* Focus styles */
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+  /* In-page Tweaks launcher (fallback when toolbar Tweaks toggle is unavailable) */
+  .tweaks-launcher {
+    position: fixed; right: 20px; bottom: 20px;
+    z-index: 998;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 16px;
+    background: var(--accent); color: var(--paper);
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; font-weight: 600;
+    border: 0; border-radius: 2px; cursor: pointer;
+    box-shadow: 0 6px 24px oklch(0% 0 0 / 0.4);
+    transition: transform 0.12s ease, background 0.15s ease;
+  }
+  .tweaks-launcher:hover { background: var(--accent-deep); transform: translateY(-2px); }
+  .tweaks-launcher:active { transform: translateY(0); }
+  .tweaks-launcher .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--paper); }
+</style>
+</head>
+<body>
+<div class="grain" id="grain"></div>
+<div id="app"></div>
+
+<!-- Registration mark SVG sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="regmark" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="10" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <line x1="16" y1="2" x2="16" y2="30" stroke="currentColor" stroke-width="1.4"/>
+      <line x1="2" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="1.4"/>
+      <circle cx="16" cy="16" r="1.6" fill="currentColor"/>
+    </symbol>
+  </defs>
+</svg>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+
+const { useState, useEffect, useRef } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#F2A900",
+  "headlineFont": "Anton",
+  "misregister": false,
+  "grain": true,
+  "halftone": true,
+  "marquee": false
+}/*EDITMODE-END*/;
+
+const ACCENT_OPTIONS = [
+"#E0512A", // red-orange (default screen-print)
+"#D6182C", // bright crimson
+"#7B1A11", // primary-500 — Travis's brand red-brown brick
+"#F2A900", // safety yellow
+"#FF4FA3" // hot magenta
+];
+
+const FONT_OPTIONS = [
+{ value: "Anton", label: "Anton" },
+{ value: "Big Shoulders Display", label: "Big Shoulders" },
+{ value: "Bowlby One", label: "Bowlby One" }];
+
+
+function RegMark({ size = 28, color, style, className }) {
+  return (
+    <svg className={`regmark ${className || ''}`}
+    width={size} height={size}
+    style={{ color, ...(style || {}) }}>
+      <use href="#regmark" />
+    </svg>);
+
+}
+
+function Header() {
+  const logoRef = useRef(null);
+  const cleanupRef = useRef(null);
+
+  // Travis's logo hover: gradient scrolls upward through 3 stripes.
+  // Enter: 0 100% → 0 50%. Leave: 0 50% → 0 0%. Then snap-reset to 100%.
+  const handleLogoEnter = () => {
+    const el = logoRef.current;
+    if (!el) return;
+    cleanupRef.current?.();
+    cleanupRef.current = null;
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = 'logo-hover-in 275ms ease forwards';
+  };
+  const handleLogoLeave = () => {
+    const el = logoRef.current;
+    if (!el) return;
+    cleanupRef.current?.();
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = 'logo-hover-out 275ms ease forwards';
+    const onEnd = () => {
+      el.removeEventListener('animationend', onEnd);
+      cleanupRef.current = null;
+      el.style.animation = 'none';
+      el.style.backgroundPosition = '0 100%';
+      requestAnimationFrame(() => {
+        el.style.backgroundPosition = '';
+        el.style.animation = '';
+      });
+    };
+    el.addEventListener('animationend', onEnd);
+    cleanupRef.current = () => el.removeEventListener('animationend', onEnd);
+  };
+
+  return (
+    <header className="site">
+      <div className="wrap">
+        <div className="row">
+          <a href="#" className="wordmark"
+             onMouseEnter={handleLogoEnter}
+             onMouseLeave={handleLogoLeave}>
+            <RegMark size={20} color="var(--accent)" />
+            <span ref={logoRef} className="logo-text">Antibroadcasting</span>
+          </a>
+          <nav className="main">
+            <a href="#work">Portfolio</a>
+            <a href="#process">How It Works</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </nav>
+          <div className="header-right">
+            <a href="tel:+16125551234" className="phone">612 · 555 · 1234</a>
+            <a href="#quote" className="btn btn-primary" style={{ padding: '14px 20px', fontSize: 12 }}>
+              Get a Quote <span className="arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>);
+
+}
+
+function Hero({ misregister }) {
+  const HeadlineWord = ({ children }) =>
+  misregister ?
+  <span className="misreg">
+        <span className="ghost" aria-hidden="true">{children}</span>
+        <span className="ink">{children}</span>
+      </span> :
+  <span style={{ color: 'var(--paper)' }}>{children}</span>;
+
+
+  return (
+    <section className="hero">
+      <RegMark size={22} className="hero-reg-tl" />
+
+      <div className="wrap" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* Top meta row */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '32px 0 16px' }}>
+          <span className="eyebrow"><span className="bar"></span> Est. Minneapolis · Artist-Run</span>
+          <a href="#quote" className="booking-badge">
+            <span className="pulse"></span>
+            Now Booking — Summer '26
+          </a>
+        </div>
+
+        <div className="hero-grid">
+          {/* Headline column */}
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <h1 className="hero-headline" style={{ margin: 0 }}>
+              <div><HeadlineWord>Custom</HeadlineWord></div>
+              <div style={{ marginLeft: '0.06em' }}><HeadlineWord>Screen</HeadlineWord></div>
+              <div><HeadlineWord>Printing<span style={{ color: 'var(--accent)' }}>.</span></HeadlineWord></div>
+            </h1>
+
+            <p className="subhead">
+              Antibroadcasting is an artist-run shop in Minneapolis. We print
+              for bands, artists, events, and our community — by hand, on a
+              vintage 8-color press, with no apologies.
+            </p>
+
+            <div className="hero-ctas">
+              <a href="#quote" className="btn btn-primary">
+                Get a Quote <span className="arrow">→</span>
+              </a>
+              <a href="#work" className="btn btn-outline">
+                See Our Work
+              </a>
+            </div>
+          </div>
+
+          {/* Meta column */}
+          <div className="hero-meta">
+            <div className="stack">
+              <div className="eyebrow"><span className="bar"></span> 01 / Catalog No. 2026-A</div>
+              <div className="photo-slot">
+                <div className="stripes"></div>
+                <div className="corner tl"></div>
+                <div className="corner tr"></div>
+                <div className="corner bl"></div>
+                <div className="corner br"></div>
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  display: 'flex', flexDirection: 'column',
+                  alignItems: 'center', justifyContent: 'center', gap: 14,
+                  color: 'var(--paper-3)'
+                }}>
+                  <RegMark size={36} color="var(--paper-3)" />
+                  <div className="mono" style={{ fontSize: 10 }}>Press Photograph</div>
+                  <div className="mono" style={{ fontSize: 9, color: 'oklch(50% 0.02 75)' }}>Drop image here</div>
+                </div>
+                <div className="label">FILE · HERO_01.TIF</div>
+              </div>
+            </div>
+
+            <div className="mono" style={{ fontSize: 11, color: 'var(--paper-3)', marginTop: 24, lineHeight: 1.8 }}>
+              <div>3715 Oregon Ave S #5</div>
+              <div>Minneapolis, MN 55426</div>
+              <div style={{ marginTop: 10, color: 'var(--accent)' }}>Mon–Fri · 10–6</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Trust strip */}
+        <div className="trust">
+          <div className="item">
+            <div className="num">50<span style={{ color: 'var(--accent)' }}>+</span></div>
+            <div className="lbl">Piece Minimum</div>
+          </div>
+          <div className="item">
+            <div className="num">7–10</div>
+            <div className="lbl">Day Turnaround</div>
+          </div>
+          <div className="item">
+            <div className="num">8</div>
+            <div className="lbl">Color Maximum</div>
+          </div>
+          <div className="ticker" style={{ justifySelf: 'end' }}>
+            <span className="dot"></span> Press Running · Bay 02
+          </div>
+        </div>
+      </div>
+    </section>);
+
+}
+
+function Marquee() {
+  const items = [
+  "Bands", "Artists", "Events", "Community", "Posters", "Tees",
+  "Tote Bags", "Hoodies", "Patches", "Small Runs", "Hand-Pulled", "Since 2014"];
+
+  const row =
+  <span>
+      {items.map((t, i) =>
+    <React.Fragment key={i}>
+          {t}
+          <span className="star">✱</span>
+        </React.Fragment>
+    )}
+    </span>;
+
+  return (
+    <div className="marquee">
+      <div className="track">
+        {row}{row}{row}
+      </div>
+    </div>);
+
+}
+
+function FeaturedWork() {
+  const works = [
+  { name: "Loose Knots", year: "2026", colors: "4 Color", garment: "Tour Tees · 200 pc", span: "span-5", offset: false },
+  { name: "Powderhorn Fest", year: "2025", colors: "6 Color", garment: "Posters · 400 pc", span: "span-4", offset: true },
+  { name: "Wax Library", year: "2025", colors: "3 Color", garment: "Totes · 150 pc", span: "span-3", offset: false }];
+
+
+  return (
+    <section className="section" id="work">
+      <div className="wrap">
+        <div className="section-head">
+          <div>
+            <div className="eyebrow" style={{ marginBottom: 24 }}><span className="bar"></span> Index 01 — Recent Work</div>
+            <h2 className="sec-heading">
+              Featured<br />Work<span style={{ color: 'var(--accent)' }}>.</span>
+            </h2>
+          </div>
+          <div className="right">
+            <span className="mono" style={{ fontSize: 11, color: 'var(--paper-3)' }}>Pulled From The Archive</span>
+            <a href="#portfolio" className="btn btn-ghost mono" style={{ fontSize: 12 }}>
+              View All Portfolio <span className="arrow">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div className="work-grid">
+          {works.map((w, i) =>
+          <div key={i} className={`work-card ${w.span} ${w.offset ? 'offset-1' : ''}`}>
+              <div className="img">
+                <div className="stripes"></div>
+                <div className="badge">No. {String(i + 1).padStart(2, '0')}</div>
+                <div className="placeholder">
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+                    <RegMark size={28} color="var(--paper-3)" />
+                    <div>Garment Photo</div>
+                  </div>
+                </div>
+              </div>
+              <div className="meta">
+                <div className="name">{w.name}</div>
+                <div className="spec">
+                  {w.year}<br />
+                  <span style={{ color: 'var(--accent)' }}>{w.colors}</span><br />
+                  {w.garment}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+function Process() {
+  const steps = [
+  {
+    n: "01",
+    title: "Submit a Quote.",
+    body: "Tell us your quantity, colors, garment, and timeline. We'll write back within a day with pricing and a press date."
+  },
+  {
+    n: "02",
+    title: "Approve the Proof.",
+    body: "We build a digital mock-up of your design on your chosen garment. Nothing goes to press until you're satisfied."
+  },
+  {
+    n: "03",
+    title: "Pick Up Your Order.",
+    body: "Standard turnaround is 7–10 business days from when we receive your blanks. Local pickup or ship anywhere in the U.S."
+  }];
+
+
+  return (
+    <section className="section process" id="process">
+      <div className="wrap">
+        <div className="section-head">
+          <div>
+            <div className="eyebrow" style={{ marginBottom: 24 }}><span className="bar"></span> Index 02 — How It Works</div>
+            <h2 className="sec-heading">
+              Our<br />Process<span style={{ color: 'var(--accent)' }}>.</span>
+            </h2>
+          </div>
+          <div className="right" style={{ alignItems: 'flex-end' }}>
+            <span className="mono" style={{ fontSize: 11, color: 'oklch(40% 0.02 75)' }}>Three Steps, Start to Finish</span>
+            <a href="#process-full" className="btn btn-ghost mono" style={{ fontSize: 12, color: 'var(--ink)' }}>
+              Read the Full Guide <span className="arrow">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div className="process-steps">
+          {steps.map((s, i) =>
+          <div className="step" key={i}>
+              <RegMark size={22} className="reg" color="var(--accent)" />
+              <div className="num">
+                <span>STEP {s.n}</span>
+                <span className="line"></span>
+              </div>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+function Broadside() {
+  return (
+    <section className="broadside" id="quote">
+      <div className="top-rule">
+        <span>★ Broadside No. 014</span>
+        <span className="line"></span>
+        <span>Printed in Minneapolis · MMXXVI</span>
+      </div>
+      <div className="deco"></div>
+      <div className="wrap">
+        <div className="inner">
+          <h2>
+            Ready to<br />Print<span style={{ color: 'var(--ink)' }}>?</span>
+          </h2>
+          <div>
+            <p className="lede">
+              Send us your file, your idea, or a napkin sketch. We answer
+              every quote request personally — usually within 24 hours.
+            </p>
+            <div className="ctas">
+              <a href="#quote-form" className="btn btn-primary">
+                Get a Quote <span className="arrow">→</span>
+              </a>
+              <a href="#process" className="btn btn-outline">
+                How It Works
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>);
+
+}
+
+function Footer() {
+  return (
+    <footer className="site" id="contact">
+      <div className="wrap">
+        <div className="footer-top">
+          <div>
+            <div className="footer-wordmark">
+              Antibroad-<br />casting<span style={{ color: 'var(--accent)' }}>.</span>
+            </div>
+            <div className="footer-tagline">
+              <RegMark size={14} color="var(--accent)" style={{ marginRight: 8, verticalAlign: 'middle' }} />
+              Artist-Run · Independent · Minneapolis
+            </div>
+          </div>
+          <div className="footer-col">
+            <h4>Visit</h4>
+            <p>3715 Oregon Ave S #5</p>
+            <p>Minneapolis, MN 55426</p>
+            <p style={{ marginTop: 14, color: 'var(--paper-3)', fontFamily: 'var(--mono)', fontSize: 12, letterSpacing: '0.16em' }}>MON–FRI · 10–6</p>
+          </div>
+          <div className="footer-col">
+            <h4>Get in Touch</h4>
+            <a href="tel:+16125551234">612 · 555 · 1234</a>
+            <a href="mailto:hello@antibroadcasting.com">hello@antibroadcasting.com</a>
+            <a href="#quote" style={{ color: 'var(--accent)', marginTop: 10 }}>Request a Quote →</a>
+          </div>
+          <div className="footer-col">
+            <h4>Elsewhere</h4>
+            <a href="#">Instagram</a>
+            <a href="#">Facebook</a>
+            <a href="#">X / Twitter</a>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <span>© 2026 Antibroadcasting Inc. — All Rights Reserved.</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 14 }}>
+            <RegMark size={14} color="var(--paper-3)" />
+            Pressed by Hand
+            <RegMark size={14} color="var(--paper-3)" />
+          </span>
+          <span>Catalog · 2026-A</span>
+        </div>
+      </div>
+    </footer>);
+
+}
+
+function TweaksLauncher() {
+  const [panelOpen, setPanelOpen] = useState(false);
+  useEffect(() => {
+    const onMsg = (e) => {
+      const ty = e?.data?.type;
+      if (ty === '__activate_edit_mode') setPanelOpen(true);else
+      if (ty === '__deactivate_edit_mode' || ty === '__edit_mode_dismissed') setPanelOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+  if (panelOpen) return null;
+  return (
+    <button className="tweaks-launcher"
+    onClick={() => window.postMessage({ type: '__activate_edit_mode' }, '*')}>
+      <span className="dot"></span> Tweaks
+    </button>);
+
+}
+
+function App() {
+  const [t, setTweak] = window.useTweaks(TWEAK_DEFAULTS);
+
+  // Apply tweak side effects via CSS custom properties / font family
+  useEffect(() => {
+    const accentHex = t.accent;
+    document.documentElement.style.setProperty('--accent', accentHex);
+    // --accent-deep derives from --accent via color-mix in CSS, so we don't
+    // override it here — letting it always remain a darker shade than --accent.
+    document.documentElement.style.setProperty('--display',
+    `'${t.headlineFont}', 'Anton', 'Big Shoulders Display', 'Impact', sans-serif`);
+
+    const grainEl = document.getElementById('grain');
+    if (grainEl) grainEl.style.display = t.grain ? 'block' : 'none';
+  }, [t]);
+
+  return (
+    <>
+      <Header />
+      <Hero misregister={t.misregister} />
+      {t.marquee && <Marquee />}
+      <FeaturedWork />
+      <Process />
+      <Broadside />
+      <Footer />
+
+      <window.TweaksPanel title="Tweaks">
+        <window.TweakSection label="Identity">
+          <window.TweakColor
+            label="Accent ink"
+            value={t.accent}
+            options={ACCENT_OPTIONS}
+            onChange={(v) => setTweak('accent', v)} />
+          
+          <window.TweakSelect
+            label="Headline typeface"
+            value={t.headlineFont}
+            options={FONT_OPTIONS}
+            onChange={(v) => setTweak('headlineFont', v)} />
+          
+        </window.TweakSection>
+
+        <window.TweakSection label="Print Atmosphere">
+          <window.TweakToggle
+            label="Misregistration ghost"
+            value={t.misregister}
+            onChange={(v) => setTweak('misregister', v)} />
+          
+          <window.TweakToggle
+            label="Paper grain overlay"
+            value={t.grain}
+            onChange={(v) => setTweak('grain', v)} />
+          
+          <window.TweakToggle
+            label="Press-list marquee"
+            value={t.marquee}
+            onChange={(v) => setTweak('marquee', v)} />
+          
+        </window.TweakSection>
+      </window.TweaksPanel>
+      <TweaksLauncher />
+    </>);
+
+}
+
+ReactDOM.createRoot(document.getElementById('app')).render(<App />);
+</script>
+</body>
+</html>
