@@ -28,12 +28,12 @@
 
   /* Primary: Gold — hue 75, screen-print gold (#F2A900 ≈ oklch 72% 0.16 75)  */
   --color-primary-100: oklch(97% 0.018 75);
-  --color-primary-200: oklch(91% 0.050 75);
-  --color-primary-300: oklch(82% 0.100 75);
-  --color-primary-400: oklch(72% 0.16 75);   /* brand gold                     */
+  --color-primary-200: oklch(91% 0.05 75);
+  --color-primary-300: oklch(82% 0.1 75);
+  --color-primary-400: oklch(72% 0.16 75); /* brand gold                     */
   --color-primary-500: oklch(62% 0.14 75);
   --color-primary-600: oklch(52% 0.13 75);
-  --color-primary-700: oklch(44% 0.16 75);   /* accessible gold on paper (AA ✓) */
+  --color-primary-700: oklch(44% 0.16 75); /* accessible gold on paper (AA ✓) */
   --color-primary-800: oklch(34% 0.13 75);
   --color-primary-900: oklch(24% 0.09 75);
   --color-primary-950: oklch(16% 0.06 75);
@@ -48,17 +48,17 @@
   --color-secondary-700: oklch(30% 0.06 230);
   --color-secondary-800: oklch(22% 0.05 230);
   --color-secondary-900: oklch(16% 0.04 230);
-  --color-secondary-950: oklch(8%  0.02 230);
+  --color-secondary-950: oklch(8% 0.02 230);
 
   /* Neutral: Ink/Paper — hue drifts 75 (warm paper) → 40 (cool ink)          */
   --color-neutral-100: oklch(96% 0.012 75);
   --color-neutral-200: oklch(88% 0.018 75);
-  --color-neutral-300: oklch(72% 0.020 75);
-  --color-neutral-400: oklch(54% 0.020 75);
+  --color-neutral-300: oklch(72% 0.02 75);
+  --color-neutral-400: oklch(54% 0.02 75);
   --color-neutral-500: oklch(40% 0.016 55);
   --color-neutral-600: oklch(30% 0.014 40);
   --color-neutral-700: oklch(22% 0.012 40);
-  --color-neutral-800: oklch(16% 0.010 40);
+  --color-neutral-800: oklch(16% 0.01 40);
   --color-neutral-900: oklch(14% 0.009 40);
   --color-neutral-950: oklch(12% 0.008 40);
 
@@ -72,68 +72,72 @@
   --foreground: var(--color-neutral-100);
 
   /* Accent (gold) — three roles: decorative, text-accessible, surface/border  */
-  --color-accent-text:    oklch(72% 0.16 75);   /* gold on ink ≈ 8.4:1 (AAA)  */
+  --color-accent-text: oklch(72% 0.16 75); /* gold on ink ≈ 8.4:1 (AAA)  */
   --color-accent-surface: oklch(16% 0.06 75);
-  --color-accent-border:  oklch(62% 0.14 75);
+  --color-accent-border: oklch(62% 0.14 75);
 
   /* Muted */
-  --color-muted-text:    oklch(54% 0.020 75);   /* paper-4 on ink ≈ 5:1 (AA)  */
-  --color-muted-surface: oklch(16% 0.010 40);
-  --color-muted-border:  oklch(30% 0.014 40);
+  --color-muted-text: oklch(54% 0.02 75); /* paper-4 on ink ≈ 5:1 (AA)  */
+  --color-muted-surface: oklch(16% 0.01 40);
+  --color-muted-border: oklch(30% 0.014 40);
 
   /* ─── State Colors: WCAG 2.2 AA — Dark/Ink Base ─────────────────────────
    * Text tokens: min 4.5:1 on ink bg (L 12% ≈ Y 0.009).
    * ──────────────────────────────────────────────────────────────────────── */
-  --color-error:       oklch(65% 0.22 25);
-  --color-error-text:  oklch(75% 0.18 25);      /* ≈ 10:1 on ink (AAA) */
+  --color-error: oklch(65% 0.22 25);
+  --color-error-text: oklch(75% 0.18 25); /* ≈ 10:1 on ink (AAA) */
   --color-error-surface: oklch(18% 0.08 25);
 
-  --color-success:       oklch(65% 0.18 145);
-  --color-success-text:  oklch(75% 0.15 145);   /* ≈ 9:1 on ink (AAA)  */
+  --color-success: oklch(65% 0.18 145);
+  --color-success-text: oklch(75% 0.15 145); /* ≈ 9:1 on ink (AAA)  */
   --color-success-surface: oklch(18% 0.06 145);
 
   /* Warning: high L is intentional — yellow chroma attenuates at low L.     */
-  --color-warning:       oklch(75% 0.14 60);
-  --color-warning-text:  oklch(82% 0.12 60);    /* ≈ 12:1 on ink (AAA) */
+  --color-warning: oklch(75% 0.14 60);
+  --color-warning-text: oklch(82% 0.12 60); /* ≈ 12:1 on ink (AAA) */
   --color-warning-surface: oklch(18% 0.05 60);
 
   /* Destructive — hue 18 (warm brick-red), harmonizes with gold hue 75.     */
-  --color-destructive:         oklch(55% 0.24 18);
-  --color-destructive-text:    oklch(72% 0.20 18); /* ≈ 8.6:1 on ink (AAA) */
+  --color-destructive: oklch(55% 0.24 18);
+  --color-destructive-text: oklch(72% 0.2 18); /* ≈ 8.6:1 on ink (AAA) */
   --color-destructive-surface: oklch(15% 0.08 18);
 
   /* Convenience border aliases — same value as the base state color.          */
   /* Referenced inline by the style guide badge component (stateTokens fn).   */
-  --color-success-border:     var(--color-success);
-  --color-warning-border:     var(--color-warning);
-  --color-error-border:       var(--color-error);
+  --color-success-border: var(--color-success);
+  --color-warning-border: var(--color-warning);
+  --color-error-border: var(--color-error);
   --color-destructive-border: var(--color-destructive);
 
   /* Base state aliases for accent + muted — used for color chip display in   */
   /* the style guide (stateTokens("accent").base → --color-accent).           */
   /* These reference user-defined vars, so .light overrides propagate.        */
-  --color-accent: var(--color-accent-border);  /* mid-brightness gold: visible on both themes */
-  --color-muted:  var(--color-muted-border);   /* mid-brightness muted gray */
+  --color-accent: var(
+    --color-accent-border
+  ); /* mid-brightness gold: visible on both themes */
+  --color-muted: var(--color-muted-border); /* mid-brightness muted gray */
 
   /* ─── Focus System (WCAG 2.2 SC 2.4.11 / 2.4.12) ───────────────────────
    * Gold (L 72%) ≈ 8.4:1 on ink (AAA). Light override: L 44%, full chroma.
    * ──────────────────────────────────────────────────────────────────────── */
-  --focus-ring-color:        var(--color-primary-400);
-  --focus-ring-color-error:  var(--color-error);
+  --focus-ring-color: var(--color-primary-400);
+  --focus-ring-color-error: var(--color-error);
   --focus-ring-offset-color: var(--background);
 
   /* ─── Semantic text ─── */
   /* neutral-300 (L 72%) ≈ 8.8:1 on ink (AAA). neutral-400 (L 54%) ≈ 5:1 (AA). */
   --text-secondary: var(--color-neutral-300);
-  --text-tertiary:  var(--color-neutral-400);
-  --text-inverse:   var(--color-neutral-950);
-  --text-on-inverse-muted: var(--color-neutral-600); /* L 30% on paper ≈ 8:1 AAA */
+  --text-tertiary: var(--color-neutral-400);
+  --text-inverse: var(--color-neutral-950);
+  --text-on-inverse-muted: var(
+    --color-neutral-600
+  ); /* L 30% on paper ≈ 8:1 AAA */
 
   /* ─── Semantic backgrounds ─── */
-  --bg-subtle:   var(--color-neutral-800);
+  --bg-subtle: var(--color-neutral-800);
   --bg-elevated: var(--color-neutral-700);
-  --bg-inset:    var(--color-neutral-900);
-  --bg-inverse:  var(--color-neutral-100);
+  --bg-inset: var(--color-neutral-900);
+  --bg-inverse: var(--color-neutral-100);
 
   /* ─── Semantic borders ───────────────────────────────────────────────────
    * --border-default (L 30%) and --border-subtle (L 22%) are decorative
@@ -141,8 +145,8 @@
    * --border-strong (L 54%) ≈ 5:1 on ink — use for interactive controls.
    * ──────────────────────────────────────────────────────────────────────── */
   --border-default: var(--color-neutral-600);
-  --border-subtle:  var(--color-neutral-700);
-  --border-strong:  var(--color-neutral-400);
+  --border-subtle: var(--color-neutral-700);
+  --border-strong: var(--color-neutral-400);
   --border-inverse: var(--color-neutral-950);
 
   /* ─── Motion ─────────────────────────────────────────────────────────────
@@ -152,9 +156,9 @@
   --scale-duration-fast: 100ms;
   --scale-duration-base: 150ms;
   --scale-duration-slow: 250ms;
-  --scale-ease-default:  cubic-bezier(0.4, 0, 0.2, 1);
-  --scale-ease-in:       cubic-bezier(0.4, 0, 1, 1);
-  --scale-ease-out:      cubic-bezier(0, 0, 0.2, 1);
+  --scale-ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --scale-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --scale-ease-out: cubic-bezier(0, 0, 0.2, 1);
 
   /* Page transition — consumed by PageTransitionProvider */
   --wipe-duration: 600ms;
@@ -163,21 +167,25 @@
    * --scale-shadow-* prefix for same circular-ref reason as motion above.
    * Higher opacity on dark base — black shadows need more contrast on dark bg.
    * ──────────────────────────────────────────────────────────────────────── */
-  --scale-shadow-xs: 0 1px 2px oklch(0% 0 0 / 0.20);
-  --scale-shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.30), 0 1px 2px oklch(0% 0 0 / 0.20);
-  --scale-shadow-md: 0 4px 8px oklch(0% 0 0 / 0.35), 0 2px 4px oklch(0% 0 0 / 0.20);
-  --scale-shadow-lg: 0 10px 20px oklch(0% 0 0 / 0.40), 0 4px 8px oklch(0% 0 0 / 0.25);
-  --scale-shadow-xl: 0 20px 40px oklch(0% 0 0 / 0.50), 0 8px 16px oklch(0% 0 0 / 0.30);
+  --scale-shadow-xs: 0 1px 2px oklch(0% 0 0 / 0.2);
+  --scale-shadow-sm:
+    0 1px 3px oklch(0% 0 0 / 0.3), 0 1px 2px oklch(0% 0 0 / 0.2);
+  --scale-shadow-md:
+    0 4px 8px oklch(0% 0 0 / 0.35), 0 2px 4px oklch(0% 0 0 / 0.2);
+  --scale-shadow-lg:
+    0 10px 20px oklch(0% 0 0 / 0.4), 0 4px 8px oklch(0% 0 0 / 0.25);
+  --scale-shadow-xl:
+    0 20px 40px oklch(0% 0 0 / 0.5), 0 8px 16px oklch(0% 0 0 / 0.3);
 
   /* ─── Radius ─────────────────────────────────────────────────────────────
    * --scale-radius-* prefix for same circular-ref reason as above.
    * ──────────────────────────────────────────────────────────────────────── */
-  --scale-radius-xs:   0.125rem;
-  --scale-radius-sm:   0.25rem;
-  --scale-radius-md:   0.5rem;
-  --scale-radius-lg:   0.75rem;
-  --scale-radius-xl:   1rem;
-  --scale-radius-2xl:  1.5rem;
+  --scale-radius-xs: 0.125rem;
+  --scale-radius-sm: 0.25rem;
+  --scale-radius-md: 0.5rem;
+  --scale-radius-lg: 0.75rem;
+  --scale-radius-xl: 1rem;
+  --scale-radius-2xl: 1.5rem;
   --scale-radius-full: 9999px;
 
   /* ─── Component: Buttons ─────────────────────────────────────────────────
@@ -192,79 +200,84 @@
    *   Neutral gray L 22% vs page L 12% ≈ 1.5:1 ✗ → border: neutral-400 L 54% ≈ 4.0:1 ✓
    *   Destructive red L 42% vs page L 12% ≈ 2.4:1 ✗ → border: L 65% warm red ≈ 6.2:1 ✓
    * ──────────────────────────────────────────────────────────────────────── */
-  --button-primary-surface:        var(--color-primary-400);
-  --button-primary-surface-hover:  oklch(78% 0.16 75);
+  --button-primary-surface: var(--color-primary-400);
+  --button-primary-surface-hover: oklch(78% 0.16 75);
   --button-primary-surface-active: var(--color-primary-500);
-  --button-primary-text:           var(--color-neutral-950);
-  --button-primary-text-hover:     var(--color-neutral-950);
-  --button-primary-border:         transparent;              /* gold vs ink ≈ 8.1:1 — shape passes without border */
+  --button-primary-text: var(--color-neutral-950);
+  --button-primary-text-hover: var(--color-neutral-950);
+  --button-primary-border: transparent; /* gold vs ink ≈ 8.1:1 — shape passes without border */
 
-  --button-secondary-surface:        var(--color-secondary-700);
-  --button-secondary-surface-hover:  var(--color-secondary-600);
+  --button-secondary-surface: var(--color-secondary-700);
+  --button-secondary-surface-hover: var(--color-secondary-600);
   --button-secondary-surface-active: var(--color-secondary-800);
-  --button-secondary-text:           var(--color-neutral-100);
-  --button-secondary-text-hover:     oklch(100% 0 0);
-  --button-secondary-border:         var(--color-secondary-400); /* L 65% vs ink ≈ 6.2:1 (SC 1.4.11 ✓) */
+  --button-secondary-text: var(--color-neutral-100);
+  --button-secondary-text-hover: oklch(100% 0 0);
+  --button-secondary-border: var(
+    --color-secondary-400
+  ); /* L 65% vs ink ≈ 6.2:1 (SC 1.4.11 ✓) */
 
-  --button-neutral-surface:        var(--color-neutral-700);
-  --button-neutral-surface-hover:  var(--color-neutral-600);
+  --button-neutral-surface: var(--color-neutral-700);
+  --button-neutral-surface-hover: var(--color-neutral-600);
   --button-neutral-surface-active: var(--color-neutral-500);
-  --button-neutral-text:           var(--color-neutral-100);
-  --button-neutral-text-hover:     oklch(100% 0 0);
-  --button-neutral-border:         var(--color-neutral-400);    /* L 54% vs ink ≈ 4.0:1 (SC 1.4.11 ✓) */
+  --button-neutral-text: var(--color-neutral-100);
+  --button-neutral-text-hover: oklch(100% 0 0);
+  --button-neutral-border: var(
+    --color-neutral-400
+  ); /* L 54% vs ink ≈ 4.0:1 (SC 1.4.11 ✓) */
 
   /* Outline: paper border (L 96%) + paper text on ink bg ≈ 15:1 (AAA ✓)    */
   /* Hover: gold fill + ink text ≈ 8.4:1 (AAA ✓)                            */
-  --button-outline-surface:        transparent;
-  --button-outline-surface-hover:  var(--color-primary-400);
+  --button-outline-surface: transparent;
+  --button-outline-surface-hover: var(--color-primary-400);
   --button-outline-surface-active: var(--color-primary-500);
-  --button-outline-text:           var(--color-neutral-100);
-  --button-outline-text-hover:     var(--color-neutral-950);
-  --button-outline-border:         var(--color-neutral-100);
-  --button-outline-border-hover:   var(--color-primary-400);
+  --button-outline-text: var(--color-neutral-100);
+  --button-outline-text-hover: var(--color-neutral-950);
+  --button-outline-border: var(--color-neutral-100);
+  --button-outline-border-hover: var(--color-primary-400);
 
-  --button-destructive-surface:        oklch(42% 0.24 18);
-  --button-destructive-surface-hover:  oklch(32% 0.22 18);
-  --button-destructive-surface-active: oklch(25% 0.20 18);
-  --button-destructive-text:           var(--color-neutral-100);
-  --button-destructive-text-hover:     oklch(100% 0 0);
-  --button-destructive-border:         oklch(65% 0.22 18);        /* L 65% vs ink ≈ 6.2:1 (SC 1.4.11 ✓) */
+  --button-destructive-surface: oklch(42% 0.24 18);
+  --button-destructive-surface-hover: oklch(32% 0.22 18);
+  --button-destructive-surface-active: oklch(25% 0.2 18);
+  --button-destructive-text: var(--color-neutral-100);
+  --button-destructive-text-hover: oklch(100% 0 0);
+  --button-destructive-border: oklch(
+    65% 0.22 18
+  ); /* L 65% vs ink ≈ 6.2:1 (SC 1.4.11 ✓) */
 
   /* ─── Component: Forms ───────────────────────────────────────────────────
    * input-border at neutral-400 (L 54%) on neutral-800 surface (L 16%) ≈ 4.3:1
    * (SC 1.4.11 ✓).
    * ──────────────────────────────────────────────────────────────────────── */
-  --input-surface:          var(--color-neutral-800);
-  --input-border:           var(--color-neutral-400);
-  --input-border-hover:     var(--color-neutral-300);
-  --input-border-focus:     var(--color-primary-400);
-  --input-text:             var(--color-neutral-100);
+  --input-surface: var(--color-neutral-800);
+  --input-border: var(--color-neutral-400);
+  --input-border-hover: var(--color-neutral-300);
+  --input-border-focus: var(--color-primary-400);
+  --input-text: var(--color-neutral-100);
   --input-text-placeholder: var(--color-neutral-400);
-  --input-ring-focus:       var(--focus-ring-color);
-  --input-ring-error:       var(--focus-ring-color-error);
-  --label-text:             var(--color-neutral-300);
+  --input-ring-focus: var(--focus-ring-color);
+  --input-ring-error: var(--focus-ring-color-error);
+  --label-text: var(--color-neutral-300);
 
   /* ─── Component: Cards ─── */
-  --card-surface:            var(--color-neutral-800);
-  --card-surface-inverse:    var(--color-neutral-100);
-  --card-surface-tonal:      var(--color-secondary-900);
-  --card-border:             var(--color-neutral-600);
-  --card-border-tonal:       var(--color-secondary-800);
-  --card-text:               var(--color-neutral-100);
-  --card-text-inverse:       var(--color-neutral-950);
+  --card-surface: var(--color-neutral-800);
+  --card-surface-inverse: var(--color-neutral-100);
+  --card-surface-tonal: var(--color-secondary-900);
+  --card-border: var(--color-neutral-600);
+  --card-border-tonal: var(--color-secondary-800);
+  --card-text: var(--color-neutral-100);
+  --card-text-inverse: var(--color-neutral-950);
   --card-text-inverse-muted: var(--color-neutral-600);
-  --card-text-tonal:         var(--color-secondary-200);
-  --card-text-tonal-muted:   var(--color-secondary-400);
+  --card-text-tonal: var(--color-secondary-200);
+  --card-text-tonal-muted: var(--color-secondary-400);
 }
 
 /* ─── Tailwind v4 @theme inline — exposes design tokens as utilities ─────── */
 /* Every entry references a user-defined var from :root above. This keeps the
    utility class using var(--color-X) at runtime so .light overrides work.    */
 @theme inline {
-
   /* ── Fonts ── */
-  --font-sans:    var(--font-figtree-sans);
-  --font-mono:    var(--font-geist-mono);
+  --font-sans: var(--font-figtree-sans);
+  --font-mono: var(--font-geist-mono);
   --font-display: var(--font-dominique);
 
   /* ── Base ── */
@@ -272,142 +285,148 @@
   --color-foreground: var(--foreground);
 
   /* ── Named palette shorthands — ink / paper / gold ── */
-  --color-ink:     var(--color-neutral-950);
-  --color-ink-2:   var(--color-neutral-800);
-  --color-ink-3:   var(--color-neutral-700);
-  --color-ink-4:   var(--color-neutral-600);
-  --color-paper:   var(--color-neutral-100);
+  --color-ink: var(--color-neutral-950);
+  --color-ink-2: var(--color-neutral-800);
+  --color-ink-3: var(--color-neutral-700);
+  --color-ink-4: var(--color-neutral-600);
+  --color-paper: var(--color-neutral-100);
   --color-paper-2: var(--color-neutral-200);
   --color-paper-3: var(--color-neutral-300);
   --color-paper-4: var(--color-neutral-400);
-  --color-gold:    var(--color-primary-400);   /* decorative gold — dark bg only */
-  --color-gold-2:  var(--color-primary-500);
-  --color-gold-3:  var(--color-primary-700);   /* accessible gold — AA on paper  */
+  --color-gold: var(--color-primary-400); /* decorative gold — dark bg only */
+  --color-gold-2: var(--color-primary-500);
+  --color-gold-3: var(--color-primary-700); /* accessible gold — AA on paper  */
 
   /* ── Semantic: Text ── */
-  --color-text-primary:          var(--foreground);
-  --color-text-secondary:        var(--text-secondary);
-  --color-text-tertiary:         var(--text-tertiary);
-  --color-text-muted:            var(--color-muted-text);
-  --color-text-accent:           var(--color-accent-text);
-  --color-text-inverse:          var(--text-inverse);
+  --color-text-primary: var(--foreground);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-muted: var(--color-muted-text);
+  --color-text-accent: var(--color-accent-text);
+  --color-text-inverse: var(--text-inverse);
   --color-text-on-inverse-muted: var(--text-on-inverse-muted);
 
   /* ── Semantic: Backgrounds ── */
-  --color-bg-base:     var(--background);
-  --color-bg-subtle:   var(--bg-subtle);
+  --color-bg-base: var(--background);
+  --color-bg-subtle: var(--bg-subtle);
   --color-bg-elevated: var(--bg-elevated);
-  --color-bg-inset:    var(--bg-inset);
-  --color-bg-inverse:  var(--bg-inverse);
+  --color-bg-inset: var(--bg-inset);
+  --color-bg-inverse: var(--bg-inverse);
 
   /* ── Semantic: Borders ── */
   --color-border-default: var(--border-default);
-  --color-border-subtle:  var(--border-subtle);
-  --color-border-strong:  var(--border-strong);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
   --color-border-inverse: var(--border-inverse);
-  --color-border-focus:   var(--focus-ring-color);
+  --color-border-focus: var(--focus-ring-color);
 
   /* ── Focus Ring ── */
-  --color-focus-ring:        var(--focus-ring-color);
-  --color-focus-ring-error:  var(--focus-ring-color-error);
+  --color-focus-ring: var(--focus-ring-color);
+  --color-focus-ring-error: var(--focus-ring-color-error);
   --color-focus-ring-offset: var(--focus-ring-offset-color);
 
   /* ── State: text / bg ── */
   /* Border uses same color as fill — ref the state color directly to save      */
   /* a level of indirection (state color vars are user-defined so var() stays). */
-  --color-text-error:    var(--color-error-text);
-  --color-bg-error:      var(--color-error-surface);
-  --color-border-error:  var(--color-error);
+  --color-text-error: var(--color-error-text);
+  --color-bg-error: var(--color-error-surface);
+  --color-border-error: var(--color-error);
 
-  --color-text-success:   var(--color-success-text);
-  --color-bg-success:     var(--color-success-surface);
+  --color-text-success: var(--color-success-text);
+  --color-bg-success: var(--color-success-surface);
   --color-border-success: var(--color-success);
 
-  --color-text-warning:   var(--color-warning-text);
-  --color-bg-warning:     var(--color-warning-surface);
+  --color-text-warning: var(--color-warning-text);
+  --color-bg-warning: var(--color-warning-surface);
   --color-border-warning: var(--color-warning);
 
-  --color-text-destructive:   var(--color-destructive-text);
-  --color-bg-destructive:     var(--color-destructive-surface);
+  --color-text-destructive: var(--color-destructive-text);
+  --color-bg-destructive: var(--color-destructive-surface);
   --color-border-destructive: var(--color-destructive);
 
-  --color-bg-accent:     var(--color-accent-surface);
+  --color-bg-accent: var(--color-accent-surface);
   --color-border-accent: var(--color-accent-border);
 
-  --color-bg-muted:     var(--color-muted-surface);
+  --color-bg-muted: var(--color-muted-surface);
   --color-border-muted: var(--color-muted-border);
 
   /* ── Buttons ── */
-  --color-button-primary-surface:        var(--button-primary-surface);
-  --color-button-primary-surface-hover:  var(--button-primary-surface-hover);
+  --color-button-primary-surface: var(--button-primary-surface);
+  --color-button-primary-surface-hover: var(--button-primary-surface-hover);
   --color-button-primary-surface-active: var(--button-primary-surface-active);
-  --color-button-primary-text:           var(--button-primary-text);
-  --color-button-primary-text-hover:     var(--button-primary-text-hover);
-  --color-button-primary-border:         var(--button-primary-border);
+  --color-button-primary-text: var(--button-primary-text);
+  --color-button-primary-text-hover: var(--button-primary-text-hover);
+  --color-button-primary-border: var(--button-primary-border);
 
-  --color-button-secondary-surface:        var(--button-secondary-surface);
-  --color-button-secondary-surface-hover:  var(--button-secondary-surface-hover);
-  --color-button-secondary-surface-active: var(--button-secondary-surface-active);
-  --color-button-secondary-text:           var(--button-secondary-text);
-  --color-button-secondary-text-hover:     var(--button-secondary-text-hover);
-  --color-button-secondary-border:         var(--button-secondary-border);
+  --color-button-secondary-surface: var(--button-secondary-surface);
+  --color-button-secondary-surface-hover: var(--button-secondary-surface-hover);
+  --color-button-secondary-surface-active: var(
+    --button-secondary-surface-active
+  );
+  --color-button-secondary-text: var(--button-secondary-text);
+  --color-button-secondary-text-hover: var(--button-secondary-text-hover);
+  --color-button-secondary-border: var(--button-secondary-border);
 
-  --color-button-neutral-surface:        var(--button-neutral-surface);
-  --color-button-neutral-surface-hover:  var(--button-neutral-surface-hover);
+  --color-button-neutral-surface: var(--button-neutral-surface);
+  --color-button-neutral-surface-hover: var(--button-neutral-surface-hover);
   --color-button-neutral-surface-active: var(--button-neutral-surface-active);
-  --color-button-neutral-text:           var(--button-neutral-text);
-  --color-button-neutral-text-hover:     var(--button-neutral-text-hover);
-  --color-button-neutral-border:         var(--button-neutral-border);
+  --color-button-neutral-text: var(--button-neutral-text);
+  --color-button-neutral-text-hover: var(--button-neutral-text-hover);
+  --color-button-neutral-border: var(--button-neutral-border);
 
-  --color-button-outline-surface:        var(--button-outline-surface);
-  --color-button-outline-surface-hover:  var(--button-outline-surface-hover);
+  --color-button-outline-surface: var(--button-outline-surface);
+  --color-button-outline-surface-hover: var(--button-outline-surface-hover);
   --color-button-outline-surface-active: var(--button-outline-surface-active);
-  --color-button-outline-text:           var(--button-outline-text);
-  --color-button-outline-text-hover:     var(--button-outline-text-hover);
-  --color-button-outline-border:         var(--button-outline-border);
-  --color-button-outline-border-hover:   var(--button-outline-border-hover);
+  --color-button-outline-text: var(--button-outline-text);
+  --color-button-outline-text-hover: var(--button-outline-text-hover);
+  --color-button-outline-border: var(--button-outline-border);
+  --color-button-outline-border-hover: var(--button-outline-border-hover);
 
-  --color-button-destructive-surface:        var(--button-destructive-surface);
-  --color-button-destructive-surface-hover:  var(--button-destructive-surface-hover);
-  --color-button-destructive-surface-active: var(--button-destructive-surface-active);
-  --color-button-destructive-text:           var(--button-destructive-text);
-  --color-button-destructive-text-hover:     var(--button-destructive-text-hover);
-  --color-button-destructive-border:         var(--button-destructive-border);
+  --color-button-destructive-surface: var(--button-destructive-surface);
+  --color-button-destructive-surface-hover: var(
+    --button-destructive-surface-hover
+  );
+  --color-button-destructive-surface-active: var(
+    --button-destructive-surface-active
+  );
+  --color-button-destructive-text: var(--button-destructive-text);
+  --color-button-destructive-text-hover: var(--button-destructive-text-hover);
+  --color-button-destructive-border: var(--button-destructive-border);
 
   /* ── Forms ── */
-  --color-input-surface:          var(--input-surface);
-  --color-input-border:           var(--input-border);
-  --color-input-border-hover:     var(--input-border-hover);
-  --color-input-border-focus:     var(--input-border-focus);
-  --color-input-text:             var(--input-text);
+  --color-input-surface: var(--input-surface);
+  --color-input-border: var(--input-border);
+  --color-input-border-hover: var(--input-border-hover);
+  --color-input-border-focus: var(--input-border-focus);
+  --color-input-text: var(--input-text);
   --color-input-text-placeholder: var(--input-text-placeholder);
-  --color-input-ring-focus:       var(--input-ring-focus);
-  --color-input-ring-error:       var(--input-ring-error);
-  --color-label-text:             var(--label-text);
+  --color-input-ring-focus: var(--input-ring-focus);
+  --color-input-ring-error: var(--input-ring-error);
+  --color-label-text: var(--label-text);
 
   /* ── Cards ── */
-  --color-card-surface:            var(--card-surface);
-  --color-card-surface-inverse:    var(--card-surface-inverse);
-  --color-card-surface-tonal:      var(--card-surface-tonal);
-  --color-card-border:             var(--card-border);
-  --color-card-border-tonal:       var(--card-border-tonal);
-  --color-card-text:               var(--card-text);
-  --color-card-text-inverse:       var(--card-text-inverse);
+  --color-card-surface: var(--card-surface);
+  --color-card-surface-inverse: var(--card-surface-inverse);
+  --color-card-surface-tonal: var(--card-surface-tonal);
+  --color-card-border: var(--card-border);
+  --color-card-border-tonal: var(--card-border-tonal);
+  --color-card-text: var(--card-text);
+  --color-card-text-inverse: var(--card-text-inverse);
   --color-card-text-inverse-muted: var(--card-text-inverse-muted);
-  --color-card-text-tonal:         var(--card-text-tonal);
-  --color-card-text-tonal-muted:   var(--card-text-tonal-muted);
+  --color-card-text-tonal: var(--card-text-tonal);
+  --color-card-text-tonal-muted: var(--card-text-tonal-muted);
 
   /* ── Radius — refs --scale-* to avoid circular self-ref ── */
-  --radius-xs:     var(--scale-radius-xs);
-  --radius-sm:     var(--scale-radius-sm);
-  --radius-md:     var(--scale-radius-md);
-  --radius-lg:     var(--scale-radius-lg);
-  --radius-xl:     var(--scale-radius-xl);
-  --radius-2xl:    var(--scale-radius-2xl);
-  --radius-full:   var(--scale-radius-full);
+  --radius-xs: var(--scale-radius-xs);
+  --radius-sm: var(--scale-radius-sm);
+  --radius-md: var(--scale-radius-md);
+  --radius-lg: var(--scale-radius-lg);
+  --radius-xl: var(--scale-radius-xl);
+  --radius-2xl: var(--scale-radius-2xl);
+  --radius-full: var(--scale-radius-full);
   --radius-button: var(--scale-radius-xs);
-  --radius-card:   var(--scale-radius-xs);
-  --radius-input:  var(--scale-radius-xs);
+  --radius-card: var(--scale-radius-xs);
+  --radius-input: var(--scale-radius-xs);
 
   /* ── Shadows — refs --scale-* to avoid circular self-ref ── */
   --shadow-xs: var(--scale-shadow-xs);
@@ -417,11 +436,11 @@
   --shadow-xl: var(--scale-shadow-xl);
 
   /* ── Motion — refs --scale-* to avoid circular self-ref ── */
-  --duration-fast:  var(--scale-duration-fast);
-  --duration-base:  var(--scale-duration-base);
-  --duration-slow:  var(--scale-duration-slow);
-  --ease-default:   var(--scale-ease-default);
-  --ease-brand-in:  var(--scale-ease-in);
+  --duration-fast: var(--scale-duration-fast);
+  --duration-base: var(--scale-duration-base);
+  --duration-slow: var(--scale-duration-slow);
+  --ease-default: var(--scale-ease-default);
+  --ease-brand-in: var(--scale-ease-in);
   --ease-brand-out: var(--scale-ease-out);
 }
 
@@ -439,40 +458,40 @@
   /* ─── State Colors: WCAG 2.2 AA — Light/Paper Surface ───────────────────
    * Text tokens: min 4.5:1 on paper (L 96% ≈ Y 0.907).
    * ──────────────────────────────────────────────────────────────────────── */
-  --color-error:         oklch(50% 0.22 25);
-  --color-error-text:    oklch(38% 0.20 25);    /* ≈ 11:1 on paper (AAA) */
+  --color-error: oklch(50% 0.22 25);
+  --color-error-text: oklch(38% 0.2 25); /* ≈ 11:1 on paper (AAA) */
   --color-error-surface: oklch(95% 0.03 25);
 
-  --color-success:         oklch(45% 0.20 145);
-  --color-success-text:    oklch(38% 0.18 145); /* ≈ 12:1 on paper (AAA) */
+  --color-success: oklch(45% 0.2 145);
+  --color-success-text: oklch(38% 0.18 145); /* ≈ 12:1 on paper (AAA) */
   --color-success-surface: oklch(95% 0.05 145);
 
-  --color-warning:         oklch(55% 0.15 60);
-  --color-warning-text:    oklch(42% 0.15 60);  /* ≈ 7.8:1 on paper (AA ✓) */
+  --color-warning: oklch(55% 0.15 60);
+  --color-warning-text: oklch(42% 0.15 60); /* ≈ 7.8:1 on paper (AA ✓) */
   --color-warning-surface: oklch(95% 0.04 60);
 
-  --color-destructive:         oklch(45% 0.24 18);
-  --color-destructive-text:    oklch(38% 0.22 18); /* ≈ 9:1 on paper (AAA ✓) */
+  --color-destructive: oklch(45% 0.24 18);
+  --color-destructive-text: oklch(38% 0.22 18); /* ≈ 9:1 on paper (AAA ✓) */
   --color-destructive-surface: oklch(95% 0.03 18);
 
   /* Accent: full brand-chroma gold, accessible on paper                     */
-  --color-accent-text:    oklch(44% 0.16 75);   /* ≈ 4.8:1 on paper (AA ✓)  */
+  --color-accent-text: oklch(44% 0.16 75); /* ≈ 4.8:1 on paper (AA ✓)  */
   --color-accent-surface: oklch(96% 0.04 75);
-  --color-accent-border:  oklch(62% 0.14 75);
+  --color-accent-border: oklch(62% 0.14 75);
 
-  --color-muted-text:    oklch(32% 0.015 60);
+  --color-muted-text: oklch(32% 0.015 60);
   --color-muted-surface: oklch(96% 0.002 60);
-  --color-muted-border:  oklch(52% 0.005 60);
+  --color-muted-border: oklch(52% 0.005 60);
 
   /* ─── Focus: L 44%, C 0.16 ≈ 4.8:1 on paper (AA ✓) ── */
-  --focus-ring-color:        oklch(44% 0.16 75);
+  --focus-ring-color: oklch(44% 0.16 75);
   --focus-ring-offset-color: var(--background);
 
   /* ─── Semantic text ─── */
   /* neutral-700 (L 22%) on paper ≈ 11.8:1 (AAA). neutral-600 ≈ 8.5:1 (AAA). */
-  --text-secondary:        var(--color-neutral-700);
-  --text-tertiary:         var(--color-neutral-600);
-  --text-inverse:          var(--color-neutral-100);
+  --text-secondary: var(--color-neutral-700);
+  --text-tertiary: var(--color-neutral-600);
+  --text-inverse: var(--color-neutral-100);
   --text-on-inverse-muted: var(--color-neutral-400); /* L 54%, ≈ 5:1 on ink   */
 
   /* ─── Semantic backgrounds ───────────────────────────────────────────────
@@ -482,26 +501,36 @@
    * elevated uses pure white so cards and panels float above the warm-cream
    * page background — the same visual logic as dark-mode "lighter = higher".
    * ──────────────────────────────────────────────────────────────────────── */
-  --bg-subtle:   var(--color-neutral-200);   /* warm tan — footer, drawer, subtle zones   */
-  --bg-elevated: oklch(100% 0 0);            /* pure white — cards, popovers, code boxes  */
-  --bg-inset:    var(--color-neutral-300);   /* deeper tan (L72%) — clearly recessed from subtle */
-  --bg-inverse:  var(--color-neutral-950);
+  --bg-subtle: var(
+    --color-neutral-200
+  ); /* warm tan — footer, drawer, subtle zones   */
+  --bg-elevated: oklch(
+    100% 0 0
+  ); /* pure white — cards, popovers, code boxes  */
+  --bg-inset: var(
+    --color-neutral-300
+  ); /* deeper tan (L72%) — clearly recessed from subtle */
+  --bg-inverse: var(--color-neutral-950);
 
   /* ─── Semantic borders ───────────────────────────────────────────────────
    * neutral-400 (L 54%) on paper (L 96%) ≈ 3.3:1 (SC 1.4.11 ✓).
    * neutral-300 (L 72%) on paper ≈ 1.8:1 — decorative separators only.
    * ──────────────────────────────────────────────────────────────────────── */
   --border-default: var(--color-neutral-400);
-  --border-subtle:  var(--color-neutral-300);
-  --border-strong:  var(--color-neutral-500);
+  --border-subtle: var(--color-neutral-300);
+  --border-strong: var(--color-neutral-500);
   --border-inverse: var(--color-neutral-100);
 
   /* ─── Shadows (lower opacity on light surface) ── */
   --scale-shadow-xs: 0 1px 2px oklch(0% 0 0 / 0.05);
-  --scale-shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.07), 0 1px 2px oklch(0% 0 0 / 0.05);
-  --scale-shadow-md: 0 4px 8px oklch(0% 0 0 / 0.08), 0 2px 4px oklch(0% 0 0 / 0.05);
-  --scale-shadow-lg: 0 10px 20px oklch(0% 0 0 / 0.10), 0 4px 8px oklch(0% 0 0 / 0.06);
-  --scale-shadow-xl: 0 20px 40px oklch(0% 0 0 / 0.12), 0 8px 16px oklch(0% 0 0 / 0.07);
+  --scale-shadow-sm:
+    0 1px 3px oklch(0% 0 0 / 0.07), 0 1px 2px oklch(0% 0 0 / 0.05);
+  --scale-shadow-md:
+    0 4px 8px oklch(0% 0 0 / 0.08), 0 2px 4px oklch(0% 0 0 / 0.05);
+  --scale-shadow-lg:
+    0 10px 20px oklch(0% 0 0 / 0.1), 0 4px 8px oklch(0% 0 0 / 0.06);
+  --scale-shadow-xl:
+    0 20px 40px oklch(0% 0 0 / 0.12), 0 8px 16px oklch(0% 0 0 / 0.07);
 
   /* ─── Buttons ─── */
   /* Text contrast (SC 1.4.3): all variants pass on paper bg.
@@ -512,72 +541,76 @@
    *   Neutral tan L 88% vs page L 96% ≈ 1.3:1 ✗ → border: neutral-500 L 40% ≈ 8.2:1 ✓
    *   Destructive red L 42% vs page L 96% ≈ 7.5:1 ✓ — no border needed.
    * Hover darkens primary slightly for visible state change on paper surface. */
-  --button-primary-surface:        var(--color-primary-400);
-  --button-primary-surface-hover:  var(--color-primary-500);
+  --button-primary-surface: var(--color-primary-400);
+  --button-primary-surface-hover: var(--color-primary-700);
   --button-primary-surface-active: var(--color-primary-600);
-  --button-primary-text:           var(--color-neutral-950);
-  --button-primary-text-hover:     var(--color-neutral-950);
-  --button-primary-border:         var(--color-primary-700);      /* L 44% vs cream ≈ 6.9:1 (SC 1.4.11 ✓) */
+  --button-primary-text: var(--color-neutral-950);
+  --button-primary-text-hover: oklch(100% 0 0);
+  --button-primary-border: var(
+    --color-primary-700
+  ); /* L 44% vs cream ≈ 6.9:1 (SC 1.4.11 ✓) */
 
   /* Secondary: dark slate (L 30%) vs cream ≈ 12:1 — shape passes, reset border */
-  --button-secondary-surface:        var(--color-secondary-700);
-  --button-secondary-surface-hover:  var(--color-secondary-600);
+  --button-secondary-surface: var(--color-secondary-700);
+  --button-secondary-surface-hover: var(--color-secondary-600);
   --button-secondary-surface-active: var(--color-secondary-800);
-  --button-secondary-text:           var(--color-neutral-100);
-  --button-secondary-text-hover:     oklch(100% 0 0);
-  --button-secondary-border:         transparent;
+  --button-secondary-text: var(--color-neutral-100);
+  --button-secondary-text-hover: oklch(100% 0 0);
+  --button-secondary-border: var(--color-secondary-600);
 
-  --button-neutral-surface:        var(--color-neutral-200);
-  --button-neutral-surface-hover:  var(--color-neutral-500);
+  --button-neutral-surface: var(--color-neutral-200);
+  --button-neutral-surface-hover: var(--color-neutral-500);
   --button-neutral-surface-active: var(--color-neutral-400);
-  --button-neutral-text:           var(--color-neutral-950);
-  --button-neutral-text-hover:     var(--color-neutral-100);
-  --button-neutral-border:         var(--color-neutral-500);      /* L 40% vs cream ≈ 8.2:1 (SC 1.4.11 ✓) */
+  --button-neutral-text: var(--color-neutral-950);
+  --button-neutral-text-hover: oklch(100% 0 0);
+  --button-neutral-border: var(
+    --color-neutral-500
+  ); /* L 40% vs cream ≈ 8.2:1 (SC 1.4.11 ✓) */
 
   /* Outline: ink border + ink text on paper bg ≈ 16:1 (AAA ✓)              */
-  --button-outline-surface:        transparent;
-  --button-outline-surface-hover:  var(--color-neutral-950);
+  --button-outline-surface: transparent;
+  --button-outline-surface-hover: var(--color-neutral-950);
   --button-outline-surface-active: var(--color-neutral-800);
-  --button-outline-text:           var(--color-neutral-950);
-  --button-outline-text-hover:     var(--color-neutral-100);
-  --button-outline-border:         var(--color-neutral-950);
-  --button-outline-border-hover:   var(--color-neutral-950);
+  --button-outline-text: var(--color-neutral-950);
+  --button-outline-text-hover: oklch(100% 0 0);
+  --button-outline-border: var(--color-neutral-950);
+  --button-outline-border-hover: var(--color-neutral-950);
 
   /* Destructive: dark red (L 42%) vs cream ≈ 7.5:1 — shape passes, reset border */
-  --button-destructive-surface:        oklch(42% 0.24 18);
-  --button-destructive-surface-hover:  oklch(32% 0.22 18);
-  --button-destructive-surface-active: oklch(25% 0.20 18);
-  --button-destructive-text:           var(--color-neutral-100);
-  --button-destructive-text-hover:     oklch(100% 0 0);
-  --button-destructive-border:         transparent;
+  --button-destructive-surface: oklch(42% 0.24 18);
+  --button-destructive-surface-hover: oklch(32% 0.22 18);
+  --button-destructive-surface-active: oklch(25% 0.2 18);
+  --button-destructive-text: var(--color-neutral-100);
+  --button-destructive-text-hover: oklch(100% 0 0);
+  --button-destructive-border: transparent;
 
   /* ─── Forms ─────────────────────────────────────────────────────────────
    * neutral-500 (L 40%) on paper (L 96%) ≈ 5.5:1 (SC 1.4.11 ✓).
    * neutral-600 (L 30%) on paper ≈ 8.0:1 (SC 1.4.3 ✓) for text.
    * ──────────────────────────────────────────────────────────────────────── */
-  --input-surface:          var(--color-neutral-100);
-  --input-border:           var(--color-neutral-500);
-  --input-border-hover:     var(--color-neutral-600);
-  --input-border-focus:     oklch(44% 0.16 75);  /* matches --focus-ring-color */
-  --input-text:             var(--color-neutral-950);
+  --input-surface: var(--color-neutral-100);
+  --input-border: var(--color-neutral-500);
+  --input-border-hover: var(--color-neutral-600);
+  --input-border-focus: oklch(44% 0.16 75); /* matches --focus-ring-color */
+  --input-text: var(--color-neutral-950);
   --input-text-placeholder: var(--color-neutral-600);
-  --label-text:             var(--color-neutral-700);
+  --label-text: var(--color-neutral-700);
 
   /* ─── Cards ───────────────────────────────────────────────────────────────
    * card-surface: pure white so cards stand out against the warm-cream page.
    * card-surface-tonal: secondary-100 is too close to bg; secondary-200 gives
    * visible tonal distinction.
    * ──────────────────────────────────────────────────────────────────────── */
-  --card-surface:            oklch(100% 0 0);
-  --card-surface-inverse:    var(--color-neutral-950);
-  --card-surface-tonal:      var(--color-secondary-200);
-  --card-border:             var(--color-neutral-400);
-  --card-border-tonal:       var(--color-secondary-300);
-  --card-text:               var(--color-neutral-950);
-  --card-text-inverse:       var(--color-neutral-100);
+  --card-surface: oklch(100% 0 0);
+  --card-surface-inverse: var(--color-neutral-950);
+  --card-surface-tonal: var(--color-secondary-200);
+  --card-border: var(--color-neutral-400);
+  --card-border-tonal: var(--color-secondary-300);
+  --card-text: var(--color-neutral-950);
+  --card-text-inverse: var(--color-neutral-100);
   --card-text-inverse-muted: var(--color-neutral-300);
-  --card-text-tonal:         var(--color-secondary-900);
-  --card-text-tonal-muted:   var(--color-secondary-700);
+  --card-text-tonal: var(--color-secondary-900);
+  --card-text-tonal-muted: var(--color-secondary-700);
 }
 
 /* ─── Inverse surface context ────────────────────────────────────────────────
@@ -603,54 +636,54 @@
 /* Dark mode: bg-inverse = cream → remap to paper-surface values */
 [data-inverse] {
   /* Primary text: ink on cream */
-  --foreground:       var(--color-neutral-950);
+  --foreground: var(--color-neutral-950);
 
   /* Accent: dark gold (L 44%) on cream ≈ 4.8:1 (AA ✓) */
-  --color-accent-text:    oklch(44% 0.16 75);
-  --color-accent-border:  oklch(52% 0.13 75);
+  --color-accent-text: oklch(44% 0.16 75);
+  --color-accent-border: oklch(52% 0.13 75);
   --color-accent-surface: oklch(96% 0.04 75);
 
   /* Secondary / tertiary text */
   --text-secondary: var(--color-neutral-700);
-  --text-tertiary:  var(--color-neutral-600);
+  --text-tertiary: var(--color-neutral-600);
 
   /* Focus ring: dark gold on cream ≈ 4.8:1 (AA ✓) */
-  --focus-ring-color:        oklch(44% 0.16 75);
+  --focus-ring-color: oklch(44% 0.16 75);
   --focus-ring-offset-color: var(--color-neutral-100);
 
   /* Outline button: ink border + ink text on cream surface */
-  --button-outline-text:           var(--color-neutral-950);
-  --button-outline-text-hover:     oklch(100% 0 0);
-  --button-outline-border:         var(--color-neutral-950);
-  --button-outline-border-hover:   var(--color-primary-400);
-  --button-outline-surface-hover:  var(--color-primary-400);
+  --button-outline-text: var(--color-neutral-950);
+  --button-outline-text-hover: oklch(100% 0 0);
+  --button-outline-border: var(--color-neutral-950);
+  --button-outline-border-hover: var(--color-primary-400);
+  --button-outline-surface-hover: var(--color-primary-400);
   --button-outline-surface-active: var(--color-primary-500);
 }
 
 /* Light mode: bg-inverse = ink → remap to ink-surface values */
 .light [data-inverse] {
   /* Primary text: cream on ink */
-  --foreground:       var(--color-neutral-100);
+  --foreground: var(--color-neutral-100);
 
   /* Accent: brand gold (L 72%) on ink ≈ 10:1 (AAA ✓) */
-  --color-accent-text:    oklch(72% 0.16 75);
-  --color-accent-border:  oklch(62% 0.14 75);
+  --color-accent-text: oklch(72% 0.16 75);
+  --color-accent-border: oklch(62% 0.14 75);
   --color-accent-surface: oklch(16% 0.06 75);
 
   /* Secondary / tertiary text */
   --text-secondary: var(--color-neutral-300);
-  --text-tertiary:  var(--color-neutral-400);
+  --text-tertiary: var(--color-neutral-400);
 
   /* Focus ring: brand gold on ink ≈ 10:1 (AAA ✓) */
-  --focus-ring-color:        var(--color-primary-400);
+  --focus-ring-color: var(--color-primary-400);
   --focus-ring-offset-color: var(--color-neutral-950);
 
   /* Outline button: cream border + cream text on ink surface */
-  --button-outline-text:           var(--color-neutral-100);
-  --button-outline-text-hover:     var(--color-neutral-950);
-  --button-outline-border:         var(--color-neutral-100);
-  --button-outline-border-hover:   var(--color-primary-400);
-  --button-outline-surface-hover:  var(--color-primary-400);
+  --button-outline-text: var(--color-neutral-100);
+  --button-outline-text-hover: var(--color-neutral-950);
+  --button-outline-border: var(--color-neutral-100);
+  --button-outline-border-hover: var(--color-primary-400);
+  --button-outline-surface-hover: var(--color-primary-400);
   --button-outline-surface-active: var(--color-primary-500);
 }
 
@@ -678,24 +711,24 @@
    * Ink vs gold ≈ 8.4:1 for button shape (SC 1.4.11 ✓).
    * Suppress the neutral-400 border that dark mode sets — the ink surface
    * already provides sufficient shape contrast against gold.             */
-  --button-neutral-surface:        var(--color-neutral-950);
-  --button-neutral-surface-hover:  var(--color-neutral-800);
+  --button-neutral-surface: var(--color-neutral-950);
+  --button-neutral-surface-hover: var(--color-neutral-800);
   --button-neutral-surface-active: var(--color-neutral-700);
-  --button-neutral-text:           var(--color-neutral-100);
-  --button-neutral-text-hover:     oklch(100% 0 0);
-  --button-neutral-border:         transparent;
+  --button-neutral-text: var(--color-neutral-100);
+  --button-neutral-text-hover: oklch(100% 0 0);
+  --button-neutral-border: transparent;
 
   /* Outline + ghost buttons: ink border/text, 10% ink-wash wipe on hover.
    * Ink border vs gold ≈ 8.4:1 (SC 1.4.11 ✓).                        */
-  --button-outline-text:           var(--color-neutral-950);
-  --button-outline-text-hover:     var(--color-neutral-950);
-  --button-outline-border:         var(--color-neutral-950);
-  --button-outline-border-hover:   var(--color-neutral-950);
-  --button-outline-surface-hover:  oklch(12% 0.008 40 / 0.10);
+  --button-outline-text: var(--color-neutral-950);
+  --button-outline-text-hover: var(--color-neutral-950);
+  --button-outline-border: var(--color-neutral-950);
+  --button-outline-border-hover: var(--color-neutral-950);
+  --button-outline-surface-hover: oklch(12% 0.008 40 / 0.1);
   --button-outline-surface-active: oklch(12% 0.008 40 / 0.18);
 
   /* Focus ring: ink on gold ≈ 8.4:1 (AAA ✓). Offset color matches surface. */
-  --focus-ring-color:        var(--color-neutral-950);
+  --focus-ring-color: var(--color-neutral-950);
   --focus-ring-offset-color: var(--color-primary-400);
 }
 
@@ -770,11 +803,19 @@ dialog.lightbox::backdrop {
 }
 
 @keyframes logo-hover-in {
-  from { background-position: 0 100%; }
-  to   { background-position: 0 50%;  }
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: 0 50%;
+  }
 }
 
 @keyframes logo-hover-out {
-  from { background-position: 0 50%; }
-  to   { background-position: 0 0;   }
+  from {
+    background-position: 0 50%;
+  }
+  to {
+    background-position: 0 0;
+  }
 }

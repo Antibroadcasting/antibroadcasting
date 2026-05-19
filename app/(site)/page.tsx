@@ -45,7 +45,6 @@ async function getFeaturedWork() {
 function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
   return (
     <section className="relative flex flex-col min-h-screen">
-
       {/* Meta row — eyebrow + booking badge */}
       <div className="flex flex-col gap-4 md:flex-row items-start md:items-center justify-between pt-10 pb-2">
         <div className="flex items-center gap-4">
@@ -54,13 +53,15 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
           </span>
           <span className="hidden sm:block h-px w-16 bg-gold" />
         </div>
-        <div className="flex items-center gap-2 font-mono text-xs font-black tracking-widest uppercase text-text-inverse bg-gold px-3 py-1">
-          <span className="relative flex h-2 w-2 shrink-0">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-bg-base opacity-60" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-bg-base" />
-          </span>
-          Now Booking — Summer &apos;26
-        </div>
+        {siteInfo.booking.visible && (
+          <div className="flex items-center gap-2 font-mono text-xs lg:text-sm xl:text-base font-black tracking-widest uppercase text-text-inverse bg-button-primary-surface px-3 py-1">
+            <span className="relative flex h-2 w-2 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-bg-base opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-bg-base" />
+            </span>
+            Now Booking — {siteInfo.booking.label}
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col lg:flex-row flex-1 gap-12 py-12">
@@ -69,7 +70,9 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
           <h1 className="font-display font-black uppercase leading-[0.75]">
             <span className="block text-[clamp(6rem,15vw,12rem)]">Custom</span>
             <span className="block text-[clamp(6rem,15vw,12rem)]">Screen</span>
-            <span className="block text-[clamp(6rem,15vw,12rem)]">Printing<span className="text-gold">.</span></span>
+            <span className="block text-[clamp(6rem,15vw,12rem)]">
+              Printing<span className="text-gold">.</span>
+            </span>
           </h1>
 
           <p className="mt-6 text-text-secondary text-lg max-w-[64ch] leading-relaxed">
@@ -79,19 +82,28 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
           </p>
 
           <div className="flex flex-wrap gap-3 mt-8">
-            <TransitionLink href="/contact" className={buttonVariants({ variant: "primary", size: "md" })}>
+            <TransitionLink
+              href="/contact"
+              className={buttonVariants({ variant: "primary", size: "md" })}
+            >
               Get a Quote
             </TransitionLink>
-            <TransitionLink href="/portfolio" className={buttonVariants({ variant: "outline", size: "md" })}>
+            <TransitionLink
+              href="/portfolio"
+              className={buttonVariants({ variant: "outline", size: "md" })}
+            >
               See Our Work
             </TransitionLink>
           </div>
         </div>
 
         {/* Right — hero photograph with editorial overlay (decorative) */}
-        <div className="hidden lg:flex flex-2 self-stretch relative" aria-hidden="true">
+        <div
+          className="hidden lg:flex flex-2 self-stretch relative"
+          aria-hidden="true"
+        >
           <div
-            className="relative w-full h-full min-h-[480px] overflow-hidden border border-paper/10"
+            className="relative w-full h-full min-h-120 overflow-hidden border border-paper/10"
             style={{
               backgroundImage: "url('/images/hero-img01.jpg')",
               backgroundSize: "cover",
@@ -153,8 +165,14 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
         {/* Stats */}
         <div className="flex flex-wrap gap-x-16 gap-y-6">
           {[
-            { value: `${siteInfo.business.minimumOrder}+`, label: "Piece Minimum" },
-            { value: `${siteInfo.business.turnaroundDays}`, label: "Day Turnaround" },
+            {
+              value: `${siteInfo.business.minimumOrder}+`,
+              label: "Piece Minimum",
+            },
+            {
+              value: `${siteInfo.business.turnaroundDays}`,
+              label: "Day Turnaround",
+            },
             { value: `${siteInfo.business.maxColors}`, label: "Color Maximum" },
           ].map((stat) => (
             <div key={stat.label}>
@@ -174,7 +192,8 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
             {siteInfo.contact.address.street}
           </p>
           <p className="font-mono text-xs uppercase tracking-widest text-text-secondary -mt-1">
-            {siteInfo.contact.address.city}, {siteInfo.contact.address.state} {siteInfo.contact.address.zip}
+            {siteInfo.contact.address.city}, {siteInfo.contact.address.state}{" "}
+            {siteInfo.contact.address.zip}
           </p>
           <p className="font-mono text-xs uppercase tracking-widest text-text-accent">
             By Appointment Only
@@ -214,9 +233,11 @@ function ProcessStrip() {
   ];
 
   return (
-    <section className="bg-bg-inverse -mx-4 md:-mx-6 lg:-mx-8 xl:-mx-12" data-inverse>
+    <section
+      className="bg-bg-inverse -mx-4 md:-mx-6 lg:-mx-8 xl:-mx-12"
+      data-inverse
+    >
       <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto px-4 md:px-6 lg:px-8 xl:px-12 pt-20 pb-32">
-
         {/* Section label */}
         <div className="flex items-center gap-4 mb-16">
           <span className="block h-px w-8 bg-text-inverse/30" />
@@ -228,7 +249,9 @@ function ProcessStrip() {
         {/* Heading row */}
         <div className="mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
           <h2 className="font-display font-black uppercase leading-[0.85] text-[clamp(4rem,10vw,8rem)] text-text-inverse">
-            Our<br />Process<span className="text-gold">.</span>
+            Our
+            <br />
+            Process<span className="text-gold">.</span>
           </h2>
           <div className="flex flex-col items-start lg:items-end gap-3 lg:pb-2 shrink-0">
             <p className="font-mono text-xs uppercase tracking-widest text-text-inverse/40">
@@ -238,7 +261,7 @@ function ProcessStrip() {
               href="/how-it-works"
               className={buttonVariants({ variant: "neutral", size: "md" })}
             >
-              Read the Full Guide →
+              See How It Works →
             </TransitionLink>
           </div>
         </div>
@@ -249,7 +272,10 @@ function ProcessStrip() {
         {/* Steps */}
         <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-text-inverse/15">
           {steps.map((step) => (
-            <div key={step.n} className="pt-8 pb-12 px-0 md:px-8 first:pl-0 last:pr-0 flex flex-col gap-6">
+            <div
+              key={step.n}
+              className="pt-8 pb-12 px-0 md:px-8 first:pl-0 last:pr-0 flex flex-col gap-6"
+            >
               {/* Step header — label + rule + mark */}
               <div className="flex items-center gap-3">
                 <span className="font-mono text-xs text-text-accent uppercase tracking-widest shrink-0">
@@ -260,9 +286,12 @@ function ProcessStrip() {
               </div>
 
               <h3 className="font-display font-black uppercase text-[clamp(2rem,3.5vw,3.5rem)] leading-[0.9] text-text-inverse">
-                {step.title}<span className="text-gold">.</span>
+                {step.title}
+                <span className="text-gold">.</span>
               </h3>
-              <p className="text-text-on-inverse-muted text-sm leading-relaxed">{step.body}</p>
+              <p className="text-text-on-inverse-muted text-sm leading-relaxed">
+                {step.body}
+              </p>
             </div>
           ))}
         </div>
@@ -270,8 +299,6 @@ function ProcessStrip() {
     </section>
   );
 }
-
-
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
@@ -317,7 +344,6 @@ export default async function Home() {
         {/* Featured Work */}
         {featuredWork.length > 0 && (
           <section className="pt-40 pb-16 border-t border-foreground/10">
-
             {/* Section label */}
             <div className="flex items-center gap-4 mb-12">
               <span className="block h-px w-8 bg-foreground/30" />
@@ -329,7 +355,9 @@ export default async function Home() {
             {/* Heading row */}
             <div className="mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
               <h2 className="font-display font-black uppercase leading-[0.85] text-[clamp(4rem,10vw,8rem)]">
-                Featured<br />Work<span className="text-gold">.</span>
+                Featured
+                <br />
+                Work<span className="text-gold">.</span>
               </h2>
               <div className="flex flex-col items-start lg:items-end gap-3 lg:pb-2 shrink-0">
                 <p className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
@@ -353,7 +381,13 @@ export default async function Home() {
       {/* Full-bleed sections — outside the constrained wrapper so -mx-* only escapes main's padding */}
       <ProcessStrip />
       <CtaBand
-        heading={<>Ready to<br />Print?</>}
+        heading={
+          <>
+            Ready to
+            <br />
+            Print?
+          </>
+        }
         description="Send us your file, your idea, or a napkin sketch. We answer every quote request personally — usually within 24 hours."
         primaryCta={{ label: "Get a Quote", href: "/contact" }}
         secondaryCta={{ label: "How It Works", href: "/how-it-works" }}

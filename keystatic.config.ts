@@ -124,6 +124,17 @@ export default config({
         twitterUrl: fields.text({ label: "X / Twitter URL" }),
         twitterHandle: fields.text({ label: "X / Twitter handle" }),
 
+        // ── Booking status ───────────────────────────────────────────
+        nowBookingVisible: fields.checkbox({
+          label: 'Show "Now Booking" badge on homepage',
+          defaultValue: true,
+        }),
+        nowBookingLabel: fields.text({
+          label: '"Now Booking" label text',
+          description: 'e.g. "Summer \'26" or "Fall \'26 — Limited Spots"',
+          defaultValue: "Summer '26",
+        }),
+
         // ── Business rules ───────────────────────────────────────────
         minimumOrder: fields.number({ label: "Minimum order (pieces)" }),
         turnaroundDays: fields.text({

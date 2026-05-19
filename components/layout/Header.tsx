@@ -245,7 +245,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
           </nav>
 
           <div className="hidden lg:flex grow justify-end self-center items-center gap-4">
-            <div className="flex items-center gap-4 text-xs">
+            <div className="flex items-center gap-6 text-xs">
               <a
                 href={siteInfo.contact.phoneHref}
                 className="flex items-center gap-1 font-medium text-text-primary hover:underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
@@ -255,7 +255,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                   aria-hidden="true"
                   className="text-lg xl:text-sm"
                 />
-                <span className="hidden text-sm 2xl:inline">
+                <span className="hidden text-sm xl:inline">
                   {siteInfo.contact.phone}
                 </span>
               </a>
@@ -272,10 +272,10 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                   {siteInfo.contact.email}
                 </span>
               </a>
+              <Button variant="outline" size="sm">
+                <TransitionLink href="/contact">Get a Quote</TransitionLink>
+              </Button>
             </div>
-            <Button variant="outline" size="sm">
-              <TransitionLink href="/contact">Get a Quote</TransitionLink>
-            </Button>
           </div>
         </div>
 

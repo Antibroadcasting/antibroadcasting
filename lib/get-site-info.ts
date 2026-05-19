@@ -46,6 +46,10 @@ export const getSiteInfo = cache(async () => {
         handle: raw.twitterHandle ?? "",
       },
     },
+    booking: {
+      visible: raw.nowBookingVisible ?? true,
+      label: raw.nowBookingLabel ?? "Summer '26",
+    },
     business: {
       minimumOrder: raw.minimumOrder ?? 50,
       turnaroundDays: raw.turnaroundDays ?? "7–10",

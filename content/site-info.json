@@ -16,6 +16,8 @@
   "facebookHandle": "@antibroadcasting",
   "twitterUrl": "https://x.com/mplsprinting",
   "twitterHandle": "@mplsprinting",
+  "nowBookingVisible": true,
+  "nowBookingLabel": "Fall '26",
   "minimumOrder": 50,
   "turnaroundDays": "7–10",
   "maxColors": 8,

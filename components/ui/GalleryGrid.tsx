@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef, type MouseEvent } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
+import { RegistrationMark } from "./RegistrationMark";
 
 export type GalleryItem = {
   slug: string;
@@ -90,86 +91,34 @@ function Lightbox({
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
+      {/* Corner registration marks */}
+      <RegistrationMark className="absolute top-7 left-7 w-5 h-5 text-paper/40 pointer-events-none" />
+      <RegistrationMark className="absolute top-7 right-7 w-5 h-5 text-gold/70 pointer-events-none" />
+      <RegistrationMark className="absolute bottom-7 left-7 w-5 h-5 text-paper/40 pointer-events-none" />
+      <RegistrationMark className="absolute bottom-7 right-7 w-5 h-5 text-paper/40 pointer-events-none" />
+
       {/* Close — autofocus so keyboard users land here on open */}
       <button
         autoFocus
         onClick={handleClose}
         aria-label="Close lightbox"
-        className="absolute top-4 right-4 text-paper/60 hover:text-paper transition-colors z-10 p-2"
+        className="absolute top-8 right-8 z-10 w-14 h-14 rounded-full bg-ink-2 border border-paper/10 text-paper flex items-center justify-center hover:bg-gold hover:text-ink hover:border-gold transition-colors focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2"
       >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M6 18L18 6M6 6l12 12"
-          />
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
 
-      {/* Prev */}
-      {hasPrev && (
-        <button
-          onClick={(e) => { e.stopPropagation(); onPrev(); }}
-          aria-label="Previous image"
-          className="absolute left-4 top-1/2 -translate-y-1/2 text-paper/60 hover:text-paper transition-colors z-10 p-2"
-        >
-          <svg
-            className="w-8 h-8"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 19.5L8.25 12l7.5-7.5"
-            />
-          </svg>
-        </button>
-      )}
-
-      {/* Next */}
-      {hasNext && (
-        <button
-          onClick={(e) => { e.stopPropagation(); onNext(); }}
-          aria-label="Next image"
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-paper/60 hover:text-paper transition-colors z-10 p-2"
-        >
-          <svg
-            className="w-8 h-8"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8.25 4.5l7.5 7.5-7.5 7.5"
-            />
-          </svg>
-        </button>
-      )}
 
       {/* Content */}
       <div
-        className={`relative flex flex-col md:flex-row items-center gap-6 max-w-5xl w-full max-h-[90vh] transition-transform duration-200 ease-out motion-reduce:transition-none ${
+        className={`relative grid grid-cols-1 md:grid-cols-[1fr_320px] gap-10 max-w-[1300px] w-full max-h-[calc(100vh-80px)] transition-transform duration-200 ease-out motion-reduce:transition-none ${
           isVisible ? "scale-100" : "scale-[0.98]"
         }`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Image */}
-        <div className="relative w-full md:w-auto md:flex-1 aspect-square max-h-[70vh] shrink-0">
+        <div className="relative aspect-square bg-ink-2 border border-paper/10 overflow-hidden">
           {item.image ? (
             <Image
               src={item.image}
@@ -187,30 +136,79 @@ function Lightbox({
         </div>
 
         {/* Meta panel */}
-        <div className="md:w-56 shrink-0 text-paper">
-          <p className="font-semibold text-xl leading-tight">
+        <div className="flex flex-col text-paper py-2">
+          {item.category && (
+            <span className="self-start font-mono text-[10px] uppercase tracking-[0.22em] font-bold px-2.5 py-1 bg-gold text-ink mb-4">
+              {item.category.replace(/-/g, " ")}
+            </span>
+          )}
+
+          <h2 className="font-display font-black uppercase text-[44px] leading-[0.95] tracking-[-0.01em] m-0 mb-3">
             {item.client ?? item.title}
-          </p>
+          </h2>
+
+          {item.client && (
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-paper/40 mb-6">
+              {item.title}
+            </p>
+          )}
 
           {item.description && (
-            <p className="mt-2 text-sm text-paper/70 leading-relaxed">
+            <p className="text-base leading-relaxed text-paper/70 mb-7">
               {item.description}
             </p>
           )}
 
-          <div className="mt-4 space-y-1 text-sm text-paper/70">
-            {item.year && <p>{item.year}</p>}
-            {item.colors && <p>{formatColors(item.colors)}</p>}
+          <div className="mt-auto border-t border-paper/10 pt-5 grid grid-cols-2 gap-x-5 gap-y-3.5">
+            {item.year && (
+              <div className="flex flex-col gap-1">
+                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/40">Year</span>
+                <span className="font-display font-black uppercase text-[22px] leading-none">{item.year}</span>
+              </div>
+            )}
+            {item.colors && (
+              <div className="flex flex-col gap-1">
+                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/40">Colors</span>
+                <span className="font-display font-black uppercase text-[22px] leading-none text-gold">{item.colors}</span>
+              </div>
+            )}
             {item.category && (
-              <p className="capitalize">{item.category.replace(/-/g, " ")}</p>
+              <div className="flex flex-col gap-1 col-span-2">
+                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/40">Garment</span>
+                <span className="font-display font-black uppercase text-[22px] leading-none">{item.category.replace(/-/g, " ")}</span>
+              </div>
             )}
           </div>
-
-          {/* Counter */}
-          <p className="mt-6 text-xs text-paper/50">
-            {currentIndex + 1} / {items.length}
-          </p>
         </div>
+      </div>
+
+      {/* Pagination pill */}
+      <div className="absolute bottom-7 left-1/2 -translate-x-1/2 flex items-center bg-ink-2 border border-paper/10 rounded-full overflow-hidden whitespace-nowrap">
+        <button
+          onClick={(e) => { e.stopPropagation(); onPrev(); }}
+          disabled={!hasPrev}
+          aria-label="Previous image"
+          className="flex items-center justify-center w-10 h-10 text-paper hover:text-gold transition-colors disabled:opacity-25 disabled:pointer-events-none"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+        <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-paper/60 px-1 select-none">
+          <span className="text-paper font-semibold">{String(currentIndex + 1).padStart(2, "0")}</span>
+          <span className="mx-2">/</span>
+          <span>{String(items.length).padStart(2, "0")}</span>
+        </span>
+        <button
+          onClick={(e) => { e.stopPropagation(); onNext(); }}
+          disabled={!hasNext}
+          aria-label="Next image"
+          className="flex items-center justify-center w-10 h-10 text-paper hover:text-gold transition-colors disabled:opacity-25 disabled:pointer-events-none"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
       </div>
     </dialog>
   );
