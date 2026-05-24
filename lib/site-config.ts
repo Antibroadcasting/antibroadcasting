@@ -1,5 +1,5 @@
 // Developer / infrastructure config only.
-// Editorial content (company info, contact, social, business rules, form options)
+// Editorial content (company info, contact, social, SEO, business rules, form options)
 // lives in content/site-info.json and is accessed via lib/get-site-info.ts.
 
 export const siteConfig = {
@@ -8,12 +8,7 @@ export const siteConfig = {
     url: "https://antibroadcasting.com",
     baseUrl: "https://antibroadcasting.com",
     domain: "antibroadcasting.com",
-    title: {
-      default: "Antibroadcasting Inc. — Minneapolis Screen Printing",
-      template: "%s | Antibroadcasting Inc.",
-    },
-    description:
-      "Artist-run screen printing shop in Minneapolis. Quality prints for bands, artists, and events. 50pc minimums, 7–10 day turnaround.",
+    titleTemplate: "%s | Antibroadcasting Inc.",
     language: "en",
     locale: "en_US",
   },
@@ -33,33 +28,16 @@ export const siteConfig = {
     },
   },
 
-  // SEO & Metadata
+  // SEO — crawler directives and verification codes only; keywords/description live in Keystatic
   seo: {
-    keywords: [
-      "screen printing",
-      "minneapolis screen printing",
-      "custom t-shirts",
-      "band merch",
-      "artist prints",
-      "event merchandise",
-      "custom apparel",
-      "minnesota screen printing",
-      "antibroadcasting",
-    ],
-    author: "Antibroadcasting Inc.",
     robots: "index, follow",
     googleVerification: "",
     bingVerification: "",
   },
 
-  // Open Graph / Social Sharing
+  // Open Graph — structural config only; title/description/siteName live in Keystatic
   openGraph: {
     type: "website",
-    siteName: "Antibroadcasting Inc.",
-    title: "Antibroadcasting Inc. — Minneapolis Screen Printing",
-    description:
-      "Artist-run screen printing shop in Minneapolis. Quality prints for bands, artists, and events. 50pc minimums, 7–10 day turnaround.",
-    url: "https://antibroadcasting.com",
     images: [
       {
         url: "/og-image.jpg",
@@ -70,29 +48,9 @@ export const siteConfig = {
     ],
   },
 
-  // Twitter Card
+  // Twitter Card — structural config only; handle lives in Keystatic social fields
   twitter: {
     card: "summary_large_image",
-    site: "@antibroadcasting_inc",
-    creator: "@antibroadcasting_inc",
-  },
-
-  // Content Categories (used for gallery/FAQ filter UI)
-  categories: {
-    gallery: [
-      { label: "Band Merch", value: "band-merch" },
-      { label: "Local Artist", value: "local-artist" },
-      { label: "Event", value: "event" },
-      { label: "Business", value: "business" },
-    ],
-    faq: [
-      { label: "Pricing", value: "pricing" },
-      { label: "Ordering", value: "ordering" },
-      { label: "Art & Files", value: "art" },
-      { label: "Turnaround", value: "turnaround" },
-      { label: "Products & Inks", value: "products" },
-      { label: "Payment", value: "payment" },
-    ],
   },
 
   // Typography

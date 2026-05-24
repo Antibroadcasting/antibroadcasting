@@ -221,7 +221,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
             <RegistrationMark className="w-5 h-5 text-text-accent shrink-0" />
             <span
               ref={logoRef}
-              className="logo font-black text-2xl font-display tracking-wider text-text-primary uppercase leading-none"
+              className="logo font-black text-3xl sm:text-4xl lg:text-2xl font-display tracking-wider text-text-primary uppercase leading-none"
             >
               {siteInfo.company.nickname}
             </span>
@@ -237,7 +237,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                 key={item.href}
                 href={item.href}
                 pathname={pathname}
-                className="hover:text-ink font-medium px-5 py-9 relative overflow-hidden before:absolute before:inset-0 before:-z-10 before:transform before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top before:bg-gold transition-all"
+                className="hover:text-ink font-mono uppercase tracking-widest font-medium px-5 py-9 relative overflow-hidden before:absolute before:inset-0 before:-z-10 before:transform before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top before:bg-gold transition-all"
               >
                 {item.label}
               </NavLink>
@@ -255,7 +255,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                   aria-hidden="true"
                   className="text-lg xl:text-sm"
                 />
-                <span className="hidden text-sm xl:inline">
+                <span className="hidden font-mono uppercase tracking-widest text-sm xl:inline">
                   {siteInfo.contact.phone}
                 </span>
               </a>
@@ -268,7 +268,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                   aria-hidden="true"
                   className="text-lg xl:text-sm"
                 />
-                <span className="hidden text-sm 2xl:inline">
+                <span className="hidden font-mono uppercase tracking-widest text-sm 2xl:inline">
                   {siteInfo.contact.email}
                 </span>
               </a>
@@ -315,7 +315,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
       <nav
         ref={drawerRef}
         id={DRAWER_ID}
-        className={`fixed top-24 right-0 z-40 h-full w-72 bg-bg-base shadow-xl transition-transform duration-300 ease-in-out lg:hidden ${
+        className={`fixed top-18 right-0 z-40 h-full w-72 bg-bg-base shadow-xl transition-transform duration-300 ease-in-out lg:hidden ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
         aria-label="Mobile navigation"
@@ -333,7 +333,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
               pathname={pathname}
               onClick={() => setOpen(false)}
             >
-              <span className="block py-2 text-lg text-text-primary">
+              <span className="block py-2 text-lg text-text-primary font-mono uppercase tracking-widest">
                 {item.label}
               </span>
             </NavLink>
@@ -354,12 +354,16 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                 aria-hidden="true"
                 className="text-base shrink-0"
               />
-              <span>{siteInfo.contact.phone}</span>
+              <span className="font-mono uppercase tracking-widest">
+                {siteInfo.contact.phone}
+              </span>
             </a>
 
             <div className="flex items-center gap-2 text-text-secondary">
               <MailOutlined aria-hidden="true" className="text-base shrink-0" />
-              <CopyEmailButton email={siteInfo.contact.email} />
+              <span className="font-mono uppercase">
+                <CopyEmailButton email={siteInfo.contact.email} />
+              </span>
             </div>
 
             <div className="flex items-center gap-1 mt-2 -ml-2">
@@ -395,8 +399,12 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
               </Button>
             </div>
 
-            <p className="mt-2">{siteInfo.contact.address.street}</p>
-            <p className="-mt-2">{siteInfo.contact.address.location}</p>
+            <p className="mt-2 font-mono uppercase tracking-widest">
+              {siteInfo.contact.address.street}
+            </p>
+            <p className="-mt-2 font-mono uppercase tracking-widest">
+              {siteInfo.contact.address.location}
+            </p>
           </div>
         </div>
       </nav>

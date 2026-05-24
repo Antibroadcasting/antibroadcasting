@@ -8,14 +8,15 @@ import { RegistrationMark } from "@/components/ui/RegistrationMark";
 import { FeaturedWorkGrid } from "@/components/ui/FeaturedWorkGrid";
 import { CtaBand } from "@/components/ui/CtaBand";
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata(): Promise<Metadata> {
+  const siteInfo = await getSiteInfo();
   return {
-    title: siteConfig.site.title.default,
-    description: siteConfig.site.description,
+    title: siteInfo.seo.title,
+    description: siteInfo.seo.description,
     alternates: { canonical: siteConfig.site.url },
     openGraph: {
-      title: siteConfig.openGraph.title,
-      description: siteConfig.openGraph.description,
+      title: siteInfo.seo.title,
+      description: siteInfo.seo.description,
       url: siteConfig.site.url,
     },
   };
@@ -49,12 +50,13 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
       <div className="flex flex-col gap-4 md:flex-row items-start md:items-center justify-between pt-10 pb-2">
         <div className="flex items-center gap-4">
           <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
-            Est. 2005 Minneapolis · Artist-Run
+            Est. 2005 {siteInfo.contact.address.city}{" "}
+            {siteInfo.contact.address.state} · Artist-Run
           </span>
           <span className="hidden sm:block h-px w-16 bg-gold" />
         </div>
         {siteInfo.booking.visible && (
-          <div className="flex items-center gap-2 font-mono text-xs lg:text-sm xl:text-base font-black tracking-widest uppercase text-text-inverse bg-button-primary-surface px-3 py-1">
+          <div className="flex items-center gap-2 font-mono text-xs lg:text-sm xl:text-base font-black tracking-widest uppercase text-text-inverse bg-button-secondary-surface px-3 py-1">
             <span className="relative flex h-2 w-2 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-bg-base opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-bg-base" />
@@ -75,7 +77,7 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
             </span>
           </h1>
 
-          <p className="mt-6 text-text-secondary text-lg max-w-[64ch] leading-relaxed">
+          <p className="mt-6 text-text-secondary max-w-[40ch] lg:max-w-[60ch] text-pretty leading-relaxed">
             {siteInfo.company.nickname} is an artist-run shop in Minneapolis. We
             print for bands, artists, events, and our community.{" "}
             {siteInfo.company.tagline}
@@ -314,7 +316,7 @@ export default async function Home() {
     name: siteInfo.company.legalName,
     url: siteConfig.site.url,
     telephone: siteInfo.contact.phone,
-    description: siteConfig.site.description,
+    description: siteInfo.seo.description,
     address: {
       "@type": "PostalAddress",
       streetAddress: siteInfo.contact.address.street,

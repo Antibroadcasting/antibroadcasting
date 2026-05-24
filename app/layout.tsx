@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Figtree, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { siteConfig } from "@/lib/site-config";
+import { getSiteInfo } from "@/lib/get-site-info";
 import "./globals.css";
 
 const figtreeSans = Figtree({
@@ -25,27 +26,33 @@ const dominique = localFont({
   preload: true,
 });
 
-export const metadata: Metadata = {
-  title: siteConfig.site.title, // already { default, template } from site-config
-  description: siteConfig.site.description,
-  metadataBase: new URL(siteConfig.site.url),
-  keywords: [...siteConfig.seo.keywords],
-  alternates: {
-    canonical: siteConfig.site.url,
-  },
-  openGraph: {
-    type: "website",
-    siteName: siteConfig.openGraph.siteName,
-    title: siteConfig.openGraph.title,
-    description: siteConfig.openGraph.description,
-    url: siteConfig.openGraph.url,
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: siteConfig.twitter.site,
-    creator: siteConfig.twitter.creator,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const siteInfo = await getSiteInfo();
+  return {
+    title: {
+      default: siteInfo.seo.title,
+      template: siteConfig.site.titleTemplate,
+    },
+    description: siteInfo.seo.description,
+    metadataBase: new URL(siteConfig.site.url),
+    keywords: siteInfo.seo.keywords,
+    alternates: {
+      canonical: siteConfig.site.url,
+    },
+    openGraph: {
+      type: "website",
+      siteName: siteInfo.company.legalName,
+      title: siteInfo.seo.title,
+      description: siteInfo.seo.description,
+      url: siteConfig.site.url,
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: siteInfo.social.twitter.handle,
+      creator: siteInfo.social.twitter.handle,
+    },
+  };
+}
 
 export default function RootLayout({
   children,

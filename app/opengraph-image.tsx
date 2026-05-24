@@ -1,8 +1,7 @@
 import { ImageResponse } from "next/og";
-import { siteConfig } from "@/lib/site-config";
 
 export const runtime = "edge";
-export const alt = siteConfig.site.title.default;
+export const alt = "Antibroadcasting Inc. — Minneapolis Screen Printing";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

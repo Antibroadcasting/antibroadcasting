@@ -147,6 +147,22 @@ export default config({
           description: 'e.g. "1–2 business days"',
         }),
 
+        // ── SEO ──────────────────────────────────────────────────────
+        metaTitle: fields.text({
+          label: "Default page title",
+          description: 'Used in <title> and Open Graph. e.g. "Antibroadcasting Inc. — Minneapolis Screen Printing"',
+        }),
+        metaDescription: fields.text({
+          label: "Default meta description",
+          description: 'Used in <meta name="description"> and Open Graph.',
+          multiline: true,
+        }),
+        seoKeywords: fields.text({
+          label: "SEO keywords",
+          description: "One keyword or phrase per line.",
+          multiline: true,
+        }),
+
         // ── Quote form options (one per line) ─────────────────────────
         garmentOptions: fields.text({
           label: "Garment options",

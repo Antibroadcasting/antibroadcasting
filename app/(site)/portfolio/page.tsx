@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
+import { getSiteInfo } from "@/lib/get-site-info";
 import { reader } from "@/lib/keystatic";
 import { GalleryGrid } from "@/components/ui/GalleryGrid";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
@@ -35,7 +36,10 @@ export default async function PortfolioPage({
   const { category } = await searchParams;
   const activeCategory = category ?? "all";
 
-  const galleryEntries = await reader.collections.gallery.all();
+  const [galleryEntries, siteInfo] = await Promise.all([
+    reader.collections.gallery.all(),
+    getSiteInfo(),
+  ]);
 
   const allItems = galleryEntries.map((entry) => ({
     slug: entry.slug,
@@ -67,14 +71,13 @@ export default async function PortfolioPage({
     <>
       {/* ── Constrained wrapper ───────────────────────────────────────── */}
       <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
-
         {/* ── Hero ──────────────────────────────────────────────────── */}
         <section className="pt-10 pb-16 border-b border-foreground/10">
-
           {/* Meta row */}
           <div className="flex items-center gap-4 mb-6">
             <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
-              Est. Minneapolis · Artist-Run
+              Est. 2005 {siteInfo.contact.address.city}{" "}
+              {siteInfo.contact.address.state} · Artist-Run
             </span>
             <span className="h-px w-16 bg-gold hidden sm:block" />
           </div>
@@ -120,7 +123,11 @@ export default async function PortfolioPage({
               return (
                 <Link
                   key={cat.value}
-                  href={cat.value === "all" ? "/portfolio" : `?category=${cat.value}`}
+                  href={
+                    cat.value === "all"
+                      ? "/portfolio"
+                      : `?category=${cat.value}`
+                  }
                   aria-current={isActive ? "true" : undefined}
                   className={`inline-flex items-center gap-2 px-4 py-1.5 font-mono text-xs uppercase tracking-widest border transition-colors ${
                     isActive
@@ -141,7 +148,8 @@ export default async function PortfolioPage({
             })}
             {activeCategory !== "all" && (
               <span className="font-mono text-xs text-text-tertiary ml-auto">
-                {filteredItems.length} result{filteredItems.length !== 1 ? "s" : ""}
+                {filteredItems.length} result
+                {filteredItems.length !== 1 ? "s" : ""}
               </span>
             )}
           </div>
@@ -159,7 +167,13 @@ export default async function PortfolioPage({
 
       {/* ── CTA — full-bleed ──────────────────────────────────────── */}
       <CtaBand
-        heading={<>Like What<br />You See?</>}
+        heading={
+          <>
+            Like What
+            <br />
+            You See?
+          </>
+        }
         description="We print for bands, artists, events, and businesses across Minneapolis. Let's talk about your project."
         primaryCta={{ label: "Get a Quote", href: "/contact" }}
         secondaryCta={{ label: "How It Works", href: "/how-it-works" }}

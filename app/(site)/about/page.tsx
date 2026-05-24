@@ -4,7 +4,6 @@ import { getSiteInfo } from "@/lib/get-site-info";
 import { siteConfig } from "@/lib/site-config";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
 import { CtaBand } from "@/components/ui/CtaBand";
-import { TransitionLink } from "@/components/layout/TransitionLink";
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteInfo = await getSiteInfo();
@@ -58,10 +57,22 @@ function PhotoFrame({
       <div aria-hidden="true" className="absolute inset-0 bg-ink/20" />
 
       {/* Corner brackets */}
-      <div aria-hidden="true" className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-paper/60" />
-      <div aria-hidden="true" className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-paper/60" />
-      <div aria-hidden="true" className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-paper/60" />
-      <div aria-hidden="true" className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-paper/60" />
+      <div
+        aria-hidden="true"
+        className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-paper/60"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-paper/60"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-paper/60"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-paper/60"
+      />
 
       {/* Catalog label */}
       {catalogLabel && (
@@ -81,20 +92,21 @@ export default async function AboutPage() {
   return (
     <>
       <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
-
         {/* ── Hero ────────────────────────────────────────────────────── */}
         <section className="pt-10 pb-16 border-b border-foreground/10">
-
           {/* Meta row */}
           <div className="flex items-center gap-4 mb-6">
             <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
-              Est. {siteInfo.contact.address.city} · Artist-Run
+              Est. 2005 {siteInfo.contact.address.city}{" "}
+              {siteInfo.contact.address.state} · Artist-Run
             </span>
             <span className="h-px w-16 bg-gold hidden sm:block" />
           </div>
 
           <h1 className="font-display font-black uppercase leading-[0.85] text-[clamp(5rem,18vw,12rem)]">
-            Experience<br />That Matters<span className="text-gold">.</span>
+            Experience
+            <br />
+            That Matters<span className="text-gold">.</span>
           </h1>
 
           {/* Stats strip */}
@@ -121,7 +133,6 @@ export default async function AboutPage() {
 
         {/* ── Section 01: Philosophy ───────────────────────────────────── */}
         <section className="py-20 lg:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center border-b border-foreground/10">
-
           {/* Text — left */}
           <div className="order-2 lg:order-1 flex flex-col gap-6">
             {/* Section label */}
@@ -134,7 +145,9 @@ export default async function AboutPage() {
             </div>
 
             <h2 className="font-display font-black text-[clamp(3rem,8vw,5.5rem)] uppercase leading-[0.9] text-text-primary">
-              Quality Over<br />Volume<span className="text-gold">.</span>
+              Quality Over
+              <br />
+              Volume<span className="text-gold">.</span>
             </h2>
 
             <div className="space-y-4 text-text-secondary leading-relaxed max-w-[68ch]">
@@ -175,7 +188,6 @@ export default async function AboutPage() {
 
         {/* ── Section 02: Founder story ────────────────────────────────── */}
         <section className="py-20 lg:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center border-b border-foreground/10">
-
           {/* Photo — left */}
           <div>
             <PhotoFrame
@@ -197,14 +209,16 @@ export default async function AboutPage() {
             </div>
 
             <h2 className="font-display font-black uppercase text-[clamp(3rem,8vw,5.5rem)] leading-[0.9] text-text-primary">
-              Built From<br />the Ground Up<span className="text-gold">.</span>
+              Built From
+              <br />
+              the Ground Up<span className="text-gold">.</span>
             </h2>
 
             <div className="space-y-4 text-text-secondary leading-relaxed max-w-[60ch]">
               <p>
-                Antibroadcasting was incorporated in 2005. Our owner, Chris, grew
-                up working alongside his uncle and father at their shop in Minot,
-                North Dakota — back when rubylith, hand-cut stencils, and
+                Antibroadcasting was incorporated in 2005. Our owner, Chris,
+                grew up working alongside his uncle and father at their shop in
+                Minot, North Dakota — back when rubylith, hand-cut stencils, and
                 hand-stretched 2×2&Prime; screens were still standard.
               </p>
               <p>
@@ -236,7 +250,6 @@ export default async function AboutPage() {
 
         {/* ── Section 03: Who we work with ─────────────────────────────── */}
         <section className="py-20 lg:py-28">
-
           {/* Section header */}
           <div className="flex items-center gap-3 mb-12">
             <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
@@ -248,7 +261,11 @@ export default async function AboutPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-10 lg:gap-20 items-start">
             <h2 className="font-display font-black text-[clamp(3rem,8vw,5rem)] leading-[0.9] text-text-primary uppercase">
-              Anyone Who<br />Needs Great<br />Prints<span className="text-gold">.</span>
+              Anyone Who
+              <br />
+              Needs Great
+              <br />
+              Prints<span className="text-gold">.</span>
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-foreground/10">
@@ -280,7 +297,10 @@ export default async function AboutPage() {
                     className="absolute inset-0 bg-gold scale-y-0 origin-bottom group-hover:scale-y-100 transition-[scale] duration-300 ease-in-out"
                   />
                   <h3 className="relative font-display font-black uppercase text-xl leading-tight text-text-primary group-hover:text-ink transition-colors duration-300">
-                    {item.title}<span className="text-text-accent group-hover:text-ink/40 transition-colors duration-300">.</span>
+                    {item.title}
+                    <span className="text-text-accent group-hover:text-ink/40 transition-colors duration-300">
+                      .
+                    </span>
                   </h3>
                   <p className="relative text-sm text-text-secondary leading-relaxed group-hover:text-ink/70 transition-colors duration-300">
                     {item.body}
@@ -290,12 +310,17 @@ export default async function AboutPage() {
             </div>
           </div>
         </section>
-
       </div>
 
       {/* ── CTA — full-bleed ──────────────────────────────────────── */}
       <CtaBand
-        heading={<>Ready to<br />Print?</>}
+        heading={
+          <>
+            Ready to
+            <br />
+            Print?
+          </>
+        }
         description="Send us your file, your idea, or a napkin sketch. We answer every quote request personally — usually within 24 hours."
         primaryCta={{ label: "Get a Quote", href: "/contact" }}
         secondaryCta={{ label: "How It Works", href: "/how-it-works" }}

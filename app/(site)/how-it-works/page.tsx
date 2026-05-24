@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
+import { getSiteInfo } from "@/lib/get-site-info";
 import { reader } from "@/lib/keystatic";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
@@ -53,9 +54,10 @@ const steps = [
 ];
 
 export default async function HowItWorksPage() {
-  const [faqEntries, artEntries] = await Promise.all([
+  const [faqEntries, artEntries, siteInfo] = await Promise.all([
     reader.collections.faq.all(),
     reader.collections.artRequirements.all(),
+    getSiteInfo(),
   ]);
 
   const artSections = artEntries
@@ -101,14 +103,13 @@ export default async function HowItWorksPage() {
       />
 
       <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
-
         {/* ── Hero ────────────────────────────────────────────────────── */}
         <section className="pt-10 pb-16 border-b border-foreground/10">
-
           {/* Meta row */}
           <div className="flex items-center gap-4 mb-6">
             <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
-              Est. Minneapolis · Artist-Run
+              Est. 2005 {siteInfo.contact.address.city}{" "}
+              {siteInfo.contact.address.state} · Artist-Run
             </span>
             <span className="h-px w-16 bg-gold hidden sm:block" />
           </div>
@@ -142,15 +143,24 @@ export default async function HowItWorksPage() {
         </section>
 
         {/* ── Process steps ───────────────────────────────────────────── */}
-        <section id="steps" aria-labelledby="steps-heading" className="py-20 lg:py-28 border-b border-foreground/10">
-
+        <section
+          id="steps"
+          aria-labelledby="steps-heading"
+          className="py-20 lg:py-28 border-b border-foreground/10"
+        >
           {/* Section label — visual eyebrow only; aria-labelledby works with <p> */}
           <div className="flex items-center gap-3 mb-16">
-            <p id="steps-heading" className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
+            <p
+              id="steps-heading"
+              className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0"
+            >
               01 / The Steps
             </p>
             <span className="flex-1 h-px bg-gold/30" aria-hidden="true" />
-            <RegistrationMark className="w-4 h-4 text-text-accent shrink-0" aria-hidden="true" />
+            <RegistrationMark
+              className="w-4 h-4 text-text-accent shrink-0"
+              aria-hidden="true"
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-foreground/10">
@@ -169,7 +179,8 @@ export default async function HowItWorksPage() {
                 </div>
 
                 <h2 className="font-display font-black uppercase text-[clamp(2rem,3.5vw,3rem)] leading-[0.9] text-text-primary">
-                  {step.title}<span className="text-gold">.</span>
+                  {step.title}
+                  <span className="text-gold">.</span>
                 </h2>
 
                 <p className="text-text-secondary leading-relaxed text-pretty">
@@ -200,10 +211,8 @@ export default async function HowItWorksPage() {
 
         {/* ── Art Requirements + FAQ ───────────────────────────────────── */}
         <div className="flex flex-col xl:flex-row gap-16 xl:gap-24 py-20 lg:py-28">
-
           {/* Art Requirements */}
           <div className="flex-1" id="art-requirements">
-
             {/* Section label */}
             <div className="flex items-center gap-3 mb-12">
               <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
@@ -257,7 +266,6 @@ export default async function HowItWorksPage() {
 
           {/* FAQ */}
           <div className="flex-1" id="faq">
-
             {/* Section label */}
             <div className="flex items-center gap-3 mb-12">
               <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
@@ -274,12 +282,17 @@ export default async function HowItWorksPage() {
             <FaqAccordion items={items} />
           </div>
         </div>
-
       </div>
 
       {/* ── CTA — full-bleed ──────────────────────────────────────────── */}
       <CtaBand
-        heading={<>Let's Work<br />Together.</>}
+        heading={
+          <>
+            Let's Work
+            <br />
+            Together.
+          </>
+        }
         description="We appreciate your business and look forward to getting your artwork onto garments. Reach out and we'll take it from there."
         primaryCta={{ label: "Get a Quote", href: "/contact" }}
         secondaryCta={{ label: "See Our Work", href: "/portfolio" }}

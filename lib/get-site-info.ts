@@ -55,6 +55,11 @@ export const getSiteInfo = cache(async () => {
       turnaroundDays: raw.turnaroundDays ?? "7–10",
       maxColors: raw.maxColors ?? 8,
     },
+    seo: {
+      title: raw.metaTitle ?? "",
+      description: raw.metaDescription ?? "",
+      keywords: splitLines(raw.seoKeywords),
+    },
     forms: {
       quote: {
         responseTime: raw.responseTime ?? "1–2 business days",
