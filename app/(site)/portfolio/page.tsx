@@ -6,7 +6,6 @@ import { GalleryGrid } from "@/components/ui/GalleryGrid";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
 import { CtaBand } from "@/components/ui/CtaBand";
 import Link from "next/link";
-import { TransitionLink } from "@/components/layout/TransitionLink";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -72,7 +71,7 @@ export default async function PortfolioPage({
       {/* ── Constrained wrapper ───────────────────────────────────────── */}
       <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
         {/* ── Hero ──────────────────────────────────────────────────── */}
-        <section className="pt-10 pb-16 border-b border-foreground/10">
+        <section className="py-10 border-b border-foreground/10">
           {/* Meta row */}
           <div className="flex items-center gap-4 mb-6">
             <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
@@ -85,27 +84,6 @@ export default async function PortfolioPage({
           <h1 className="font-display font-black uppercase leading-[0.85] text-[clamp(5rem,18vw,12rem)]">
             Our Work<span className="text-gold">.</span>
           </h1>
-
-          {/* Stats strip */}
-          <div className="mt-10 pt-8 border-t border-foreground/10 flex flex-wrap items-end gap-x-16 gap-y-6">
-            {[
-              { value: `${allItems.length}`, label: "Pieces in Archive" },
-              { value: `${categoryValues.length || "—"}`, label: "Categories" },
-              { value: "20+", label: "Years Running" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <span className="block font-display font-black text-[clamp(2.5rem,5vw,4rem)] leading-none text-text-primary">
-                  {stat.value}
-                </span>
-                <span className="block font-mono uppercase tracking-widest text-xs text-text-tertiary mt-1">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
-            <div className="ml-auto hidden lg:flex items-center gap-2">
-              <RegistrationMark className="w-5 h-5 text-foreground/20" />
-            </div>
-          </div>
         </section>
 
         {/* ── Category filter ───────────────────────────────────────── */}
@@ -156,7 +134,7 @@ export default async function PortfolioPage({
         )}
 
         {/* ── Gallery ───────────────────────────────────────────────── */}
-        <div className="pt-12">
+        <div className="py-8">
           {filteredItems.length > 0 ? (
             <GalleryGrid items={filteredItems} />
           ) : (

@@ -46,7 +46,7 @@ export default async function ContactPage() {
         </h1>
 
         {/* Response time note */}
-        <div className="mt-10 pt-8 border-t border-foreground/10 flex flex-wrap items-center gap-6">
+        <div className="mt-10 flex flex-wrap items-center gap-6">
           <div className="flex items-center gap-2">
             <span className="relative flex h-2 w-2 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
@@ -64,7 +64,7 @@ export default async function ContactPage() {
       {/* ── Main layout ───────────────────────────────────────────────── */}
       <div className="py-20 lg:py-28 flex flex-col lg:flex-row gap-16 xl:gap-24 items-start">
         {/* ── Form — left, dominant ──────────────────────────────────── */}
-        <div className="flex-[2] min-w-0">
+        <div className="flex-2 min-w-0">
           {/* Section label */}
           <div className="flex items-center gap-3 mb-10">
             <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
@@ -75,7 +75,7 @@ export default async function ContactPage() {
           </div>
 
           <h2 className="font-display font-black uppercase text-[clamp(2.5rem,6vw,4rem)] leading-[0.9] text-text-primary mb-3">
-            Ready to Print<span className="text-text-accent">?</span>
+            Ready to Print<span className="text-gold">?</span>
           </h2>
           <p className="text-text-secondary leading-relaxed max-w-[60ch] mb-10">
             Tell us about your project and we&apos;ll get back to you within{" "}
@@ -95,7 +95,7 @@ export default async function ContactPage() {
         </div>
 
         {/* ── Info sidebar — right ───────────────────────────────────── */}
-        <aside className="flex-1 lg:pt-[4.5rem] flex flex-col gap-10 lg:sticky lg:top-8">
+        <aside className="flex-1 lg:pt-18 flex flex-col gap-10 lg:sticky lg:top-8">
           {/* Section label */}
           <div className="flex items-center gap-3">
             <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">

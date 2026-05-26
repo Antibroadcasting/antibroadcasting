@@ -279,12 +279,12 @@ export default async function AboutPage() {
                   body: "Limited runs, specialty inks, and the care your work deserves. Artist-to-artist.",
                 },
                 {
-                  title: "Events & Orgs",
+                  title: "Events & Organizations",
                   body: "Staff shirts, event tees, and promo apparel — on time and on spec.",
                 },
                 {
-                  title: "Businesses",
-                  body: "From single-color workwear to full-color branded pieces. We work with all types.",
+                  title: "Businesses & Nonprofits",
+                  body: "From single-color work-wear to full-color branded pieces. We work with all types.",
                 },
               ].map((item) => (
                 <div
@@ -296,9 +296,9 @@ export default async function AboutPage() {
                     aria-hidden="true"
                     className="absolute inset-0 bg-gold scale-y-0 origin-bottom group-hover:scale-y-100 transition-[scale] duration-300 ease-in-out"
                   />
-                  <h3 className="relative font-display font-black uppercase text-xl leading-tight text-text-primary group-hover:text-ink transition-colors duration-300">
+                  <h3 className="relative font-display font-black uppercase text-3xl leading-tight text-text-primary group-hover:text-ink transition-colors duration-300">
                     {item.title}
-                    <span className="text-text-accent group-hover:text-ink/40 transition-colors duration-300">
+                    <span className="text-gold group-hover:text-ink/40 transition-colors duration-300">
                       .
                     </span>
                   </h3>

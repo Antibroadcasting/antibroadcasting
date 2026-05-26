@@ -74,14 +74,14 @@
   --foreground: var(--color-neutral-100);
 
   /* Accent (gold) — three roles: decorative, text-accessible, surface/border  */
-  --color-accent-text: oklch(72% 0.16 75); /* gold on ink ≈ 8.4:1 (AAA)  */
-  --color-accent-surface: oklch(16% 0.06 75);
-  --color-accent-border: oklch(62% 0.14 75);
+  --color-accent-text: var(--color-primary-400); /* gold on ink ≈ 8.4:1 (AAA)  */
+  --color-accent-surface: var(--color-primary-950);
+  --color-accent-border: var(--color-primary-500);
 
   /* Muted */
-  --color-muted-text: oklch(54% 0.02 75); /* paper-4 on ink ≈ 5:1 (AA)  */
-  --color-muted-surface: oklch(16% 0.01 40);
-  --color-muted-border: oklch(30% 0.014 40);
+  --color-muted-text: var(--color-neutral-400); /* paper-4 on ink ≈ 5:1 (AA)  */
+  --color-muted-surface: var(--color-neutral-800);
+  --color-muted-border: var(--color-neutral-600);
 
   /* ─── State Colors: WCAG 2.2 AA — Dark/Ink Base ─────────────────────────
    * Text tokens: min 4.5:1 on ink bg (L 12% ≈ Y 0.009).
@@ -316,16 +316,18 @@
   --color-destructive-surface: oklch(95% 0.03 18);
 
   /* Accent: full brand-chroma gold, accessible on paper                     */
-  --color-accent-text: oklch(44% 0.16 75); /* ≈ 4.8:1 on paper (AA ✓)  */
-  --color-accent-surface: oklch(96% 0.04 75);
-  --color-accent-border: oklch(62% 0.14 75);
+  --color-accent-text: var(--color-primary-700); /* ≈ 4.8:1 on paper (AA ✓)  */
+  --color-accent-surface: oklch(96% 0.04 75); /* intentional: higher chroma than primary-100 */
+  --color-accent-border: var(--color-primary-500);
 
+  /* Hue 60 (warm yellow-gray) — intentionally off the neutral palette for
+     light-mode muted; pure neutral grays read too cool on the warm-cream base. */
   --color-muted-text: oklch(32% 0.015 60);
   --color-muted-surface: oklch(96% 0.002 60);
   --color-muted-border: oklch(52% 0.005 60);
 
   /* ─── Focus: L 44%, C 0.16 ≈ 4.8:1 on paper (AA ✓) ── */
-  --focus-ring-color: oklch(44% 0.16 75);
+  --focus-ring-color: var(--color-primary-700);
   --focus-ring-offset-color: var(--background);
 
   /* ─── Semantic text ─── */
@@ -387,18 +389,18 @@
 [data-inverse] {
   --foreground: var(--color-neutral-950);
 
-  --color-accent-text: oklch(44% 0.16 75);
-  --color-accent-border: oklch(52% 0.13 75);
-  --color-accent-surface: oklch(96% 0.04 75);
+  --color-accent-text: var(--color-primary-700);
+  --color-accent-border: var(--color-primary-600);
+  --color-accent-surface: oklch(96% 0.04 75); /* intentional: higher chroma than primary-100 */
 
   --text-secondary: var(--color-neutral-700);
   --text-tertiary: var(--color-neutral-600);
 
-  --focus-ring-color: oklch(44% 0.16 75);
+  --focus-ring-color: var(--color-primary-700);
   --focus-ring-offset-color: var(--color-neutral-100);
 
   --button-outline-text: var(--color-neutral-950);
-  --button-outline-text-hover: oklch(100% 0 0);
+  --button-outline-text-hover: oklch(100% 0 0); /* pure white — max legibility on dark hover; neutral-100 is warm cream, not pure white */
   --button-outline-border: var(--color-neutral-950);
   --button-outline-border-hover: var(--color-primary-400);
   --button-outline-surface-hover: var(--color-primary-400);
@@ -409,9 +411,9 @@
 .light [data-inverse] {
   --foreground: var(--color-neutral-100);
 
-  --color-accent-text: oklch(72% 0.16 75);
-  --color-accent-border: oklch(62% 0.14 75);
-  --color-accent-surface: oklch(16% 0.06 75);
+  --color-accent-text: var(--color-primary-400);
+  --color-accent-border: var(--color-primary-500);
+  --color-accent-surface: var(--color-primary-950);
 
   --text-secondary: var(--color-neutral-300);
   --text-tertiary: var(--color-neutral-400);
@@ -446,13 +448,15 @@
   --button-neutral-surface-hover: var(--color-neutral-800);
   --button-neutral-surface-active: var(--color-neutral-700);
   --button-neutral-text: var(--color-neutral-100);
-  --button-neutral-text-hover: oklch(100% 0 0);
+  --button-neutral-text-hover: oklch(100% 0 0); /* pure white — see [data-inverse] note above */
   --button-neutral-border: transparent;
 
   --button-outline-text: var(--color-neutral-950);
   --button-outline-text-hover: var(--color-neutral-950);
   --button-outline-border: var(--color-neutral-950);
   --button-outline-border-hover: var(--color-neutral-950);
+  /* neutral-950 at 10% / 18% opacity — CSS var() refs can't take /alpha modifiers,
+     so the raw value is repeated here rather than referencing --color-neutral-950. */
   --button-outline-surface-hover: oklch(12% 0.008 40 / 0.1);
   --button-outline-surface-active: oklch(12% 0.008 40 / 0.18);
 
@@ -489,6 +493,7 @@ dialog.lightbox {
   overflow: hidden;
 }
 dialog.lightbox::backdrop {
+  /* neutral-950 at 92% opacity — CSS var() refs can't take /alpha modifiers */
   background: oklch(12% 0.008 40 / 0.92);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);

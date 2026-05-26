@@ -46,9 +46,19 @@ function Lightbox({
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") { e.preventDefault(); handleClose(); return; }
-      if (e.key === "ArrowLeft" && hasPrev) { onPrev(); return; }
-      if (e.key === "ArrowRight" && hasNext) { onNext(); return; }
+      if (e.key === "Escape") {
+        e.preventDefault();
+        handleClose();
+        return;
+      }
+      if (e.key === "ArrowLeft" && hasPrev) {
+        onPrev();
+        return;
+      }
+      if (e.key === "ArrowRight" && hasNext) {
+        onNext();
+        return;
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -56,12 +66,17 @@ function Lightbox({
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, []);
 
-  const handleDialogClick = useCallback((e: React.MouseEvent<HTMLDialogElement>) => {
-    if (e.target === dialogRef.current) handleClose();
-  }, [handleClose]);
+  const handleDialogClick = useCallback(
+    (e: React.MouseEvent<HTMLDialogElement>) => {
+      if (e.target === dialogRef.current) handleClose();
+    },
+    [handleClose],
+  );
 
   return (
     <dialog
@@ -85,15 +100,25 @@ function Lightbox({
         aria-label="Close lightbox"
         className="absolute top-8 right-8 z-10 w-14 h-14 rounded-full bg-ink-2 border border-paper/10 text-paper flex items-center justify-center hover:bg-gold hover:text-ink hover:border-gold transition-colors focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2"
       >
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
         </svg>
       </button>
 
-
       {/* Content */}
       <div
-        className={`relative grid grid-cols-1 md:grid-cols-[1fr_320px] gap-10 max-w-[1300px] w-full max-h-[calc(100vh-80px)] transition-transform duration-200 ease-out motion-reduce:transition-none ${
+        className={`relative grid grid-cols-1 md:grid-cols-[1fr_320px] gap-10 max-w-325 w-full max-h-[calc(100vh-80px)] transition-transform duration-200 ease-out motion-reduce:transition-none ${
           isVisible ? "scale-100" : "scale-[0.98]"
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -143,20 +168,32 @@ function Lightbox({
           <div className="mt-auto border-t border-paper/10 pt-5 grid grid-cols-2 gap-x-5 gap-y-3.5">
             {item.year && (
               <div className="flex flex-col gap-1">
-                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/40">Year</span>
-                <span className="font-display font-black uppercase text-[22px] leading-none">{item.year}</span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/40">
+                  Year
+                </span>
+                <span className="font-display font-black uppercase text-[22px] leading-none">
+                  {item.year}
+                </span>
               </div>
             )}
             {item.colors && (
               <div className="flex flex-col gap-1">
-                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/40">Colors</span>
-                <span className="font-display font-black uppercase text-[22px] leading-none text-gold">{item.colors}</span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/40">
+                  Colors
+                </span>
+                <span className="font-display font-black uppercase text-[22px] leading-none text-gold">
+                  {item.colors}
+                </span>
               </div>
             )}
             {item.category && (
               <div className="flex flex-col gap-1 col-span-2">
-                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/40">Garment</span>
-                <span className="font-display font-black uppercase text-[22px] leading-none">{item.category.replace(/-/g, " ")}</span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/40">
+                  Garment
+                </span>
+                <span className="font-display font-black uppercase text-[22px] leading-none">
+                  {item.category.replace(/-/g, " ")}
+                </span>
               </div>
             )}
           </div>
@@ -166,28 +203,58 @@ function Lightbox({
       {/* Pagination pill */}
       <div className="absolute bottom-7 left-1/2 -translate-x-1/2 flex items-center bg-ink-2 border border-paper/10 rounded-full overflow-hidden whitespace-nowrap">
         <button
-          onClick={(e) => { e.stopPropagation(); onPrev(); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onPrev();
+          }}
           disabled={!hasPrev}
           aria-label="Previous image"
           className="flex items-center justify-center w-10 h-10 text-paper hover:text-gold transition-colors disabled:opacity-25 disabled:pointer-events-none"
         >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 19.5L8.25 12l7.5-7.5"
+            />
           </svg>
         </button>
         <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-paper/60 px-1 select-none">
-          <span className="text-paper font-semibold">{String(currentIndex + 1).padStart(2, "0")}</span>
+          <span className="text-paper font-semibold">
+            {String(currentIndex + 1).padStart(2, "0")}
+          </span>
           <span className="mx-2">/</span>
           <span>{String(items.length).padStart(2, "0")}</span>
         </span>
         <button
-          onClick={(e) => { e.stopPropagation(); onNext(); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onNext();
+          }}
           disabled={!hasNext}
           aria-label="Next image"
           className="flex items-center justify-center w-10 h-10 text-paper hover:text-gold transition-colors disabled:opacity-25 disabled:pointer-events-none"
         >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
           </svg>
         </button>
       </div>
@@ -207,24 +274,37 @@ export function FeaturedWorkGrid({ items }: { items: GalleryItem[] }) {
 
   const open = useCallback((index: number) => setActiveIndex(index), []);
   const close = useCallback(() => setActiveIndex(null), []);
-  const restoreFocus = useCallback(() => triggerRefs.current[activeIndex ?? 0]?.focus(), [activeIndex]);
-  const prev = useCallback(() => setActiveIndex((i) => (i !== null && i > 0 ? i - 1 : i)), []);
-  const next = useCallback(() => setActiveIndex((i) => (i !== null && i < items.length - 1 ? i + 1 : i)), [items.length]);
+  const restoreFocus = useCallback(
+    () => triggerRefs.current[activeIndex ?? 0]?.focus(),
+    [activeIndex],
+  );
+  const prev = useCallback(
+    () => setActiveIndex((i) => (i !== null && i > 0 ? i - 1 : i)),
+    [],
+  );
+  const next = useCallback(
+    () =>
+      setActiveIndex((i) => (i !== null && i < items.length - 1 ? i + 1 : i)),
+    [items.length],
+  );
 
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-[5fr_4fr_3fr] gap-5 items-start">
         {items.slice(0, 3).map((item, i) => (
           <div key={item.slug} className={i === 1 ? "md:mt-20" : ""}>
-
             {/* Card — clickable */}
             <button
-              ref={(el) => { triggerRefs.current[i] = el; }}
+              ref={(el) => {
+                triggerRefs.current[i] = el;
+              }}
               onClick={() => open(i)}
               aria-label={`View ${item.client ?? item.title}`}
               className="group relative w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              <div className={`relative overflow-hidden bg-ink-3 border border-foreground/15 ${aspectClasses[i]}`}>
+              <div
+                className={`relative overflow-hidden bg-ink-3 border border-foreground/15 ${aspectClasses[i]}`}
+              >
                 {/* Photo */}
                 {item.image && (
                   <Image
@@ -247,7 +327,7 @@ export function FeaturedWorkGrid({ items }: { items: GalleryItem[] }) {
 
                 {/* NO. badge */}
                 <div className="absolute top-3 left-3 z-20 bg-ink border border-foreground/25 px-2 py-0.5">
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-text-tertiary">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-text-inverse">
                     No.&nbsp;{String(i + 1).padStart(2, "0")}
                   </span>
                 </div>
@@ -269,7 +349,7 @@ export function FeaturedWorkGrid({ items }: { items: GalleryItem[] }) {
 
             {/* Metadata */}
             <div className="mt-4 flex justify-between items-start gap-4">
-              <p className="font-display uppercase font-black text-text-primary text-[clamp(1.25rem,2vw,2rem)] leading-none">
+              <p className="font-display uppercase font-black text-text-primary text-[clamp(1.5rem,2vw,2.5rem)] leading-none">
                 {item.client}
               </p>
               <div className="text-right shrink-0">

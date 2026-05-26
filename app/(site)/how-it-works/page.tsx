@@ -119,7 +119,7 @@ export default async function HowItWorksPage() {
           </h1>
 
           {/* Anchor nav */}
-          <div className="mt-10 pt-8 border-t border-foreground/10 flex flex-wrap items-center gap-3">
+          {/* <div className="mt-10 pt-8 border-t border-foreground/10 flex flex-wrap items-center gap-3">
             <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary shrink-0 mr-2">
               On This Page
             </span>
@@ -139,6 +139,26 @@ export default async function HowItWorksPage() {
             <span className="ml-auto hidden lg:block">
               <RegistrationMark className="w-5 h-5 text-foreground/20" />
             </span>
+          </div> */}
+          {/* <p className="mt-10 text-text-secondary leading-relaxed max-w-[60ch]">
+            Everything you need to know before placing an order — from{" "}
+            <a href="#art-requirements">Art Requirements</a> to{" "}
+            <a href="#faq">FAQs</a>. Still have questions? Just ask.
+          </p> */}
+          <div className="mt-10 flex flex-wrap items-center gap-6">
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
+              </span>
+              <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
+                Everything you need to know before placing an order — from{" "}
+                <a href="#art-requirements">Art Requirements</a> to{" "}
+                <a href="#faq">FAQs</a>. Still have questions? Just ask.
+              </span>
+            </div>
+            <span className="h-px flex-1 bg-foreground/10 hidden sm:block" />
+            <RegistrationMark className="w-5 h-5 text-foreground/20 hidden lg:block" />
           </div>
         </section>
 

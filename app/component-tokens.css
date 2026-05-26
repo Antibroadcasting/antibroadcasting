@@ -27,7 +27,7 @@
    *   Destructive red L 42% vs page L 12% ≈ 2.4:1 ✗ → border: L 65% warm red ≈ 6.2:1 ✓
    * ──────────────────────────────────────────────────────────────────────── */
   --button-primary-surface: var(--color-primary-400);
-  --button-primary-surface-hover: oklch(78% 0.16 75);
+  --button-primary-surface-hover: oklch(78% 0.16 75); /* mid-step between primary-300 (82%) and primary-400 (72%) — intentional bespoke hover brightness */
   --button-primary-surface-active: var(--color-primary-500);
   --button-primary-text: var(--color-neutral-950);
   --button-primary-text-hover: var(--color-neutral-950);
@@ -37,14 +37,14 @@
   --button-secondary-surface-hover: var(--color-secondary-600);
   --button-secondary-surface-active: var(--color-secondary-800);
   --button-secondary-text: var(--color-neutral-100);
-  --button-secondary-text-hover: oklch(100% 0 0);
+  --button-secondary-text-hover: oklch(100% 0 0); /* pure white — max legibility on dark hover surface; neutral-100 is warm cream (L 96%), not pure white */
   --button-secondary-border: var(--color-secondary-400); /* L 65% vs ink ≈ 6.2:1 (SC 1.4.11 ✓) */
 
   --button-neutral-surface: var(--color-neutral-700);
   --button-neutral-surface-hover: var(--color-neutral-600);
   --button-neutral-surface-active: var(--color-neutral-500);
   --button-neutral-text: var(--color-neutral-100);
-  --button-neutral-text-hover: oklch(100% 0 0);
+  --button-neutral-text-hover: oklch(100% 0 0); /* pure white — see secondary note above */
   --button-neutral-border: var(--color-neutral-400); /* L 54% vs ink ≈ 4.0:1 (SC 1.4.11 ✓) */
 
   /* Outline: paper border (L 96%) + paper text on ink bg ≈ 15:1 (AAA ✓)    */
@@ -61,7 +61,7 @@
   --button-destructive-surface-hover: oklch(32% 0.22 18);
   --button-destructive-surface-active: oklch(25% 0.2 18);
   --button-destructive-text: var(--color-neutral-100);
-  --button-destructive-text-hover: oklch(100% 0 0);
+  --button-destructive-text-hover: oklch(100% 0 0); /* pure white — see secondary note above */
   --button-destructive-border: oklch(65% 0.22 18); /* L 65% vs ink ≈ 6.2:1 (SC 1.4.11 ✓) */
 
   /* ── Forms ────────────────────────────────────────────────────────────────
@@ -167,7 +167,7 @@
   --button-primary-surface-hover: var(--color-primary-700);
   --button-primary-surface-active: var(--color-primary-600);
   --button-primary-text: var(--color-neutral-950);
-  --button-primary-text-hover: oklch(100% 0 0);
+  --button-primary-text-hover: oklch(100% 0 0); /* pure white — max legibility on dark primary-700 hover; neutral-100 is warm cream, not pure white */
   --button-primary-border: var(--color-primary-700); /* L 44% vs cream ≈ 6.9:1 (SC 1.4.11 ✓) */
 
   /* Secondary: dark slate (L 30%) vs cream ≈ 12:1 — shape passes, reset border */
@@ -175,14 +175,14 @@
   --button-secondary-surface-hover: var(--color-secondary-600);
   --button-secondary-surface-active: var(--color-secondary-800);
   --button-secondary-text: var(--color-neutral-100);
-  --button-secondary-text-hover: oklch(100% 0 0);
+  --button-secondary-text-hover: oklch(100% 0 0); /* pure white — see dark block note above */
   --button-secondary-border: var(--color-secondary-600);
 
   --button-neutral-surface: var(--color-neutral-200);
   --button-neutral-surface-hover: var(--color-neutral-500);
   --button-neutral-surface-active: var(--color-neutral-400);
   --button-neutral-text: var(--color-neutral-950);
-  --button-neutral-text-hover: oklch(100% 0 0);
+  --button-neutral-text-hover: oklch(100% 0 0); /* pure white — see dark block note above */
   --button-neutral-border: var(--color-neutral-500); /* L 40% vs cream ≈ 8.2:1 (SC 1.4.11 ✓) */
 
   /* Outline: ink border + ink text on paper bg ≈ 16:1 (AAA ✓)              */
@@ -190,7 +190,7 @@
   --button-outline-surface-hover: var(--color-neutral-950);
   --button-outline-surface-active: var(--color-neutral-800);
   --button-outline-text: var(--color-neutral-950);
-  --button-outline-text-hover: oklch(100% 0 0);
+  --button-outline-text-hover: oklch(100% 0 0); /* pure white — see dark block note above */
   --button-outline-border: var(--color-neutral-950);
   --button-outline-border-hover: var(--color-neutral-950);
 
@@ -199,7 +199,7 @@
   --button-destructive-surface-hover: oklch(32% 0.22 18);
   --button-destructive-surface-active: oklch(25% 0.2 18);
   --button-destructive-text: var(--color-neutral-100);
-  --button-destructive-text-hover: oklch(100% 0 0);
+  --button-destructive-text-hover: oklch(100% 0 0); /* pure white — see dark block note above */
   --button-destructive-border: transparent;
 
   /* ── Forms ────────────────────────────────────────────────────────────────
@@ -209,7 +209,7 @@
   --input-surface: var(--color-neutral-100);
   --input-border: var(--color-neutral-500);
   --input-border-hover: var(--color-neutral-600);
-  --input-border-focus: oklch(44% 0.16 75); /* matches --focus-ring-color */
+  --input-border-focus: var(--color-primary-700); /* matches --focus-ring-color in light mode */
   --input-text: var(--color-neutral-950);
   --input-text-placeholder: var(--color-neutral-600);
   --label-text: var(--color-neutral-700);
