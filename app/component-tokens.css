@@ -1,0 +1,231 @@
+/* ─── Component Tokens ───────────────────────────────────────────────────────
+ *
+ * Design tokens scoped to specific UI components: buttons, forms, cards.
+ * Imported by globals.css — do not import this file directly elsewhere.
+ *
+ * Each component section follows the same three-layer pattern:
+ *   1. :root        — dark-mode (ink) values
+ *   2. @theme inline — exposes vars as Tailwind utilities (--color-button-X)
+ *   3. .light       — paper-mode overrides
+ *
+ * WCAG 2.2 contrast notes are preserved inline so the numbers stay next
+ * to the values they justify.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+/* ─── Dark (ink) base values ─────────────────────────────────────────────── */
+:root {
+  /* ── Buttons ──────────────────────────────────────────────────────────────
+   * Text contrast (SC 1.4.3):
+   *   Primary: gold (L 72%) + ink text (L 12%) ≈ 8.4:1 (AAA ✓).
+   *   Secondary: secondary-700 (L 30%) + neutral-100 text ≈ 8:1 (AAA ✓).
+   *   Destructive: surface L 42% + neutral-100 text ≈ 5.3:1 (AA ✓).
+   *
+   * Shape contrast (SC 1.4.11) — dark mode (page L 12%):
+   *   Primary gold L 72% vs page L 12% ≈ 8.1:1 ✓ — no border needed.
+   *   Secondary slate L 30% vs page L 12% ≈ 2.2:1 ✗ → border: secondary-400 L 65% ≈ 6.2:1 ✓
+   *   Neutral gray L 22% vs page L 12% ≈ 1.5:1 ✗ → border: neutral-400 L 54% ≈ 4.0:1 ✓
+   *   Destructive red L 42% vs page L 12% ≈ 2.4:1 ✗ → border: L 65% warm red ≈ 6.2:1 ✓
+   * ──────────────────────────────────────────────────────────────────────── */
+  --button-primary-surface: var(--color-primary-400);
+  --button-primary-surface-hover: oklch(78% 0.16 75);
+  --button-primary-surface-active: var(--color-primary-500);
+  --button-primary-text: var(--color-neutral-950);
+  --button-primary-text-hover: var(--color-neutral-950);
+  --button-primary-border: transparent; /* gold vs ink ≈ 8.1:1 — shape passes without border */
+
+  --button-secondary-surface: var(--color-secondary-700);
+  --button-secondary-surface-hover: var(--color-secondary-600);
+  --button-secondary-surface-active: var(--color-secondary-800);
+  --button-secondary-text: var(--color-neutral-100);
+  --button-secondary-text-hover: oklch(100% 0 0);
+  --button-secondary-border: var(--color-secondary-400); /* L 65% vs ink ≈ 6.2:1 (SC 1.4.11 ✓) */
+
+  --button-neutral-surface: var(--color-neutral-700);
+  --button-neutral-surface-hover: var(--color-neutral-600);
+  --button-neutral-surface-active: var(--color-neutral-500);
+  --button-neutral-text: var(--color-neutral-100);
+  --button-neutral-text-hover: oklch(100% 0 0);
+  --button-neutral-border: var(--color-neutral-400); /* L 54% vs ink ≈ 4.0:1 (SC 1.4.11 ✓) */
+
+  /* Outline: paper border (L 96%) + paper text on ink bg ≈ 15:1 (AAA ✓)    */
+  /* Hover: gold fill + ink text ≈ 8.4:1 (AAA ✓)                            */
+  --button-outline-surface: transparent;
+  --button-outline-surface-hover: var(--color-primary-400);
+  --button-outline-surface-active: var(--color-primary-500);
+  --button-outline-text: var(--color-neutral-100);
+  --button-outline-text-hover: var(--color-neutral-950);
+  --button-outline-border: var(--color-neutral-100);
+  --button-outline-border-hover: var(--color-primary-400);
+
+  --button-destructive-surface: oklch(42% 0.24 18);
+  --button-destructive-surface-hover: oklch(32% 0.22 18);
+  --button-destructive-surface-active: oklch(25% 0.2 18);
+  --button-destructive-text: var(--color-neutral-100);
+  --button-destructive-text-hover: oklch(100% 0 0);
+  --button-destructive-border: oklch(65% 0.22 18); /* L 65% vs ink ≈ 6.2:1 (SC 1.4.11 ✓) */
+
+  /* ── Forms ────────────────────────────────────────────────────────────────
+   * input-border at neutral-400 (L 54%) on neutral-800 surface (L 16%) ≈ 4.3:1
+   * (SC 1.4.11 ✓).
+   * ──────────────────────────────────────────────────────────────────────── */
+  --input-surface: var(--color-neutral-800);
+  --input-border: var(--color-neutral-400);
+  --input-border-hover: var(--color-neutral-300);
+  --input-border-focus: var(--color-primary-400);
+  --input-text: var(--color-neutral-100);
+  --input-text-placeholder: var(--color-neutral-400);
+  --input-ring-focus: var(--focus-ring-color);
+  --input-ring-error: var(--focus-ring-color-error);
+  --label-text: var(--color-neutral-300);
+
+  /* ── Cards ────────────────────────────────────────────────────────────── */
+  --card-surface: var(--color-neutral-800);
+  --card-surface-inverse: var(--color-neutral-100);
+  --card-surface-tonal: var(--color-secondary-900);
+  --card-border: var(--color-neutral-600);
+  --card-border-tonal: var(--color-secondary-800);
+  --card-text: var(--color-neutral-100);
+  --card-text-inverse: var(--color-neutral-950);
+  --card-text-inverse-muted: var(--color-neutral-600);
+  --card-text-tonal: var(--color-secondary-200);
+  --card-text-tonal-muted: var(--color-secondary-400);
+}
+
+/* ─── Tailwind utility mappings ──────────────────────────────────────────── */
+@theme inline {
+  /* ── Buttons ── */
+  --color-button-primary-surface: var(--button-primary-surface);
+  --color-button-primary-surface-hover: var(--button-primary-surface-hover);
+  --color-button-primary-surface-active: var(--button-primary-surface-active);
+  --color-button-primary-text: var(--button-primary-text);
+  --color-button-primary-text-hover: var(--button-primary-text-hover);
+  --color-button-primary-border: var(--button-primary-border);
+
+  --color-button-secondary-surface: var(--button-secondary-surface);
+  --color-button-secondary-surface-hover: var(--button-secondary-surface-hover);
+  --color-button-secondary-surface-active: var(--button-secondary-surface-active);
+  --color-button-secondary-text: var(--button-secondary-text);
+  --color-button-secondary-text-hover: var(--button-secondary-text-hover);
+  --color-button-secondary-border: var(--button-secondary-border);
+
+  --color-button-neutral-surface: var(--button-neutral-surface);
+  --color-button-neutral-surface-hover: var(--button-neutral-surface-hover);
+  --color-button-neutral-surface-active: var(--button-neutral-surface-active);
+  --color-button-neutral-text: var(--button-neutral-text);
+  --color-button-neutral-text-hover: var(--button-neutral-text-hover);
+  --color-button-neutral-border: var(--button-neutral-border);
+
+  --color-button-outline-surface: var(--button-outline-surface);
+  --color-button-outline-surface-hover: var(--button-outline-surface-hover);
+  --color-button-outline-surface-active: var(--button-outline-surface-active);
+  --color-button-outline-text: var(--button-outline-text);
+  --color-button-outline-text-hover: var(--button-outline-text-hover);
+  --color-button-outline-border: var(--button-outline-border);
+  --color-button-outline-border-hover: var(--button-outline-border-hover);
+
+  --color-button-destructive-surface: var(--button-destructive-surface);
+  --color-button-destructive-surface-hover: var(--button-destructive-surface-hover);
+  --color-button-destructive-surface-active: var(--button-destructive-surface-active);
+  --color-button-destructive-text: var(--button-destructive-text);
+  --color-button-destructive-text-hover: var(--button-destructive-text-hover);
+  --color-button-destructive-border: var(--button-destructive-border);
+
+  /* ── Forms ── */
+  --color-input-surface: var(--input-surface);
+  --color-input-border: var(--input-border);
+  --color-input-border-hover: var(--input-border-hover);
+  --color-input-border-focus: var(--input-border-focus);
+  --color-input-text: var(--input-text);
+  --color-input-text-placeholder: var(--input-text-placeholder);
+  --color-input-ring-focus: var(--input-ring-focus);
+  --color-input-ring-error: var(--input-ring-error);
+  --color-label-text: var(--label-text);
+
+  /* ── Cards ── */
+  --color-card-surface: var(--card-surface);
+  --color-card-surface-inverse: var(--card-surface-inverse);
+  --color-card-surface-tonal: var(--card-surface-tonal);
+  --color-card-border: var(--card-border);
+  --color-card-border-tonal: var(--card-border-tonal);
+  --color-card-text: var(--card-text);
+  --color-card-text-inverse: var(--card-text-inverse);
+  --color-card-text-inverse-muted: var(--card-text-inverse-muted);
+  --color-card-text-tonal: var(--card-text-tonal);
+  --color-card-text-tonal-muted: var(--card-text-tonal-muted);
+}
+
+/* ─── Light (paper) overrides ────────────────────────────────────────────── */
+.light {
+  /* ── Buttons ──────────────────────────────────────────────────────────────
+   * Shape contrast (SC 1.4.11) — light mode (page L 96%):
+   *   Primary gold L 72% vs page L 96% ≈ 2.2:1 ✗ → border: primary-700 L 44% ≈ 6.9:1 ✓
+   *   Secondary slate L 30% vs page L 96% ≈ 12.1:1 ✓ — no border needed.
+   *   Neutral tan L 88% vs page L 96% ≈ 1.3:1 ✗ → border: neutral-500 L 40% ≈ 8.2:1 ✓
+   *   Destructive red L 42% vs page L 96% ≈ 7.5:1 ✓ — no border needed.
+   * Hover darkens primary slightly for visible state change on paper surface. */
+  --button-primary-surface: var(--color-primary-400);
+  --button-primary-surface-hover: var(--color-primary-700);
+  --button-primary-surface-active: var(--color-primary-600);
+  --button-primary-text: var(--color-neutral-950);
+  --button-primary-text-hover: oklch(100% 0 0);
+  --button-primary-border: var(--color-primary-700); /* L 44% vs cream ≈ 6.9:1 (SC 1.4.11 ✓) */
+
+  /* Secondary: dark slate (L 30%) vs cream ≈ 12:1 — shape passes, reset border */
+  --button-secondary-surface: var(--color-secondary-700);
+  --button-secondary-surface-hover: var(--color-secondary-600);
+  --button-secondary-surface-active: var(--color-secondary-800);
+  --button-secondary-text: var(--color-neutral-100);
+  --button-secondary-text-hover: oklch(100% 0 0);
+  --button-secondary-border: var(--color-secondary-600);
+
+  --button-neutral-surface: var(--color-neutral-200);
+  --button-neutral-surface-hover: var(--color-neutral-500);
+  --button-neutral-surface-active: var(--color-neutral-400);
+  --button-neutral-text: var(--color-neutral-950);
+  --button-neutral-text-hover: oklch(100% 0 0);
+  --button-neutral-border: var(--color-neutral-500); /* L 40% vs cream ≈ 8.2:1 (SC 1.4.11 ✓) */
+
+  /* Outline: ink border + ink text on paper bg ≈ 16:1 (AAA ✓)              */
+  --button-outline-surface: transparent;
+  --button-outline-surface-hover: var(--color-neutral-950);
+  --button-outline-surface-active: var(--color-neutral-800);
+  --button-outline-text: var(--color-neutral-950);
+  --button-outline-text-hover: oklch(100% 0 0);
+  --button-outline-border: var(--color-neutral-950);
+  --button-outline-border-hover: var(--color-neutral-950);
+
+  /* Destructive: dark red (L 42%) vs cream ≈ 7.5:1 — shape passes, reset border */
+  --button-destructive-surface: oklch(42% 0.24 18);
+  --button-destructive-surface-hover: oklch(32% 0.22 18);
+  --button-destructive-surface-active: oklch(25% 0.2 18);
+  --button-destructive-text: var(--color-neutral-100);
+  --button-destructive-text-hover: oklch(100% 0 0);
+  --button-destructive-border: transparent;
+
+  /* ── Forms ────────────────────────────────────────────────────────────────
+   * neutral-500 (L 40%) on paper (L 96%) ≈ 5.5:1 (SC 1.4.11 ✓).
+   * neutral-600 (L 30%) on paper ≈ 8.0:1 (SC 1.4.3 ✓) for text.
+   * ──────────────────────────────────────────────────────────────────────── */
+  --input-surface: var(--color-neutral-100);
+  --input-border: var(--color-neutral-500);
+  --input-border-hover: var(--color-neutral-600);
+  --input-border-focus: oklch(44% 0.16 75); /* matches --focus-ring-color */
+  --input-text: var(--color-neutral-950);
+  --input-text-placeholder: var(--color-neutral-600);
+  --label-text: var(--color-neutral-700);
+
+  /* ── Cards ────────────────────────────────────────────────────────────────
+   * card-surface: pure white so cards stand out against the warm-cream page.
+   * card-surface-tonal: secondary-200 gives visible tonal distinction.
+   * ──────────────────────────────────────────────────────────────────────── */
+  --card-surface: oklch(100% 0 0);
+  --card-surface-inverse: var(--color-neutral-950);
+  --card-surface-tonal: var(--color-secondary-200);
+  --card-border: var(--color-neutral-400);
+  --card-border-tonal: var(--color-secondary-300);
+  --card-text: var(--color-neutral-950);
+  --card-text-inverse: var(--color-neutral-100);
+  --card-text-inverse-muted: var(--color-neutral-300);
+  --card-text-tonal: var(--color-secondary-900);
+  --card-text-tonal-muted: var(--color-secondary-700);
+}

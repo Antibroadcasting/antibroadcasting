@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="w-full max-w-300 2xl:max-w-360 3xl:max-w-400 mx-auto animate-pulse">
+    <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto animate-pulse">
       {/* Page header */}
       <div className="my-12 max-w-2xl">
         <div className="h-6 w-24 bg-bg-inset rounded-sm mb-4" />

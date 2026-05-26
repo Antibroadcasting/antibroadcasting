@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="w-full max-w-300 2xl:max-w-360 3xl:max-w-400 mx-auto animate-pulse">
+    <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto animate-pulse">
       {/* Page header */}
       <div className="my-12 max-w-2xl">
         <div className="h-6 w-28 bg-bg-inset rounded-sm mb-4" />
@@ -38,7 +38,10 @@ export default function Loading() {
                 {Array.from({ length: 3 }).map((_, j) => (
                   <div key={j} className="flex gap-3 items-start">
                     <div className="mt-2 shrink-0 w-1 h-1 rounded-full bg-bg-inset" />
-                    <div className="h-4 bg-bg-inset rounded" style={{ width: `${70 + j * 10}%` }} />
+                    <div
+                      className="h-4 bg-bg-inset rounded"
+                      style={{ width: `${70 + j * 10}%` }}
+                    />
                   </div>
                 ))}
               </div>
@@ -52,7 +55,10 @@ export default function Loading() {
           <div className="divide-y divide-border-subtle border-y border-border-subtle">
             {Array.from({ length: 8 }).map((_, i) => (
               <div key={i} className="py-5 flex items-center justify-between">
-                <div className="h-4 bg-bg-inset rounded" style={{ width: `${55 + (i % 3) * 12}%` }} />
+                <div
+                  className="h-4 bg-bg-inset rounded"
+                  style={{ width: `${55 + (i % 3) * 12}%` }}
+                />
                 <div className="h-4 w-4 bg-bg-inset rounded ml-4" />
               </div>
             ))}

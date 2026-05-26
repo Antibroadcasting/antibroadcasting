@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="w-full max-w-300 2xl:max-w-360 3xl:max-w-400 mx-auto animate-pulse">
+    <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto animate-pulse">
       {/* Page header */}
       <div className="my-12 max-w-2xl">
         <div className="h-6 w-20 bg-bg-inset rounded-sm mb-4" />
@@ -65,7 +65,10 @@ export default function Loading() {
           </div>
           <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="border border-border-subtle rounded-card p-6 space-y-2">
+              <div
+                key={i}
+                className="border border-border-subtle rounded-card p-6 space-y-2"
+              >
                 <div className="h-4 w-36 bg-bg-inset rounded" />
                 <div className="h-3 w-full bg-bg-inset rounded" />
                 <div className="h-3 w-5/6 bg-bg-inset rounded" />
