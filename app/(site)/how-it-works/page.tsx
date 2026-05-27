@@ -104,7 +104,7 @@ export default async function HowItWorksPage() {
 
       <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
         {/* ── Hero ────────────────────────────────────────────────────── */}
-        <section className="pt-10 pb-16 border-b border-foreground/10">
+        <section className="pt-10">
           {/* Meta row */}
           <div className="flex items-center gap-4 mb-6">
             <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
@@ -151,10 +151,25 @@ export default async function HowItWorksPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
               </span>
-              <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
+              <span className="font-mono text-sm uppercase tracking-widest text-text-tertiary">
                 Everything you need to know before placing an order — from{" "}
-                <a href="#art-requirements">Art Requirements</a> to{" "}
-                <a href="#faq">FAQs</a>. Still have questions? Just ask.
+                <a
+                  href="#art-requirements"
+                  className="font-black hover:underline"
+                >
+                  Art Requirements
+                </a>{" "}
+                to{" "}
+                <a href="#faq" className="font-black hover:underline">
+                  FAQs
+                </a>
+                . Still have questions?{" "}
+                <TransitionLink
+                  href="/contact"
+                  className="font-black hover:underline"
+                >
+                  Just ask.
+                </TransitionLink>
               </span>
             </div>
             <span className="h-px flex-1 bg-foreground/10 hidden sm:block" />
@@ -316,7 +331,6 @@ export default async function HowItWorksPage() {
         description="We appreciate your business and look forward to getting your artwork onto garments. Reach out and we'll take it from there."
         primaryCta={{ label: "Get a Quote", href: "/contact" }}
         secondaryCta={{ label: "See Our Work", href: "/portfolio" }}
-        broadsideNo="017"
       />
     </>
   );

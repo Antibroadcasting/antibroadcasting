@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="w-full max-w-300 2xl:max-w-360 3xl:max-w-400 mx-auto animate-pulse">
+    <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto animate-pulse">
       {/* Hero */}
       <section className="relative flex flex-col justify-center min-h-[calc(100svh-4.5rem)]">
         {/* Badge */}
@@ -8,9 +8,9 @@ export default function Loading() {
 
         {/* Display headline — three stacked lines */}
         <div className="space-y-1">
-          <div className="h-24 md:h-32 w-full bg-bg-inset rounded-sm" />
-          <div className="h-24 md:h-32 w-full bg-bg-inset rounded-sm" />
           <div className="h-24 md:h-32 w-2/3 bg-bg-inset rounded-sm" />
+          <div className="h-24 md:h-32 w-2/3 bg-bg-inset rounded-sm" />
+          <div className="h-24 md:h-32 w-1/2 bg-bg-inset rounded-sm" />
         </div>
 
         {/* Sub-headline */}

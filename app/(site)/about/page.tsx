@@ -324,7 +324,6 @@ export default async function AboutPage() {
         description="Send us your file, your idea, or a napkin sketch. We answer every quote request personally — usually within 24 hours."
         primaryCta={{ label: "Get a Quote", href: "/contact" }}
         secondaryCta={{ label: "How It Works", href: "/how-it-works" }}
-        broadsideNo="016"
       />
     </>
   );

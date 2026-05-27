@@ -57,7 +57,9 @@ export function QuoteForm({
       setErrors(errs);
       // Move focus to the first invalid field so keyboard/AT users land there
       const firstKey = Object.keys(errs)[0];
-      const firstInput = form.querySelector<HTMLElement>(`[name="${firstKey}"]`);
+      const firstInput = form.querySelector<HTMLElement>(
+        `[name="${firstKey}"]`,
+      );
       setTimeout(() => firstInput?.focus(), 0);
       return;
     }
@@ -91,12 +93,22 @@ export function QuoteForm({
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-6">
       {/* Polite live region — announces "Sending…" and result states to screen readers */}
-      <span ref={statusRef} role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+      <span
+        ref={statusRef}
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
         {state === "loading" ? "Sending your request…" : ""}
       </span>
 
-      <p className="font-mono text-[10px] uppercase tracking-widest text-text-tertiary -mb-2">
-        Fields marked <span aria-hidden="true" className="text-text-accent">*</span> are required
+      <p className="font-mono text-[10px] uppercase tracking-widest text-text-tertiary">
+        Fields marked{" "}
+        <span aria-hidden="true" className="text-text-accent">
+          *
+        </span>{" "}
+        are required
       </p>
       {/* Name + Email */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -187,7 +199,12 @@ export function QuoteForm({
 
       {/* Submit */}
       <div>
-        <Button type="submit" variant="primary" disabled={state === "loading"} aria-busy={state === "loading"}>
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={state === "loading"}
+          aria-busy={state === "loading"}
+        >
           {state === "loading" ? "Sending…" : "Send Quote Request"}
         </Button>
       </div>
@@ -202,15 +219,13 @@ export function QuoteForm({
             Request Received
           </p>
           <p className="text-sm text-text-secondary leading-relaxed">
-            We&apos;ll review your request and get back to you within {responseTime}.
+            We&apos;ll review your request and get back to you within{" "}
+            {responseTime}.
           </p>
         </div>
       )}
       {state === "error" && (
-        <div
-          role="alert"
-          className="border-l-4 border-text-error px-5 py-4"
-        >
+        <div role="alert" className="border-l-4 border-text-error px-5 py-4">
           <p className="font-mono text-xs uppercase tracking-widest text-text-error mb-1">
             Something Went Wrong
           </p>

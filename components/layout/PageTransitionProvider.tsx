@@ -76,7 +76,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     // pointer-events:all blocks clicks reaching links beneath the overlay
     // while the wipe is in progress, preventing mid-transition re-triggers.
     overlay.style.cssText =
-      "position:fixed;inset:0;z-index:90;background:var(--bg-subtle);pointer-events:all;transform:translateY(-100%)";
+      "position:fixed;inset:0;z-index:90;background:var(--color-gold);pointer-events:all;transform:translateY(-100%)";
     document.body.appendChild(overlay);
     overlayRef.current = overlay;
 

@@ -155,7 +155,6 @@ export default async function PortfolioPage({
         description="We print for bands, artists, events, and businesses across Minneapolis. Let's talk about your project."
         primaryCta={{ label: "Get a Quote", href: "/contact" }}
         secondaryCta={{ label: "How It Works", href: "/how-it-works" }}
-        broadsideNo="015"
       />
     </>
   );

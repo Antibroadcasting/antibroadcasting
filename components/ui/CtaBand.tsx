@@ -11,8 +11,6 @@ interface CtaBandProps {
   description?: string;
   primaryCta?: CtaButton;
   secondaryCta?: CtaButton;
-  /** Broadside edition number, e.g. "014" */
-  broadsideNo?: string;
   /** Right-side ticker text, e.g. "Printed in Minneapolis · MMXXVI" */
   broadsideTag?: string;
   /** Extra classes applied to the outer <section> */
@@ -24,8 +22,8 @@ export function CtaBand({
   description,
   primaryCta,
   secondaryCta,
-  broadsideNo = "014",
   broadsideTag = "Printed in Minneapolis · MMXXVI",
+  // cSpell:ignore MMXXVI
   className = "",
 }: CtaBandProps) {
   return (
@@ -46,12 +44,9 @@ export function CtaBand({
         }}
       />
       {/* Broadside ticker */}
-      <div className="relative z-10 flex items-center gap-4 px-4 md:px-6 lg:px-8 xl:px-12 py-3 border-b border-ink/10">
+      <div className="relative z-10 flex items-center gap-4 px-4 md:px-6 lg:px-8 xl:px-12 py-4">
         <div className="flex items-center gap-3 shrink-0">
           <span className="w-1.5 h-1.5 rounded-full bg-ink shrink-0" />
-          <span className="font-mono text-[11px] uppercase tracking-widest text-ink">
-            Broadside No.&nbsp;{broadsideNo}
-          </span>
         </div>
         <span className="flex-1 h-px bg-ink/20" />
         <span className="font-mono text-[11px] uppercase tracking-widest text-ink shrink-0">

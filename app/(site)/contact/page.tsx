@@ -31,7 +31,7 @@ export default async function ContactPage() {
   return (
     <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
       {/* ── Hero ──────────────────────────────────────────────────────── */}
-      <section className="pt-10 pb-16 border-b border-foreground/10">
+      <section className="pt-10">
         {/* Meta row */}
         <div className="flex items-center gap-4 mb-6">
           <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
@@ -52,7 +52,7 @@ export default async function ContactPage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
             </span>
-            <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
+            <span className="font-mono text-sm uppercase tracking-widest text-text-tertiary text-pretty">
               We respond within {forms.quote.responseTime}
             </span>
           </div>
@@ -95,13 +95,14 @@ export default async function ContactPage() {
         </div>
 
         {/* ── Info sidebar — right ───────────────────────────────────── */}
-        <aside className="flex-1 lg:pt-18 flex flex-col gap-10 lg:sticky lg:top-8">
+        <aside className="flex-1 flex flex-col gap-10 lg:sticky lg:top-8">
           {/* Section label */}
           <div className="flex items-center gap-3">
             <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
               02 / Find Us
             </span>
             <span className="flex-1 h-px bg-gold/30" />
+            <RegistrationMark className="w-4 h-4 text-text-accent shrink-0" />
           </div>
 
           {/* Company name */}
@@ -180,7 +181,7 @@ export default async function ContactPage() {
                 className="font-mono text-xs uppercase tracking-widest text-text-secondary hover:text-text-accent transition-colors flex items-center gap-2"
               >
                 <XOutlined className="text-base" />
-                <span>X</span>
+                <span>X / Twitter</span>
               </a>
             </div>
           </div>
