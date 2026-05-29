@@ -396,7 +396,7 @@ function GalleryCard({
       </button>
 
       {/* ── Metadata below card ──────────────────────────────────── */}
-      <div className="mt-3 pt-3 border-t border-foreground/10 flex justify-between items-start gap-3">
+      <div className="mt-3 pt-3 border-t border-foreground/10 flex flex-col lg:flex-row justify-between lg:items-start lg:gap-3 w-full">
         <p className="font-display uppercase font-black text-text-primary text-lg leading-none group-hover:text-text-accent transition-colors duration-base">
           {item.client ?? item.title}
         </p>
