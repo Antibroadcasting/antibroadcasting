@@ -6,17 +6,13 @@ import { RegistrationMark } from "@/components/ui/RegistrationMark";
 import { TransitionLink } from "./TransitionLink";
 import { ThemeToggle } from "../ui/ThemeToggle";
 import { buttonVariants } from "../ui/Button";
-import {
-  InstagramOutlined,
-  FacebookOutlined,
-  XOutlined,
-} from "@ant-design/icons";
+import { InstagramIcon, FacebookIcon, XIcon } from "@/components/ui/Icons";
 
 const FOCUS_RING =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 const COL_LINK =
-  `relative inline-block text-sm text-text-secondary hover:text-text-accent transition-colors py-1 self-start ${FOCUS_RING}`;
+  `relative text-sm text-text-secondary hover:text-text-accent transition-colors py-1 self-start ${FOCUS_RING}`;
 
 export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
   return (
@@ -65,16 +61,19 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
 
           {/* Col 2 — Visit */}
           <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-tertiary mb-5">
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-tertiary mb-5">
               Visit
-            </h4>
-            <p className="text-sm text-text-secondary leading-relaxed">
-              {siteInfo.contact.address.street}
             </p>
-            <p className="text-sm text-text-secondary leading-relaxed">
-              {siteInfo.contact.address.city}, {siteInfo.contact.address.state}{" "}
-              {siteInfo.contact.address.zip}
-            </p>
+            <a
+              href={`https://maps.google.com/?q=${encodeURIComponent(siteInfo.contact.address.full)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${siteInfo.contact.address.full} in Google Maps (opens in new tab)`}
+              className={COL_LINK}
+            >
+              <span className="block">{siteInfo.contact.address.street}</span>
+              <span className="block">{siteInfo.contact.address.city}, {siteInfo.contact.address.state} {siteInfo.contact.address.zip}</span>
+            </a>
             <p className="font-mono text-[11px] uppercase tracking-widest text-text-tertiary mt-4">
               By Appointment Only
             </p>
@@ -82,9 +81,9 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
 
           {/* Col 3 — Get in Touch */}
           <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-tertiary mb-5">
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-tertiary mb-5">
               Get in Touch
-            </h4>
+            </p>
 
             {/* Contact info */}
             <div className="flex flex-col gap-0.5">
@@ -101,9 +100,9 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
 
           {/* Col 4 — Elsewhere */}
           <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-tertiary mb-5">
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-tertiary mb-5">
               Elsewhere
-            </h4>
+            </p>
             <div className="flex flex-col gap-1">
               <a
                 href={siteInfo.social.instagram.url}
@@ -112,7 +111,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
                 aria-label="Instagram (opens in new tab)"
                 className={`flex items-center gap-2.5 ${COL_LINK}`}
               >
-                <InstagramOutlined className="text-base mr-2" aria-hidden="true" />
+                <InstagramIcon className="w-4 h-4 shrink-0" />
                 <span>Instagram</span>
               </a>
               <a
@@ -122,7 +121,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
                 aria-label="Facebook (opens in new tab)"
                 className={`flex items-center gap-2.5 ${COL_LINK}`}
               >
-                <FacebookOutlined className="text-base mr-2" aria-hidden="true" />
+                <FacebookIcon className="w-4 h-4 shrink-0" />
                 <span>Facebook</span>
               </a>
               <a
@@ -132,7 +131,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
                 aria-label="X / Twitter (opens in new tab)"
                 className={`flex items-center gap-2.5 ${COL_LINK}`}
               >
-                <XOutlined className="text-base mr-2" aria-hidden="true" />
+                <XIcon className="w-4 h-4 shrink-0" />
                 <span>X / Twitter</span>
               </a>
             </div>

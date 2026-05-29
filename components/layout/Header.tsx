@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { type SiteInfo } from "@/lib/get-site-info";
@@ -9,12 +9,12 @@ import { Button } from "../ui/Button";
 import { CopyEmailButton } from "../ui/CopyEmailButton";
 import { RegistrationMark } from "../ui/RegistrationMark";
 import {
-  PhoneOutlined,
-  MailOutlined,
-  InstagramOutlined,
-  FacebookOutlined,
-  XOutlined,
-} from "@ant-design/icons";
+  PhoneIcon,
+  MailIcon,
+  InstagramIcon,
+  FacebookIcon,
+  XIcon,
+} from "@/components/ui/Icons";
 
 const nav = siteConfig.navigation;
 const DRAWER_ID = "mobile-nav";
@@ -125,8 +125,11 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
   // ── Body overflow lock + page-body inert ───────────────────────────────────
   // When the drawer is open: lock scroll AND mark page siblings inert so AT
   // browse mode can't wander outside the drawer (supplements the focus trap).
+  // useLayoutEffect (not useEffect) so the cleanup runs synchronously before
+  // the browser paints — prevents a frame where main is inert but the new page
+  // is already visible after a navigation triggered while the drawer was open.
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
 
     // Make main content and footer inert while the drawer is open so screen
@@ -251,10 +254,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                 className="flex items-center gap-1 font-medium text-text-primary hover:underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label={`Call ${siteInfo.contact.phone}`}
               >
-                <PhoneOutlined
-                  aria-hidden="true"
-                  className="text-lg xl:text-sm"
-                />
+                <PhoneIcon className="w-4 h-4 shrink-0" />
                 <span className="hidden font-mono uppercase tracking-widest text-sm xl:inline">
                   {siteInfo.contact.phone}
                 </span>
@@ -264,15 +264,12 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                 className="flex items-center gap-1 font-medium text-text-primary hover:underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label={`Email ${siteInfo.contact.email}`}
               >
-                <MailOutlined
-                  aria-hidden="true"
-                  className="text-lg xl:text-sm"
-                />
+                <MailIcon className="w-4 h-4 shrink-0" />
                 <span className="hidden font-mono uppercase tracking-widest text-sm 2xl:inline">
                   {siteInfo.contact.email}
                 </span>
               </a>
-              <Button variant="outline" size="sm">
+              <Button asChild variant="outline" size="sm">
                 <TransitionLink href="/contact">Get a Quote</TransitionLink>
               </Button>
             </div>
@@ -341,7 +338,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
         </div>
 
         <div className="px-6 text-sm text-text-secondary flex flex-col space-y-2">
-          <Button variant="primary" size="sm">
+          <Button asChild variant="primary" size="sm">
             <TransitionLink href="/contact">Get a Quote</TransitionLink>
           </Button>
 
@@ -350,17 +347,14 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
               href={siteInfo.contact.phoneHref}
               className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              <PhoneOutlined
-                aria-hidden="true"
-                className="text-base shrink-0"
-              />
+              <PhoneIcon className="w-4 h-4 shrink-0" />
               <span className="font-mono uppercase tracking-widest">
                 {siteInfo.contact.phone}
               </span>
             </a>
 
             <div className="flex items-center gap-2 text-text-secondary">
-              <MailOutlined aria-hidden="true" className="text-base shrink-0" />
+              <MailIcon className="w-4 h-4 shrink-0" />
               <span className="font-mono uppercase">
                 <CopyEmailButton email={siteInfo.contact.email} />
               </span>
@@ -374,7 +368,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                   rel="noopener noreferrer"
                   aria-label="Instagram (opens in new tab)"
                 >
-                  <InstagramOutlined className="text-lg" />
+                  <InstagramIcon className="w-4 h-4" />
                 </a>
               </Button>
               <Button asChild variant="ghost" size="icon">
@@ -384,7 +378,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                   rel="noopener noreferrer"
                   aria-label="Facebook (opens in new tab)"
                 >
-                  <FacebookOutlined className="text-lg" />
+                  <FacebookIcon className="w-4 h-4" />
                 </a>
               </Button>
               <Button asChild variant="ghost" size="icon">
@@ -394,7 +388,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                   rel="noopener noreferrer"
                   aria-label="X / Twitter (opens in new tab)"
                 >
-                  <XOutlined className="text-lg" />
+                  <XIcon className="w-4 h-4" />
                 </a>
               </Button>
             </div>

@@ -1,7 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
+// ─── Rate limiter ─────────────────────────────────────────────────────────────
+// In-memory per-IP limiter. Fluid Compute reuses instances across concurrent
+// requests so this is effective in practice. Max 5 requests per 10 minutes.
+
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 5;
+const WINDOW_MS = 10 * 60 * 1000;
+
+function getClientIp(req: NextRequest): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    req.headers.get("x-real-ip") ??
+    "unknown"
+  );
+}
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+    return true;
+  }
+
+  if (entry.count >= RATE_LIMIT) return false;
+
+  entry.count++;
+  return true;
+}
+
+// ─── Handler ──────────────────────────────────────────────────────────────────
+
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      { status: 429 },
+    );
+  }
+
   const resend = new Resend(process.env.RESEND_API_KEY);
 
   try {
@@ -31,7 +72,7 @@ ${message}
     }
 
     return NextResponse.json({ data });
-  } catch (err) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to send email" },
       { status: 500 },

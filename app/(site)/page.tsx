@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { reader } from "@/lib/keystatic";
 import { getSiteInfo, type SiteInfo } from "@/lib/get-site-info";
 import { siteConfig } from "@/lib/site-config";
@@ -56,13 +57,16 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
           <span className="hidden sm:block h-px w-16 bg-gold" />
         </div>
         {siteInfo.booking.visible && (
-          <div className="flex items-center gap-2 font-mono text-xs lg:text-sm xl:text-base font-black tracking-widest uppercase text-text-inverse bg-button-primary-surface px-3 py-1">
+          <TransitionLink
+            href="/contact"
+            className="flex items-center gap-2 font-mono text-xs lg:text-sm xl:text-base font-black tracking-widest uppercase text-text-inverse bg-button-primary-surface px-3 py-1 hover:bg-button-primary-surface-hover transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
             <span className="relative flex h-2 w-2 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-bg-base opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-bg-base" />
             </span>
             Now Booking — {siteInfo.booking.label}
-          </div>
+          </TransitionLink>
         )}
       </div>
 
@@ -104,14 +108,15 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
           className="hidden lg:flex flex-2 self-stretch relative"
           aria-hidden="true"
         >
-          <div
-            className="relative w-full h-full min-h-120 overflow-hidden border border-paper/10"
-            style={{
-              backgroundImage: "url('/images/hero-img01.jpg')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
+          <div className="relative w-full h-full min-h-120 overflow-hidden border border-paper/10">
+            <Image
+              src="/images/hero-img01.jpg"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 40vw"
+              className="object-cover"
+              priority
+            />
             {/* Diagonal stripe overlay */}
             <div
               className="absolute inset-0"

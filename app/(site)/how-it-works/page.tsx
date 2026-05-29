@@ -6,6 +6,7 @@ import { TransitionLink } from "@/components/layout/TransitionLink";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
 import { CtaBand } from "@/components/ui/CtaBand";
+import { PageBreadcrumb } from "@/components/ui/PageBreadcrumb";
 
 export const metadata: Metadata = {
   title: "How It Works",
@@ -105,14 +106,7 @@ export default async function HowItWorksPage() {
       <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
         {/* ── Hero ────────────────────────────────────────────────────── */}
         <section className="pt-10">
-          {/* Meta row */}
-          <div className="flex items-center gap-4 mb-6">
-            <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
-              Est. 2005 {siteInfo.contact.address.city}{" "}
-              {siteInfo.contact.address.state} · Artist-Run
-            </span>
-            <span className="h-px w-16 bg-gold hidden sm:block" />
-          </div>
+          <PageBreadcrumb page="How It Works" />
 
           <h1 className="font-display font-black uppercase leading-[0.85] text-[clamp(5rem,18vw,12rem)]">
             Our Process<span className="text-gold">.</span>

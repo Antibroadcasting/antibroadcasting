@@ -5,12 +5,12 @@ import { Textarea } from "@/components/ui/Textarea";
 import { FileUpload } from "@/components/ui/FileUpload";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
 import {
-  PhoneOutlined,
-  MailOutlined,
-  InstagramOutlined,
-  FacebookOutlined,
-  XOutlined,
-} from "@ant-design/icons";
+  PhoneIcon,
+  MailIcon,
+  InstagramIcon,
+  FacebookIcon,
+  XIcon,
+} from "@/components/ui/Icons";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -465,11 +465,11 @@ export default function StyleGuide() {
         <SubHead>Icons — Ant Design</SubHead>
         <div className="flex flex-wrap gap-6">
           {[
-            { icon: <PhoneOutlined />, name: "PhoneOutlined" },
-            { icon: <MailOutlined />, name: "MailOutlined" },
-            { icon: <InstagramOutlined />, name: "InstagramOutlined" },
-            { icon: <FacebookOutlined />, name: "FacebookOutlined" },
-            { icon: <XOutlined />, name: "XOutlined" },
+            { icon: <PhoneIcon className="w-5 h-5" />, name: "PhoneIcon" },
+            { icon: <MailIcon className="w-5 h-5" />, name: "MailIcon" },
+            { icon: <InstagramIcon className="w-5 h-5" />, name: "InstagramIcon" },
+            { icon: <FacebookIcon className="w-5 h-5" />, name: "FacebookIcon" },
+            { icon: <XIcon className="w-5 h-5" />, name: "XIcon" },
           ].map(({ icon, name }) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <div className="text-xl text-text-secondary">{icon}</div>

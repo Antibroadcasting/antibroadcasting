@@ -327,7 +327,7 @@ export function FeaturedWorkGrid({ items }: { items: GalleryItem[] }) {
 
                 {/* NO. badge */}
                 <div className="absolute top-3 left-3 z-20 bg-ink border border-foreground/25 px-2 py-0.5">
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-text-inverse">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-inverse">
                     No.&nbsp;{String(i + 1).padStart(2, "0")}
                   </span>
                 </div>

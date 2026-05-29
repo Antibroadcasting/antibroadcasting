@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
-import { FileUpload } from "@/components/ui/FileUpload";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
@@ -188,14 +187,22 @@ export function QuoteForm({
         error={errors.message}
       />
 
-      {/* File Upload */}
-      <FileUpload
-        label="Artwork Files (Optional)"
-        accept=".ai,.psd,.pdf,.png,.jpg,.jpeg,.svg"
-        maxSize={20 * 1024 * 1024}
-        multiple
-        maxFiles={5}
-      />
+      {/* Artwork note */}
+      <div className="border-l-4 border-foreground/15 pl-5">
+        <p className="font-mono text-[10px] uppercase tracking-widest text-text-tertiary">
+          Artwork Files
+        </p>
+        <p className="mt-1 text-sm text-text-secondary leading-relaxed">
+          Have art ready? Email it to{" "}
+          <a
+            href={emailHref}
+            className="text-text-accent hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            {email}
+          </a>{" "}
+          or drop a link in your message. We accept AI, PSD, PDF, or high-res PNG/JPG.
+        </p>
+      </div>
 
       {/* Submit */}
       <div>

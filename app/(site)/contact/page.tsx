@@ -3,11 +3,8 @@ import { getSiteInfo } from "@/lib/get-site-info";
 import { siteConfig } from "@/lib/site-config";
 import { QuoteForm } from "@/components/ui/QuoteForm";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
-import {
-  FacebookOutlined,
-  InstagramOutlined,
-  XOutlined,
-} from "@ant-design/icons";
+import { PageBreadcrumb } from "@/components/ui/PageBreadcrumb";
+import { InstagramIcon, FacebookIcon, XIcon } from "@/components/ui/Icons";
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteInfo = await getSiteInfo();
@@ -32,14 +29,7 @@ export default async function ContactPage() {
     <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <section className="pt-10">
-        {/* Meta row */}
-        <div className="flex items-center gap-4 mb-6">
-          <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
-            Est. 2005 {siteInfo.contact.address.city}{" "}
-            {siteInfo.contact.address.state} · Artist-Run
-          </span>
-          <span className="h-px w-16 bg-gold hidden sm:block" />
-        </div>
+        <PageBreadcrumb page="Contact" />
 
         <h1 className="font-display font-black uppercase leading-[0.85] text-[clamp(5rem,18vw,12rem)]">
           Get in Touch<span className="text-gold">.</span>
@@ -112,15 +102,19 @@ export default async function ContactPage() {
             </p>
 
             {/* Address */}
-            <div className="flex flex-col gap-1 mb-6">
-              <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
-                {contact.address.street}
-              </span>
-              <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
+            <a
+              href={`https://maps.google.com/?q=${encodeURIComponent(contact.address.full)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${contact.address.full} in Google Maps (opens in new tab)`}
+              className="flex flex-col gap-1 mb-6 self-start font-mono text-xs uppercase tracking-widest text-text-tertiary hover:text-text-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              <span>{contact.address.street}</span>
+              <span>
                 {contact.address.city}, {contact.address.state}{" "}
                 {contact.address.zip}
               </span>
-            </div>
+            </a>
 
             {/* Contact links */}
             <div className="flex flex-col gap-2 mb-6">
@@ -160,7 +154,7 @@ export default async function ContactPage() {
                 aria-label="Instagram (opens in new tab)"
                 className="font-mono text-xs uppercase tracking-widest text-text-secondary hover:text-text-accent transition-colors flex items-center gap-2"
               >
-                <InstagramOutlined className="text-base" />
+                <InstagramIcon className="w-4 h-4" />
                 <span>Instagram</span>
               </a>
               <a
@@ -170,7 +164,7 @@ export default async function ContactPage() {
                 aria-label="Facebook (opens in new tab)"
                 className="font-mono text-xs uppercase tracking-widest text-text-secondary hover:text-text-accent transition-colors flex items-center gap-2"
               >
-                <FacebookOutlined className="text-base" />
+                <FacebookIcon className="w-4 h-4" />
                 <span>Facebook</span>
               </a>
               <a
@@ -180,7 +174,7 @@ export default async function ContactPage() {
                 aria-label="X / Twitter (opens in new tab)"
                 className="font-mono text-xs uppercase tracking-widest text-text-secondary hover:text-text-accent transition-colors flex items-center gap-2"
               >
-                <XOutlined className="text-base" />
+                <XIcon className="w-4 h-4" />
                 <span>X / Twitter</span>
               </a>
             </div>

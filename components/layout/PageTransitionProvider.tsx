@@ -10,8 +10,8 @@ import {
 } from "react";
 import { usePathname } from "next/navigation";
 
-const FLOOD_MS = 400;
-const PRINT_MS = 400;
+const FLOOD_MS = 350;
+const PRINT_MS = 350;
 // Safety valve: if the pathname never changes (e.g. same-route double-click),
 // force-remove the overlay after this long.
 const STUCK_TIMEOUT_MS = FLOOD_MS + PRINT_MS + 1500;
@@ -27,13 +27,16 @@ const TransitionContext = createContext<TransitionContextValue>({
 export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const activeFloodRef = useRef<Animation | null>(null);
+  // Stores a "pathname-changed" notifier set by startTransition each navigation.
+  // useEffect([pathname]) calls it to signal the print phase that the new page
+  // is committed; the notifier then coordinates with the flood's onfinish.
   const printPhaseRef = useRef<(() => void) | null>(null);
   const transitionIdRef = useRef(0);
   const pathname = usePathname();
 
   // ── Announce page change to screen readers after each navigation ───────────
   // Skips mount (initial load). On real navigations, after the wipe-out phase
-  // finishes, moves focus to #main-content so AT/keyboard users start at the top.
+  // finishes, moves focus to #main-content so AT/keyboard users start at the top. cSpell:ignore navigations
   const isFirstRenderRef = useRef(true);
   useEffect(() => {
     if (isFirstRenderRef.current) {
@@ -53,17 +56,18 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
+  // When the pathname changes, notify the active transition so it can start the
+  // print phase once the flood animation is also complete.
   useEffect(() => {
     if (!printPhaseRef.current) return;
-    const startPrint = printPhaseRef.current;
+    const notify = printPhaseRef.current;
     printPhaseRef.current = null;
-    requestAnimationFrame(startPrint);
+    requestAnimationFrame(notify);
   }, [pathname]);
 
   const startTransition = useCallback((navigate: () => void) => {
     // Cancelling the flood prevents its onfinish from firing, which would
-    // otherwise call navigate() for the old destination and potentially
-    // consume the new transition's printPhaseRef.
+    // potentially consume the new transition's printPhaseRef.
     activeFloodRef.current?.cancel();
     activeFloodRef.current = null;
     overlayRef.current?.remove();
@@ -86,37 +90,55 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     );
     activeFloodRef.current = flood;
 
+    const executePrint = () => {
+      if (transitionIdRef.current !== id) return;
+      overlay.style.pointerEvents = "none";
+      const print = overlay.animate(
+        [{ transform: "translateY(0)" }, { transform: "translateY(100%)" }],
+        { duration: PRINT_MS, easing: "ease-out", fill: "forwards" },
+      );
+      print.onfinish = () => {
+        overlay.remove();
+        if (overlayRef.current === overlay) overlayRef.current = null;
+      };
+    };
+
+    // The print phase requires both the flood to finish AND the pathname to have
+    // changed. navigate() is called immediately so the page load runs in parallel
+    // with the flood animation rather than waiting for it to complete first.
+    let floodDone = false;
+    let pathnameDone = false;
+
+    const maybeStartPrint = () => {
+      if (floodDone && pathnameDone) requestAnimationFrame(executePrint);
+    };
+
+    // Notifier stored for useEffect([pathname]) to call when the route commits.
+    printPhaseRef.current = () => {
+      pathnameDone = true;
+      maybeStartPrint();
+    };
+
     flood.onfinish = () => {
-      // Guard: a newer transition already took over.
       if (transitionIdRef.current !== id) return;
       activeFloodRef.current = null;
-
-      const executePrint = () => {
-        if (transitionIdRef.current !== id) return;
-        overlay.style.pointerEvents = "none";
-        const print = overlay.animate(
-          [{ transform: "translateY(0)" }, { transform: "translateY(100%)" }],
-          { duration: PRINT_MS, easing: "ease-out", fill: "forwards" },
-        );
-        print.onfinish = () => {
-          overlay.remove();
-          if (overlayRef.current === overlay) overlayRef.current = null;
-        };
-      };
-
-      printPhaseRef.current = executePrint;
-      navigate();
-
-      // Safety valve: if the pathname never changes (same-route navigate,
-      // network error, etc.) force-remove the overlay so it can't stay stuck.
-      setTimeout(() => {
-        if (printPhaseRef.current === executePrint) {
-          printPhaseRef.current = null;
-          overlay.remove();
-          if (overlayRef.current === overlay) overlayRef.current = null;
-        }
-      }, STUCK_TIMEOUT_MS);
+      floodDone = true;
+      maybeStartPrint();
     };
+
+    // Navigate immediately — the flood animation runs in parallel with the page
+    // load instead of adding a mandatory 300 ms delay before navigation starts.
+    navigate();
+
+    // Safety valve: if the pathname never changes (same-route navigate,
+    // network error, etc.) force-remove the overlay so it can't stay stuck.
+    setTimeout(() => {
+      if (transitionIdRef.current === id && overlayRef.current === overlay) {
+        printPhaseRef.current = null;
+        overlay.remove();
+        if (overlayRef.current === overlay) overlayRef.current = null;
+      }
+    }, STUCK_TIMEOUT_MS);
   }, []);
 
   return (

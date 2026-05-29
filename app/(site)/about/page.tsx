@@ -4,6 +4,7 @@ import { getSiteInfo } from "@/lib/get-site-info";
 import { siteConfig } from "@/lib/site-config";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
 import { CtaBand } from "@/components/ui/CtaBand";
+import { PageBreadcrumb } from "@/components/ui/PageBreadcrumb";
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteInfo = await getSiteInfo();
@@ -93,15 +94,8 @@ export default async function AboutPage() {
     <>
       <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
         {/* ── Hero ────────────────────────────────────────────────────── */}
-        <section className="pt-10 pb-16 border-b border-foreground/10">
-          {/* Meta row */}
-          <div className="flex items-center gap-4 mb-6">
-            <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
-              Est. 2005 {siteInfo.contact.address.city}{" "}
-              {siteInfo.contact.address.state} · Artist-Run
-            </span>
-            <span className="h-px w-16 bg-gold hidden sm:block" />
-          </div>
+        <section className="pt-10 pb-8 border-b border-foreground/10">
+          <PageBreadcrumb page="About" />
 
           <h1 className="font-display font-black uppercase leading-[0.85] text-[clamp(5rem,18vw,12rem)]">
             Experience
@@ -117,7 +111,7 @@ export default async function AboutPage() {
               { value: siteInfo.contact.address.city, label: "Based In" },
             ].map((stat) => (
               <div key={stat.label}>
-                <span className="block font-display font-black text-[clamp(2.5rem,5vw,4rem)] leading-none text-text-primary">
+                <span className="block font-display font-black text-[clamp(2rem,3vw,3rem)] leading-none text-text-primary">
                   {stat.value}
                 </span>
                 <span className="block font-mono uppercase tracking-widest text-xs text-text-tertiary mt-1">
@@ -294,7 +288,7 @@ export default async function AboutPage() {
                   {/* Gold fill on hover */}
                   <div
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gold scale-y-0 origin-bottom group-hover:scale-y-100 transition-[scale] duration-300 ease-in-out"
+                    className="absolute inset-0 bg-gold scale-y-0 origin-bottom group-hover:scale-y-100 group-hover:origin-top transition-[scale] duration-300 ease-in-out"
                   />
                   <h3 className="relative font-display font-black uppercase text-3xl leading-tight text-text-primary group-hover:text-ink transition-colors duration-300">
                     {item.title}

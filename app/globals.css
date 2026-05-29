@@ -444,21 +444,21 @@
 [data-surface="gold"] {
   --foreground: var(--color-neutral-950);
 
+  /* Neutral (primary CTA on gold): ink resting → paper hover — maximum contrast flip */
   --button-neutral-surface: var(--color-neutral-950);
-  --button-neutral-surface-hover: var(--color-neutral-800);
-  --button-neutral-surface-active: var(--color-neutral-700);
+  --button-neutral-surface-hover: var(--color-neutral-100); /* paper/cream — stark flip from ink on gold */
+  --button-neutral-surface-active: var(--color-neutral-200);
   --button-neutral-text: var(--color-neutral-100);
-  --button-neutral-text-hover: oklch(100% 0 0); /* pure white — see [data-inverse] note above */
+  --button-neutral-text-hover: var(--color-neutral-950); /* ink on paper — 15:1 AAA ✓ */
   --button-neutral-border: transparent;
 
+  /* Outline (secondary CTA on gold): transparent → solid ink flood, ink → paper text */
   --button-outline-text: var(--color-neutral-950);
-  --button-outline-text-hover: var(--color-neutral-950);
+  --button-outline-text-hover: var(--color-neutral-100); /* paper on ink flood */
   --button-outline-border: var(--color-neutral-950);
   --button-outline-border-hover: var(--color-neutral-950);
-  /* neutral-950 at 10% / 18% opacity — CSS var() refs can't take /alpha modifiers,
-     so the raw value is repeated here rather than referencing --color-neutral-950. */
-  --button-outline-surface-hover: oklch(12% 0.008 40 / 0.1);
-  --button-outline-surface-active: oklch(12% 0.008 40 / 0.18);
+  --button-outline-surface-hover: var(--color-neutral-950);
+  --button-outline-surface-active: var(--color-neutral-800);
 
   --focus-ring-color: var(--color-neutral-950);
   --focus-ring-offset-color: var(--color-primary-400);

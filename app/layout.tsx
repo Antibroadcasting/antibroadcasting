@@ -8,14 +8,14 @@ import "./globals.css";
 const figtreeSans = Figtree({
   variable: "--font-figtree-sans",
   subsets: ["latin"],
-  display: "block",
+  display: "swap",
   preload: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  display: "block",
+  display: "swap",
   preload: true,
 });
 
