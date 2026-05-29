@@ -56,18 +56,17 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  // When the pathname changes, notify the active transition so it can start the
-  // print phase once the flood animation is also complete.
   useEffect(() => {
     if (!printPhaseRef.current) return;
-    const notify = printPhaseRef.current;
+    const startPrint = printPhaseRef.current;
     printPhaseRef.current = null;
-    requestAnimationFrame(notify);
+    requestAnimationFrame(startPrint);
   }, [pathname]);
 
   const startTransition = useCallback((navigate: () => void) => {
     // Cancelling the flood prevents its onfinish from firing, which would
-    // potentially consume the new transition's printPhaseRef.
+    // otherwise call navigate() for the old destination and potentially
+    // consume the new transition's printPhaseRef.
     activeFloodRef.current?.cancel();
     activeFloodRef.current = null;
     overlayRef.current?.remove();
@@ -90,55 +89,39 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     );
     activeFloodRef.current = flood;
 
-    const executePrint = () => {
-      if (transitionIdRef.current !== id) return;
-      overlay.style.pointerEvents = "none";
-      const print = overlay.animate(
-        [{ transform: "translateY(0)" }, { transform: "translateY(100%)" }],
-        { duration: PRINT_MS, easing: "ease-out", fill: "forwards" },
-      );
-      print.onfinish = () => {
-        overlay.remove();
-        if (overlayRef.current === overlay) overlayRef.current = null;
-      };
-    };
-
-    // The print phase requires both the flood to finish AND the pathname to have
-    // changed. navigate() is called immediately so the page load runs in parallel
-    // with the flood animation rather than waiting for it to complete first.
-    let floodDone = false;
-    let pathnameDone = false;
-
-    const maybeStartPrint = () => {
-      if (floodDone && pathnameDone) requestAnimationFrame(executePrint);
-    };
-
-    // Notifier stored for useEffect([pathname]) to call when the route commits.
-    printPhaseRef.current = () => {
-      pathnameDone = true;
-      maybeStartPrint();
-    };
-
     flood.onfinish = () => {
+      // Guard: a newer transition already took over.
       if (transitionIdRef.current !== id) return;
       activeFloodRef.current = null;
-      floodDone = true;
-      maybeStartPrint();
+
+      const executePrint = () => {
+        if (transitionIdRef.current !== id) return;
+        overlay.style.pointerEvents = "none";
+        const print = overlay.animate(
+          [{ transform: "translateY(0)" }, { transform: "translateY(100%)" }],
+          { duration: PRINT_MS, easing: "ease-out", fill: "forwards" },
+        );
+        print.onfinish = () => {
+          overlay.remove();
+          if (overlayRef.current === overlay) overlayRef.current = null;
+        };
+      };
+
+      // navigate() is called only after the overlay fully covers the screen so
+      // the incoming page never renders into an uncovered area mid-wipe.
+      printPhaseRef.current = executePrint;
+      navigate();
+
+      // Safety valve: if the pathname never changes (same-route navigate,
+      // network error, etc.) force-remove the overlay so it can't stay stuck.
+      setTimeout(() => {
+        if (printPhaseRef.current === executePrint) {
+          printPhaseRef.current = null;
+          overlay.remove();
+          if (overlayRef.current === overlay) overlayRef.current = null;
+        }
+      }, STUCK_TIMEOUT_MS);
     };
-
-    // Navigate immediately — the flood animation runs in parallel with the page
-    // load instead of adding a mandatory 300 ms delay before navigation starts.
-    navigate();
-
-    // Safety valve: if the pathname never changes (same-route navigate,
-    // network error, etc.) force-remove the overlay so it can't stay stuck.
-    setTimeout(() => {
-      if (transitionIdRef.current === id && overlayRef.current === overlay) {
-        printPhaseRef.current = null;
-        overlay.remove();
-        if (overlayRef.current === overlay) overlayRef.current = null;
-      }
-    }, STUCK_TIMEOUT_MS);
   }, []);
 
   return (
