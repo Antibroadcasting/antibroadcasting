@@ -6,15 +6,8 @@ import { siteConfig } from "@/lib/site-config";
 import { type SiteInfo } from "@/lib/get-site-info";
 import { TransitionLink } from "./TransitionLink";
 import { Button } from "../ui/Button";
-import { CopyEmailButton } from "../ui/CopyEmailButton";
 import { RegistrationMark } from "../ui/RegistrationMark";
-import {
-  PhoneIcon,
-  MailIcon,
-  InstagramIcon,
-  FacebookIcon,
-  XIcon,
-} from "@/components/ui/Icons";
+import { PhoneIcon, MailIcon } from "@/components/ui/Icons";
 
 const nav = siteConfig.navigation;
 const DRAWER_ID = "mobile-nav";
@@ -297,108 +290,118 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
         </button>
       </header>
 
-      {/* Backdrop — always in DOM so it can fade out in sync with the drawer */}
-      <div
-        className={`fixed inset-0 z-40 bg-bg-base/80 backdrop-blur-xs lg:hidden transition-opacity duration-300 ease-in-out ${
-          open
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
-        onClick={() => setOpen(false)}
-        aria-hidden="true"
-      />
-
-      {/* Mobile drawer */}
+      {/* Full-screen mobile nav — slides up from the bottom, countering the
+          page-transition's top-down wipe. The header floats above it at z-100
+          so the hamburger → X button remains visible and clickable. */}
       <nav
         ref={drawerRef}
         id={DRAWER_ID}
-        className={`fixed top-18 right-0 z-40 h-full w-72 bg-bg-base shadow-xl transition-transform duration-300 ease-in-out lg:hidden ${
-          open ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed inset-0 z-40 flex flex-col overflow-hidden lg:hidden
+          bg-bg-menu
+          transition-transform duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)]
+          ${open ? "translate-y-0" : "translate-y-full"}`}
         aria-label="Mobile navigation"
         aria-modal={open ? true : undefined}
         aria-hidden={!open}
-        // inert removes all children from tab order and AT when drawer is closed,
-        // preventing keyboard users from reaching off-screen content.
         inert={!open || undefined}
       >
-        <div className="flex flex-col gap-1 p-6">
-          {nav.map((item) => (
-            <NavLink
-              key={item.href}
-              href={item.href}
-              pathname={pathname}
-              onClick={() => setOpen(false)}
-            >
-              <span className="block py-2 text-lg text-text-primary font-mono uppercase tracking-widest">
-                {item.label}
-              </span>
-            </NavLink>
-          ))}
+        {/* Subtle dot-texture overlay — mirrors the CtaBand pattern */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "radial-gradient(oklch(96% 0.012 75) 1px, transparent 1.4px)",
+            backgroundSize: "14px 14px",
+            opacity: 0.04,
+          }}
+        />
+
+        {/* Bottom corner brackets */}
+        <div aria-hidden="true" className="absolute bottom-6 left-6 w-7 h-7 border-b border-l border-border-menu pointer-events-none" />
+        <div aria-hidden="true" className="absolute bottom-6 right-6 w-7 h-7 border-b border-r border-border-menu pointer-events-none" />
+
+        {/* Spacer that clears the fixed header */}
+        <div className="flex-none h-24" aria-hidden="true" />
+
+        {/* Index label */}
+        <div className="flex items-center gap-4 px-6 pb-5">
+          <span aria-hidden="true" className="block h-px w-8 bg-border-menu" />
+          <span className="font-mono text-[10px] uppercase tracking-widest text-text-menu-subtle">
+            Navigation
+          </span>
         </div>
 
-        <div className="px-6 text-sm text-text-secondary flex flex-col space-y-2">
-          <Button asChild variant="primary" size="sm">
-            <TransitionLink href="/contact">Get a Quote</TransitionLink>
-          </Button>
+        {/* Nav items — large display type with staggered fade-in */}
+        <div className="flex-1 flex flex-col px-6 overflow-hidden min-h-0">
+          {nav.map((item, i) => {
+            const isActive = pathname === item.href;
+            return (
+              <div
+                key={item.href}
+                className="border-t border-border-menu transition-[opacity,transform] duration-500 ease-out"
+                style={{
+                  transitionDelay: open ? `${80 + i * 55}ms` : "0ms",
+                  opacity: open ? 1 : 0,
+                  transform: open ? "none" : "translateY(10px)",
+                }}
+              >
+                <TransitionLink
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  aria-current={isActive ? "page" : undefined}
+                  className="group flex items-center gap-4 py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-bg-menu"
+                >
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-text-menu-accent shrink-0 w-5">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span
+                    className={`font-display font-black uppercase leading-none transition-colors duration-200 text-[clamp(1.875rem,8vw,3rem)] ${
+                      isActive
+                        ? "text-gold"
+                        : "text-text-menu group-hover:text-gold"
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="ml-auto font-mono text-xs text-text-menu-subtle group-hover:text-gold transition-colors duration-200"
+                  >
+                    →
+                  </span>
+                </TransitionLink>
+              </div>
+            );
+          })}
+          {/* Closing rule */}
+          <div className="border-t border-border-menu" />
+        </div>
 
-          <div className="flex flex-col gap-3 mt-6">
+        {/* CTA + contact strip */}
+        <div
+          className="flex-none px-6 pt-5 pb-8 border-t border-border-menu transition-opacity duration-500 ease-out"
+          style={{
+            transitionDelay: open ? `${80 + nav.length * 55}ms` : "0ms",
+            opacity: open ? 1 : 0,
+          }}
+        >
+          <Button asChild variant="primary" size="sm" className="w-full mb-4">
+            <TransitionLink href="/contact" onClick={() => setOpen(false)}>
+              Get a Quote →
+            </TransitionLink>
+          </Button>
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-1.5">
             <a
               href={siteInfo.contact.phoneHref}
-              className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="font-mono text-xs uppercase tracking-widest text-text-menu-dim hover:text-text-menu transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold"
+              aria-label={`Call ${siteInfo.contact.phone}`}
             >
-              <PhoneIcon className="w-4 h-4 shrink-0" />
-              <span className="font-mono uppercase tracking-widest">
-                {siteInfo.contact.phone}
-              </span>
+              {siteInfo.contact.phone}
             </a>
-
-            <div className="flex items-center gap-2 text-text-secondary">
-              <MailIcon className="w-4 h-4 shrink-0" />
-              <span className="font-mono uppercase">
-                <CopyEmailButton email={siteInfo.contact.email} />
-              </span>
-            </div>
-
-            <div className="flex items-center gap-1 mt-2 -ml-2">
-              <Button asChild variant="ghost" size="icon">
-                <a
-                  href={siteInfo.social.instagram.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram (opens in new tab)"
-                >
-                  <InstagramIcon className="w-4 h-4" />
-                </a>
-              </Button>
-              <Button asChild variant="ghost" size="icon">
-                <a
-                  href={siteInfo.social.facebook.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Facebook (opens in new tab)"
-                >
-                  <FacebookIcon className="w-4 h-4" />
-                </a>
-              </Button>
-              <Button asChild variant="ghost" size="icon">
-                <a
-                  href={siteInfo.social.twitter.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="X / Twitter (opens in new tab)"
-                >
-                  <XIcon className="w-4 h-4" />
-                </a>
-              </Button>
-            </div>
-
-            <p className="mt-2 font-mono uppercase tracking-widest">
-              {siteInfo.contact.address.street}
-            </p>
-            <p className="-mt-2 font-mono uppercase tracking-widest">
+            <span className="font-mono text-xs uppercase tracking-widest text-text-menu-subtle">
               {siteInfo.contact.address.location}
-            </p>
+            </span>
           </div>
         </div>
       </nav>
