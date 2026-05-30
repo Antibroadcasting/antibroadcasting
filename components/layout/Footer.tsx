@@ -11,8 +11,7 @@ import { InstagramIcon, FacebookIcon, XIcon } from "@/components/ui/Icons";
 const FOCUS_RING =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
-const COL_LINK =
-  `relative text-sm text-text-secondary hover:text-text-accent transition-colors py-1 self-start ${FOCUS_RING}`;
+const COL_LINK = `relative text-sm text-text-secondary hover:text-text-accent transition-colors py-1 self-start ${FOCUS_RING}`;
 
 export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
   return (
@@ -23,7 +22,9 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
         // child re-focus. This prevents the jarring scroll-to-bottom firing on
         // each Tab keypress while navigating footer links.
         if (e.currentTarget.contains(e.relatedTarget as Node | null)) return;
-        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const reduced = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
         window.scrollTo({
           top: document.body.scrollHeight,
           behavior: reduced ? "instant" : "smooth",
@@ -31,14 +32,14 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
       }}
     >
       <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto px-4 md:px-6 lg:px-8 xl:px-12 pt-16 pb-8">
-
-        {/* ── Main grid ──────────────────────────────────────────────────── */}
+        {/* ── Main grid ──────────────────────────────────────────────────── cSpell:ignore wordmark antibroad */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-10 lg:gap-12 pb-12 border-b border-foreground/10">
-
           {/* Col 1 — Wordmark */}
           <div className="flex flex-col gap-0">
-            <p className="font-display font-black uppercase text-[clamp(2rem,4vw,3.75rem)] leading-[0.85] text-text-primary">
-              Antibroad-<br />casting
+            <p className="font-display font-black uppercase text-[clamp(4rem,4vw,3.75rem)] leading-[0.85] text-text-primary">
+              Antibroad-
+              <br />
+              casting
               <span className="text-gold">.</span>
             </p>
             <div className="flex items-center gap-2 mt-5">
@@ -72,7 +73,10 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
               className={COL_LINK}
             >
               <span className="block">{siteInfo.contact.address.street}</span>
-              <span className="block">{siteInfo.contact.address.city}, {siteInfo.contact.address.state} {siteInfo.contact.address.zip}</span>
+              <span className="block">
+                {siteInfo.contact.address.city},{" "}
+                {siteInfo.contact.address.state} {siteInfo.contact.address.zip}
+              </span>
             </a>
             <p className="font-mono text-[11px] uppercase tracking-widest text-text-tertiary mt-4">
               By Appointment Only
@@ -103,7 +107,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
             <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-tertiary mb-5">
               Elsewhere
             </p>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-row lg:flex-col gap-4 lg:gap-1">
               <a
                 href={siteInfo.social.instagram.url}
                 target="_blank"
@@ -112,7 +116,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
                 className={`flex items-center gap-2.5 ${COL_LINK}`}
               >
                 <InstagramIcon className="w-4 h-4 shrink-0" />
-                <span>Instagram</span>
+                <span className="hidden lg:inline-flex">Instagram</span>
               </a>
               <a
                 href={siteInfo.social.facebook.url}
@@ -122,7 +126,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
                 className={`flex items-center gap-2.5 ${COL_LINK}`}
               >
                 <FacebookIcon className="w-4 h-4 shrink-0" />
-                <span>Facebook</span>
+                <span className="hidden lg:inline-flex">Facebook</span>
               </a>
               <a
                 href={siteInfo.social.twitter.url}
@@ -132,7 +136,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
                 className={`flex items-center gap-2.5 ${COL_LINK}`}
               >
                 <XIcon className="w-4 h-4 shrink-0" />
-                <span>X / Twitter</span>
+                <span className="hidden lg:inline-flex">X / Twitter</span>
               </a>
             </div>
           </div>
@@ -143,7 +147,8 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
             as copyright, clearly meta/utility content separate from navigation. */}
         <div className="pt-7 flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-[0.2em] text-text-tertiary">
           <span>
-            &copy; {new Date().getFullYear()} {siteInfo.company.legalName} — All Rights Reserved.
+            &copy; {new Date().getFullYear()} {siteInfo.company.legalName} — All
+            Rights Reserved.
           </span>
           <span className="flex items-center gap-3">
             <RegistrationMark className="w-3.5 h-3.5" aria-hidden="true" />
@@ -166,7 +171,6 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
             </TransitionLink>
           </div>
         </div>
-
       </div>
     </footer>
   );

@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useCallback,
+} from "react";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { type SiteInfo } from "@/lib/get-site-info";
@@ -298,7 +304,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
         id={DRAWER_ID}
         className={`fixed inset-0 z-40 flex flex-col overflow-hidden lg:hidden
           bg-bg-menu
-          transition-transform duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)]
+          transition-transform duration-450 ease-[cubic-bezier(0.22,1,0.36,1)]
           ${open ? "translate-y-0" : "translate-y-full"}`}
         aria-label="Mobile navigation"
         aria-modal={open ? true : undefined}
@@ -318,8 +324,14 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
         />
 
         {/* Bottom corner brackets */}
-        <div aria-hidden="true" className="absolute bottom-6 left-6 w-7 h-7 border-b border-l border-border-menu pointer-events-none" />
-        <div aria-hidden="true" className="absolute bottom-6 right-6 w-7 h-7 border-b border-r border-border-menu pointer-events-none" />
+        <div
+          aria-hidden="true"
+          className="absolute bottom-6 left-6 w-7 h-7 border-b border-l border-border-menu pointer-events-none"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute bottom-6 right-6 w-7 h-7 border-b border-r border-border-menu pointer-events-none"
+        />
 
         {/* Spacer that clears the fixed header */}
         <div className="flex-none h-24" aria-hidden="true" />
