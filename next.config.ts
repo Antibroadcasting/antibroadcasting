@@ -12,6 +12,10 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactCompiler: true,
 
+  outputFileTracingIncludes: {
+    "/**": ["./content/**/*"],
+  },
+
   images: {
     remotePatterns: [
       // Instagram CDN — for when we pull in IG images
