@@ -2,9 +2,24 @@
 
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/Button";
+import { FileUpload } from "@/components/ui/FileUpload";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
+
+const MAX_ARTWORK_FILES = 5;
+const MAX_ARTWORK_FILE_SIZE = 10 * 1024 * 1024; // 10MB per file
+const MAX_ARTWORK_TOTAL_SIZE = 20 * 1024 * 1024; // combined cap, well under Resend's 40MB/email
+
+async function filesToAttachments(files: File[]) {
+  return Promise.all(
+    files.map(async (file) => {
+      const buffer = await file.arrayBuffer();
+      const base64 = Buffer.from(buffer).toString("base64");
+      return { filename: file.name, content: base64, contentType: file.type };
+    }),
+  );
+}
 
 type FormState = "idle" | "loading" | "success" | "error";
 
@@ -29,6 +44,8 @@ export function QuoteForm({
 }: QuoteFormProps) {
   const [state, setState] = useState<FormState>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [artworkFiles, setArtworkFiles] = useState<File[]>([]);
+  const [artworkKey, setArtworkKey] = useState(0);
   const statusRef = useRef<HTMLSpanElement>(null);
 
   function validate(data: FormData) {
@@ -63,6 +80,14 @@ export function QuoteForm({
       return;
     }
 
+    const totalArtworkSize = artworkFiles.reduce((sum, f) => sum + f.size, 0);
+    if (totalArtworkSize > MAX_ARTWORK_TOTAL_SIZE) {
+      setErrors({
+        artwork: `Artwork files are too large (max ${MAX_ARTWORK_TOTAL_SIZE / 1024 / 1024}MB combined). Remove a file or compress your artwork.`,
+      });
+      return;
+    }
+
     setErrors({});
     setState("loading");
 
@@ -78,12 +103,15 @@ export function QuoteForm({
           garment: data.get("garment"),
           timeline: data.get("timeline"),
           message: data.get("message"),
+          attachments: await filesToAttachments(artworkFiles),
         }),
       });
 
       if (!res.ok) throw new Error("Send failed");
       setState("success");
       form.reset();
+      setArtworkFiles([]);
+      setArtworkKey((k) => k + 1);
     } catch {
       setState("error");
     }
@@ -187,20 +215,27 @@ export function QuoteForm({
         error={errors.message}
       />
 
-      {/* Artwork note */}
-      <div className="border-l-4 border-foreground/15 pl-5">
-        <p className="font-mono text-[10px] uppercase tracking-widest text-text-tertiary">
-          Artwork Files
-        </p>
-        <p className="mt-1 text-sm text-text-secondary leading-relaxed">
-          Have art ready? Email it to{" "}
+      {/* Artwork Files */}
+      <div>
+        <FileUpload
+          key={artworkKey}
+          label="Artwork Files"
+          accept=".ai,.eps,.psd,.pdf,.png,.jpg,.jpeg"
+          multiple
+          maxFiles={MAX_ARTWORK_FILES}
+          maxSize={MAX_ARTWORK_FILE_SIZE}
+          onChange={setArtworkFiles}
+          error={errors.artwork}
+        />
+        <p className="mt-1.5 text-sm text-text-secondary leading-relaxed">
+          No art yet? No problem — you can submit without it. Check our{" "}
           <a
-            href={emailHref}
+            href="/how-it-works#art-requirements"
             className="text-text-accent hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            {email}
+            artwork requirements
           </a>{" "}
-          or drop a link in your message. We accept AI, PSD, PDF, or high-res PNG/JPG.
+          before you send files.
         </p>
       </div>
 

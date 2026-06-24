@@ -4,15 +4,37 @@ import { z } from "zod";
 
 // ─── Validation ───────────────────────────────────────────────────────────────
 
-const quoteRequestSchema = z.object({
-  name: z.string().trim().min(1).max(200),
-  email: z.string().trim().email().max(320),
-  message: z.string().trim().min(1).max(5000),
-  quantity: z.coerce.number().int().positive(),
-  colors: z.string().trim().max(200).optional(),
-  garment: z.string().trim().max(200).optional(),
-  timeline: z.string().trim().max(200).optional(),
+const MAX_ATTACHMENTS = 5;
+const MAX_ATTACHMENT_TOTAL_BYTES = 20 * 1024 * 1024; // combined, well under Resend's 40MB/email
+
+const attachmentSchema = z.object({
+  filename: z.string().trim().min(1).max(255),
+  content: z.string().min(1),
+  contentType: z.string().max(255).optional(),
 });
+
+const quoteRequestSchema = z
+  .object({
+    name: z.string().trim().min(1).max(200),
+    email: z.string().trim().email().max(320),
+    message: z.string().trim().min(1).max(5000),
+    quantity: z.coerce.number().int().positive(),
+    // Unselected <Select> fields submit `null` via FormData, not undefined.
+    colors: z.string().trim().max(200).nullish(),
+    garment: z.string().trim().max(200).nullish(),
+    timeline: z.string().trim().max(200).nullish(),
+    attachments: z.array(attachmentSchema).max(MAX_ATTACHMENTS).optional(),
+  })
+  .refine(
+    (data) => {
+      const totalBytes = (data.attachments ?? []).reduce(
+        (sum, a) => sum + a.content.length * 0.75,
+        0,
+      );
+      return totalBytes <= MAX_ATTACHMENT_TOTAL_BYTES;
+    },
+    { message: "Combined attachment size is too large", path: ["attachments"] },
+  );
 
 // ─── Rate limiter ─────────────────────────────────────────────────────────────
 // In-memory per-IP limiter. Fluid Compute reuses instances across concurrent
@@ -64,7 +86,7 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
-    const { name, email, message, quantity, colors, garment, timeline } =
+    const { name, email, message, quantity, colors, garment, timeline, attachments } =
       parsed.data;
 
     const resend = new Resend(process.env.RESEND_API_KEY);
@@ -84,6 +106,7 @@ Timeline: ${timeline ?? "Not specified"}
 Message:
 ${message}
       `.trim(),
+      attachments,
     });
 
     if (error) {

@@ -74,4 +74,48 @@ describe("POST /api/send", () => {
     const res = await POST(makeRequest(validPayload, ip));
     expect(res.status).toBe(429);
   });
+
+  it("forwards a valid attachment to resend.emails.send", async () => {
+    sendMock.mockResolvedValueOnce({ data: { id: "abc" }, error: null });
+    const attachments = [
+      { filename: "art.png", content: "aGVsbG8=", contentType: "image/png" },
+    ];
+
+    const res = await POST(
+      makeRequest({ ...validPayload, attachments }, "5.5.5.5"),
+    );
+
+    expect(res.status).toBe(200);
+    expect(sendMock).toHaveBeenCalledWith(
+      expect.objectContaining({ attachments }),
+    );
+  });
+
+  it("accepts null for unselected optional Select fields (colors/garment/timeline)", async () => {
+    sendMock.mockResolvedValueOnce({ data: { id: "abc" }, error: null });
+
+    const res = await POST(
+      makeRequest(
+        { ...validPayload, colors: null, garment: null, timeline: null },
+        "7.7.7.7",
+      ),
+    );
+
+    expect(res.status).toBe(200);
+    expect(sendMock).toHaveBeenCalledOnce();
+  });
+
+  it("returns 400 when attachments exceed the combined size limit", async () => {
+    const oversizedContent = "a".repeat(30 * 1024 * 1024); // decodes to ~22.5MB, over the 20MB cap
+    const attachments = [
+      { filename: "huge.png", content: oversizedContent, contentType: "image/png" },
+    ];
+
+    const res = await POST(
+      makeRequest({ ...validPayload, attachments }, "6.6.6.6"),
+    );
+
+    expect(res.status).toBe(400);
+    expect(sendMock).not.toHaveBeenCalled();
+  });
 });
