@@ -34,7 +34,8 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
     const [files, setFiles] = useState<File[]>([]);
     const [dragActive, setDragActive] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
-    const inputId = id || `file-upload-${React.useId()}`;
+    const generatedId = React.useId();
+    const inputId = id || `file-upload-${generatedId}`;
 
     const handleFiles = (newFiles: FileList | null) => {
       if (!newFiles) return;

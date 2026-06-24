@@ -25,6 +25,11 @@ export function useTheme() {
 
   useLayoutEffect(() => {
     const stored = (localStorage.getItem("theme") as Theme | null) ?? "system";
+    // One-time read of localStorage (unavailable during SSR) to sync React
+    // state with what the inline <head> script already applied to the DOM —
+    // not a candidate for the "compute during render" pattern since the
+    // value genuinely isn't known until the client mounts.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setThemeState(stored);
     // applyTheme is mostly a no-op here since the inline <head> script already
     // set the class, but it keeps data-theme and the class list in sync.

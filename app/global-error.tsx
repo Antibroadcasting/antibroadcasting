@@ -33,6 +33,10 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
             <Button variant="primary" size="md" onClick={reset}>
               Try again
             </Button>
+            {/* Plain <a>, not next/link: this boundary replaces the root layout
+                and can fire when the root layout's own provider tree (which
+                Link's router context depends on) is what crashed. */}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/"
               className={buttonVariants({ variant: "secondary", size: "md" })}

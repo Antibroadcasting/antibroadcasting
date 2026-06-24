@@ -41,7 +41,7 @@ export function MailIcon({ className, ...props }: IconProps) {
   );
 }
 
-/** Instagram wordmark — fill style */
+/** Instagram wordmark — fill style cSpell:ignore wordmark */
 export function InstagramIcon({ className, ...props }: IconProps) {
   return (
     <svg

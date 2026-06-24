@@ -53,7 +53,6 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
       }
     }, PRINT_MS + 50);
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   useEffect(() => {

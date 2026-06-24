@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
-import { getSiteInfo } from "@/lib/get-site-info";
 import { reader } from "@/lib/keystatic";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
@@ -55,10 +54,9 @@ const steps = [
 ];
 
 export default async function HowItWorksPage() {
-  const [faqEntries, artEntries, siteInfo] = await Promise.all([
+  const [faqEntries, artEntries] = await Promise.all([
     reader.collections.faq.all(),
     reader.collections.artRequirements.all(),
-    getSiteInfo(),
   ]);
 
   const artSections = artEntries
@@ -317,7 +315,7 @@ export default async function HowItWorksPage() {
       <CtaBand
         heading={
           <>
-            Let's Work
+            Let&apos;s Work
             <br />
             Together.
           </>

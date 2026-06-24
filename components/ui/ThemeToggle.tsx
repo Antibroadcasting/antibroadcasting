@@ -3,9 +3,9 @@
 import { useTheme, type Theme } from "@/lib/hooks/useTheme";
 
 const THEMES: { value: Theme; label: string }[] = [
-  { value: "light",  label: "Light"  },
-  { value: "dark",   label: "Dark"   },
-  { value: "system", label: "Auto"   },
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+  { value: "system", label: "Auto" },
 ];
 
 interface ThemeToggleProps {
@@ -37,7 +37,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
                 : "text-text-tertiary hover:text-text-secondary",
             ].join(" ")}
           >
-            {/* Brackets wrap the active label — unambiguous, no extra colour needed */}
+            {/* Brackets wrap the active label — unambiguous, no extra color needed */}
             {isActive ? `[ ${label} ]` : label}
           </button>
         );

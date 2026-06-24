@@ -146,13 +146,13 @@ export default async function AboutPage() {
 
             <div className="space-y-4 text-text-secondary leading-relaxed max-w-[68ch]">
               <p>
-                We're a shop that cares about consistency and quality — not just
+                We&apos;re a shop that cares about consistency and quality — not just
                 spitting out volume. We take extra care with your files so the
-                final print is something we're proud of too.
+                final print is something we&apos;re proud of too.
               </p>
               <p>
                 Our entire staff is made up of artists and musicians who
-                understand the need for top-notch merch. Whether you're doing
+                understand the need for top-notch merch. Whether you&apos;re doing
                 full-color artwork or a single-color strike, the same attention
                 and care goes into everything we produce.
               </p>

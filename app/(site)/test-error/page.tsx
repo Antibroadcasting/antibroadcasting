@@ -50,7 +50,7 @@ export default function TestErrorPage() {
         <section className="p-6 border border-border-default rounded-lg bg-bg-subtle">
           <h2 className="text-xl font-semibold text-text-default mb-4">Test 2: Event Handler Error</h2>
           <p className="text-text-secondary mb-4">
-            Errors in event handlers don't trigger error boundaries. Check the browser console.
+            Errors in event handlers don&apos;t trigger error boundaries. Check the browser console.
           </p>
           <button
             onClick={handleClickError}

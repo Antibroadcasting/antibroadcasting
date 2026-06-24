@@ -63,6 +63,17 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
 
   const pathname = usePathname();
 
+  // ── Close drawer on navigation ──────────────────────────────────────────────
+  // Adjusts state during render (React-recommended pattern) instead of an
+  // effect, so the drawer closes in the same commit as the navigation rather
+  // than one render later. Uses state (not a ref) because React Compiler
+  // forbids reading/writing refs during render.
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setOpen(false);
+  }
+
   // ── Logo hover animation ────────────────────────────────────────────────────
 
   const handleLogoEnter = useCallback(() => {
@@ -97,10 +108,6 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
     el.addEventListener("animationend", onEnd);
     logoCleanup.current = () => el.removeEventListener("animationend", onEnd);
   }, []);
-
-  // ── Close drawer on navigation ──────────────────────────────────────────────
-
-  useEffect(() => setOpen(false), [pathname]);
 
   // ── Scroll-hide header ──────────────────────────────────────────────────────
 
@@ -192,9 +199,10 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
     };
 
     document.addEventListener("keydown", handleKeyDown);
+    const hamburger = hamburgerRef.current;
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      hamburgerRef.current?.focus();
+      hamburger?.focus();
     };
   }, [open]);
 
@@ -307,7 +315,6 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
           transition-transform duration-450 ease-[cubic-bezier(0.22,1,0.36,1)]
           ${open ? "translate-y-0" : "translate-y-full"}`}
         aria-label="Mobile navigation"
-        aria-modal={open ? true : undefined}
         aria-hidden={!open}
         inert={!open || undefined}
       >
@@ -403,7 +410,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
               Get a Quote →
             </TransitionLink>
           </Button>
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-1.5">
+          <div className="flex flex-wrap items-center justify-between gap-x-8 px-4 gap-y-1.5">
             <a
               href={siteInfo.contact.phoneHref}
               className="font-mono text-xs uppercase tracking-widest text-text-menu-dim hover:text-text-menu transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold"

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
-import { getSiteInfo } from "@/lib/get-site-info";
 import { reader } from "@/lib/keystatic";
 import { GalleryGrid } from "@/components/ui/GalleryGrid";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
@@ -36,10 +35,7 @@ export default async function PortfolioPage({
   const { category } = await searchParams;
   const activeCategory = category ?? "all";
 
-  const [galleryEntries, siteInfo] = await Promise.all([
-    reader.collections.gallery.all(),
-    getSiteInfo(),
-  ]);
+  const galleryEntries = await reader.collections.gallery.all();
 
   const allItems = galleryEntries.map((entry) => ({
     slug: entry.slug,

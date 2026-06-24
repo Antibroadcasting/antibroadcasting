@@ -18,7 +18,7 @@ export default function TermsPage() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold text-text-default mb-4">1. Acceptance of Terms</h2>
           <p className="mb-4">
-            By accessing or using Antibroadcasting's website and services, you agree to be
+            By accessing or using Antibroadcasting&apos;s website and services, you agree to be
             bound by these Terms of Service. If you do not agree to these terms, please do
             not use our services.
           </p>
@@ -90,7 +90,7 @@ export default function TermsPage() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold text-text-default mb-4">7. Limitation of Liability</h2>
           <p className="mb-4">
-            Antibroadcasting's liability is limited to the value of the order in question.
+            Antibroadcasting&apos;s liability is limited to the value of the order in question.
             We are not liable for indirect, incidental, or consequential damages.
           </p>
         </section>

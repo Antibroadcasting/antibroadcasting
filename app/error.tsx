@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import { buttonVariants } from "@/components/ui/Button";
 
 interface ErrorProps {
@@ -34,9 +35,9 @@ export default function Error({ error, reset }: ErrorProps) {
         >
           Try again
         </button>
-        <a href="/" className={buttonVariants({ variant: "secondary", size: "md" })}>
+        <Link href="/" className={buttonVariants({ variant: "secondary", size: "md" })}>
           Return Home
-        </a>
+        </Link>
       </div>
     </div>
   );
