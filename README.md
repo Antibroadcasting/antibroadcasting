@@ -5,7 +5,10 @@ Minneapolis screen printing shop website built with Next.js 16, Keystatic CMS, T
 ## Stack
 
 - **Framework**: Next.js 16 (App Router)
-- **CMS**: Keystatic (local mode in dev, GitHub mode in production)
+- **CMS**: Keystatic (local mode in both dev and production — content is
+  edited directly against the deployed filesystem by the site owner; the
+  `/keystatic` admin UI is not indexed by search engines but is reachable
+  without its own authentication layer)
 - **Styling**: Tailwind CSS v4
 - **Email**: Resend
 - **Deployment**: Vercel
