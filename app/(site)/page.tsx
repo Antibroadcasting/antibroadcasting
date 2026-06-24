@@ -194,7 +194,7 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
         </div>
 
         {/* Right — address + status */}
-        <div className="flex flex-col items-end gap-2 text-right">
+        <div className="flex flex-col self-end gap-2 text-left lg:text-right">
           <p className="font-mono text-xs uppercase tracking-widest text-text-secondary leading-relaxed">
             {siteInfo.contact.address.street}
           </p>

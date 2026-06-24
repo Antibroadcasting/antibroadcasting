@@ -150,11 +150,11 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
             &copy; {new Date().getFullYear()} {siteInfo.company.legalName} — All
             Rights Reserved.
           </span>
-          <span className="flex items-center gap-3">
+          {/* <span className="flex items-center gap-3">
             <RegistrationMark className="w-3.5 h-3.5" aria-hidden="true" />
             Pressed by Hand
             <RegistrationMark className="w-3.5 h-3.5" aria-hidden="true" />
-          </span>
+          </span> */}
           <ThemeToggle />
           <div className="flex items-center gap-4">
             <TransitionLink
