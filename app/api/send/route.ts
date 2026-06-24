@@ -1,5 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { z } from "zod";
+
+// ─── Validation ───────────────────────────────────────────────────────────────
+
+const quoteRequestSchema = z.object({
+  name: z.string().trim().min(1).max(200),
+  email: z.string().trim().email().max(320),
+  message: z.string().trim().min(1).max(5000),
+  quantity: z.coerce.number().int().positive(),
+  colors: z.string().trim().max(200).optional(),
+  garment: z.string().trim().max(200).optional(),
+  timeline: z.string().trim().max(200).optional(),
+});
 
 // ─── Rate limiter ─────────────────────────────────────────────────────────────
 // In-memory per-IP limiter. Fluid Compute reuses instances across concurrent
@@ -43,12 +56,18 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const resend = new Resend(process.env.RESEND_API_KEY);
-
   try {
-    const body = await req.json();
-    const { name, email, message, quantity, colors, garment, timeline } = body;
+    const parsed = quoteRequestSchema.safeParse(await req.json());
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid request", details: z.treeifyError(parsed.error) },
+        { status: 400 },
+      );
+    }
+    const { name, email, message, quantity, colors, garment, timeline } =
+      parsed.data;
 
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const { data, error } = await resend.emails.send({
       from: "Quote Request <quotes@antibroadcasting.com>",
       to: ["info@antibroadcasting.com"],
