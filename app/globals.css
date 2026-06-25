@@ -79,7 +79,7 @@
   --color-accent-border: var(--color-primary-500);
 
   /* Muted */
-  --color-muted-text: var(--color-neutral-400); /* paper-4 on ink ≈ 5:1 (AA)  */
+  --color-muted-text: oklch(58% 0.02 75); /* corrected from neutral-400 (54%, 4.00:1) — verified 4.73:1 AA via real sRGB-luminance contrast math, not the L%-as-luminance shortcut used elsewhere in this file */
   --color-muted-surface: var(--color-neutral-800);
   --color-muted-border: var(--color-neutral-600);
 
@@ -122,9 +122,10 @@
   --focus-ring-offset-color: var(--background);
 
   /* ─── Semantic text ─── */
-  /* neutral-300 (L 72%) ≈ 8.8:1 on ink (AAA). neutral-400 (L 54%) ≈ 5:1 (AA). */
+  /* neutral-300 (L 72%) ≈ 8.17:1 on ink (AAA). text-tertiary uses a corrected
+     58%-lightness value (≈4.73:1), not neutral-400 directly — see below. */
   --text-secondary: var(--color-neutral-300);
-  --text-tertiary: var(--color-neutral-400);
+  --text-tertiary: oklch(58% 0.02 75); /* corrected from neutral-400 (54%, 4.00:1, failed AA) — verified 4.73:1 via real sRGB-luminance math */
   --text-inverse: var(--color-neutral-950);
   --text-on-inverse-muted: var(--color-neutral-600); /* L 30% on paper ≈ 8:1 AAA */
 
@@ -347,7 +348,7 @@
   --text-secondary: var(--color-neutral-700);
   --text-tertiary: var(--color-neutral-600);
   --text-inverse: var(--color-neutral-100);
-  --text-on-inverse-muted: var(--color-neutral-400); /* L 54%, ≈ 5:1 on ink   */
+  --text-on-inverse-muted: oklch(58% 0.02 75); /* corrected from neutral-400 (54%, 4.00:1, failed AA) — verified 4.73:1 via real sRGB-luminance math */
 
   /* ─── Semantic backgrounds ───────────────────────────────────────────────
    * bg hierarchy on paper:
@@ -428,7 +429,7 @@
   --color-accent-surface: var(--color-primary-950);
 
   --text-secondary: var(--color-neutral-300);
-  --text-tertiary: var(--color-neutral-400);
+  --text-tertiary: oklch(58% 0.02 75); /* corrected from neutral-400 (54%, 4.00:1, failed AA) — verified 4.73:1 via real sRGB-luminance math */
 
   --focus-ring-color: var(--color-primary-400);
   --focus-ring-offset-color: var(--color-neutral-950);
