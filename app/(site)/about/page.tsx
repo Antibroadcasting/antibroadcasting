@@ -78,7 +78,7 @@ function PhotoFrame({
       {/* Catalog label */}
       {catalogLabel && (
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-paper/60">
+          <span className="font-mono text-3xs uppercase tracking-widest text-paper/60">
             {catalogLabel}
           </span>
         </div>

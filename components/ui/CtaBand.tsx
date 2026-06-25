@@ -49,7 +49,7 @@ export function CtaBand({
           <span className="w-1.5 h-1.5 rounded-full bg-ink shrink-0" />
         </div>
         <span className="flex-1 h-px bg-ink/20" />
-        <span className="font-mono text-[11px] uppercase tracking-widest text-ink shrink-0">
+        <span className="font-mono text-2xs uppercase tracking-widest text-ink shrink-0">
           {broadsideTag}
         </span>
       </div>

@@ -144,7 +144,7 @@ function Lightbox({
         {/* Meta panel */}
         <div className="flex flex-col text-paper py-2">
           {item.category && (
-            <span className="self-start font-mono text-[10px] uppercase tracking-[0.22em] font-bold px-2.5 py-1 bg-gold text-ink mb-4">
+            <span className="self-start font-mono text-3xs uppercase tracking-mega font-bold px-2.5 py-1 bg-gold text-ink mb-4">
               {item.category.replace(/-/g, " ")}
             </span>
           )}
@@ -154,7 +154,7 @@ function Lightbox({
           </h2>
 
           {item.client && (
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-paper/40 mb-6">
+            <p className="font-mono text-2xs uppercase tracking-mega text-paper/40 mb-6">
               {item.title}
             </p>
           )}
@@ -168,7 +168,7 @@ function Lightbox({
           <div className="mt-auto border-t border-paper/10 pt-5 grid grid-cols-2 gap-x-5 gap-y-3.5">
             {item.year && (
               <div className="flex flex-col gap-1">
-                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/40">
+                <span className="font-mono text-3xs uppercase tracking-mega text-paper/40">
                   Year
                 </span>
                 <span className="font-display font-black uppercase text-[22px] leading-none">
@@ -178,7 +178,7 @@ function Lightbox({
             )}
             {item.colors && (
               <div className="flex flex-col gap-1">
-                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/40">
+                <span className="font-mono text-3xs uppercase tracking-mega text-paper/40">
                   Colors
                 </span>
                 <span className="font-display font-black uppercase text-[22px] leading-none text-gold">
@@ -188,7 +188,7 @@ function Lightbox({
             )}
             {item.category && (
               <div className="flex flex-col gap-1 col-span-2">
-                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/40">
+                <span className="font-mono text-3xs uppercase tracking-mega text-paper/40">
                   Garment
                 </span>
                 <span className="font-display font-black uppercase text-[22px] leading-none">
@@ -226,7 +226,7 @@ function Lightbox({
             />
           </svg>
         </button>
-        <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-paper/60 px-1 select-none">
+        <span className="font-mono text-2xs uppercase tracking-mega text-paper/60 px-1 select-none">
           <span className="text-paper font-semibold">
             {String(currentIndex + 1).padStart(2, "0")}
           </span>
@@ -327,7 +327,7 @@ export function FeaturedWorkGrid({ items }: { items: GalleryItem[] }) {
 
                 {/* NO. badge */}
                 <div className="absolute top-3 left-3 z-20 bg-ink border border-foreground/25 px-2 py-0.5">
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-inverse">
+                  <span className="font-mono text-3xs uppercase tracking-widest text-inverse">
                     No.&nbsp;{String(i + 1).padStart(2, "0")}
                   </span>
                 </div>
@@ -336,7 +336,7 @@ export function FeaturedWorkGrid({ items }: { items: GalleryItem[] }) {
                 {!item.image && (
                   <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2">
                     <RegistrationMark className="w-8 h-8 text-paper/20" />
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-paper/30">
+                    <span className="font-mono text-3xs uppercase tracking-widest text-paper/30">
                       Garment Photo
                     </span>
                   </div>

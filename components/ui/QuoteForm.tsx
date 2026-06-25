@@ -130,7 +130,7 @@ export function QuoteForm({
         {state === "loading" ? "Sending your request…" : ""}
       </span>
 
-      <p className="font-mono text-[10px] uppercase tracking-widest text-text-tertiary">
+      <p className="font-mono text-3xs uppercase tracking-widest text-text-tertiary">
         Fields marked{" "}
         <span aria-hidden="true" className="text-text-accent">
           *
@@ -170,7 +170,7 @@ export function QuoteForm({
             required
             error={errors.quantity}
           />
-          <p className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-text-tertiary">
+          <p className="mt-1.5 font-mono text-3xs uppercase tracking-widest text-text-tertiary">
             {minimumOrder} piece minimum
           </p>
         </div>
@@ -183,7 +183,7 @@ export function QuoteForm({
             min={1}
             max={maxColors}
           />
-          <p className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-text-tertiary">
+          <p className="mt-1.5 font-mono text-3xs uppercase tracking-widest text-text-tertiary">
             Up to {maxColors} colors
           </p>
         </div>

@@ -105,7 +105,7 @@ export default async function PortfolioPage({
                 >
                   {cat.label}
                   <span
-                    className={`text-[10px] ${
+                    className={`text-3xs ${
                       isActive ? "text-ink/60" : "text-text-tertiary"
                     }`}
                   >

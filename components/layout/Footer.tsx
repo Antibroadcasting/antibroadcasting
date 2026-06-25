@@ -44,7 +44,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
             </p>
             <div className="flex items-center gap-2 mt-5">
               <RegistrationMark className="w-3.5 h-3.5 text-text-accent shrink-0" />
-              <span className="font-mono text-[11px] uppercase tracking-widest text-text-tertiary">
+              <span className="font-mono text-2xs uppercase tracking-widest text-text-tertiary">
                 Artist-Run · Independent · Minneapolis
               </span>
             </div>
@@ -62,7 +62,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
 
           {/* Col 2 — Visit */}
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-tertiary mb-5">
+            <p className="font-mono text-2xs uppercase tracking-mega text-text-tertiary mb-5">
               Visit
             </p>
             <a
@@ -78,14 +78,14 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
                 {siteInfo.contact.address.state} {siteInfo.contact.address.zip}
               </span>
             </a>
-            <p className="font-mono text-[11px] uppercase tracking-widest text-text-tertiary mt-4">
+            <p className="font-mono text-2xs uppercase tracking-widest text-text-tertiary mt-4">
               By Appointment Only
             </p>
           </div>
 
           {/* Col 3 — Get in Touch */}
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-tertiary mb-5">
+            <p className="font-mono text-2xs uppercase tracking-mega text-text-tertiary mb-5">
               Get in Touch
             </p>
 
@@ -104,7 +104,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
 
           {/* Col 4 — Elsewhere */}
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-text-tertiary mb-5">
+            <p className="font-mono text-2xs uppercase tracking-mega text-text-tertiary mb-5">
               Elsewhere
             </p>
             <div className="flex flex-row lg:flex-col gap-4 lg:gap-1">
@@ -145,7 +145,7 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
         {/* ── Bottom bar ─────────────────────────────────────────────────── */}
         {/* Theme toggle + legal links live here — same mono-uppercase register
             as copyright, clearly meta/utility content separate from navigation. */}
-        <div className="pt-7 flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-[0.2em] text-text-tertiary">
+        <div className="pt-7 flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-4 font-mono text-2xs uppercase tracking-mega text-text-tertiary">
           <span>
             &copy; {new Date().getFullYear()} {siteInfo.company.legalName} — All
             Rights Reserved.
@@ -159,13 +159,13 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
           <div className="flex items-center gap-4">
             <TransitionLink
               href="/privacy"
-              className={`font-mono text-[10px] uppercase tracking-widest text-text-tertiary hover:text-text-secondary transition-colors ${FOCUS_RING}`}
+              className={`font-mono text-3xs uppercase tracking-widest text-text-tertiary hover:text-text-secondary transition-colors ${FOCUS_RING}`}
             >
               Privacy
             </TransitionLink>
             <TransitionLink
               href="/terms"
-              className={`font-mono text-[10px] uppercase tracking-widest text-text-tertiary hover:text-text-secondary transition-colors ${FOCUS_RING}`}
+              className={`font-mono text-3xs uppercase tracking-widest text-text-tertiary hover:text-text-secondary transition-colors ${FOCUS_RING}`}
             >
               Terms
             </TransitionLink>

@@ -140,7 +140,7 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
 
             {/* Catalog label — top */}
             <div className="absolute top-6 left-1/2 -translate-x-1/2">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-paper/60">
+              <span className="font-mono text-3xs uppercase tracking-widest text-paper/60">
                 01 / Catalog No. 2026-A
               </span>
             </div>
@@ -152,14 +152,14 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
 
             {/* Press label — center-left */}
             <div className="absolute left-6 top-1/2 -translate-y-1/2 -rotate-90 origin-center">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-paper/50">
+              <span className="font-mono text-3xs uppercase tracking-widest text-paper/50">
                 Press Photograph
               </span>
             </div>
 
             {/* File label — bottom */}
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-paper/60">
+              <span className="font-mono text-3xs uppercase tracking-widest text-paper/60">
                 File · Hero_01.tif
               </span>
             </div>

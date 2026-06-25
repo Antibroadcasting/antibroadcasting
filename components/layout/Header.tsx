@@ -346,7 +346,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
         {/* Index label */}
         <div className="flex items-center gap-4 px-6 pb-5">
           <span aria-hidden="true" className="block h-px w-8 bg-border-menu" />
-          <span className="font-mono text-[10px] uppercase tracking-widest text-text-menu-subtle">
+          <span className="font-mono text-3xs uppercase tracking-widest text-text-menu-subtle">
             Navigation
           </span>
         </div>
@@ -371,7 +371,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                   aria-current={isActive ? "page" : undefined}
                   className="group flex items-center gap-4 py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-bg-menu"
                 >
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-text-menu-accent shrink-0 w-5">
+                  <span className="font-mono text-3xs uppercase tracking-widest text-text-menu-accent shrink-0 w-5">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span
