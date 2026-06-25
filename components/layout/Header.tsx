@@ -7,6 +7,7 @@ import {
   useRef,
   useCallback,
 } from "react";
+import type { CSSProperties } from "react";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { type SiteInfo } from "@/lib/get-site-info";
@@ -321,13 +322,14 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
         {/* Subtle dot-texture overlay — mirrors the CtaBand pattern */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage:
-              "radial-gradient(oklch(96% 0.012 75) 1px, transparent 1.4px)",
-            backgroundSize: "14px 14px",
-            opacity: 0.04,
-          }}
+          className="absolute inset-0 pointer-events-none bg-texture-dots"
+          style={
+            {
+              "--texture-dots-color": "oklch(96% 0.012 75)",
+              "--texture-dots-size": "14px",
+              "--texture-dots-opacity": 0.04,
+            } as CSSProperties
+          }
         />
 
         {/* Bottom corner brackets */}

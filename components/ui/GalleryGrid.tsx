@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import type { CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { RegistrationMark } from "./RegistrationMark";
@@ -366,11 +367,8 @@ function GalleryCard({
 
           {/* Diagonal stripe texture — matches FeaturedWorkGrid and hero image */}
           <div
-            className="absolute inset-0 z-10 pointer-events-none"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(45deg, transparent, transparent 8px, oklch(0% 0 0 / 0.12) 8px, oklch(0% 0 0 / 0.12) 9px)",
-            }}
+            className="absolute inset-0 z-10 pointer-events-none bg-texture-stripe"
+            style={{ "--texture-stripe-opacity": 0.12 } as CSSProperties}
           />
 
           {/* Index badge — top-left, consistent with FeaturedWorkGrid "No. 01" */}

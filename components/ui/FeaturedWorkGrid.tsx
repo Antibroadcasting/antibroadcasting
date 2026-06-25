@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import type { CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { RegistrationMark } from "./RegistrationMark";
@@ -318,11 +319,8 @@ export function FeaturedWorkGrid({ items }: { items: GalleryItem[] }) {
 
                 {/* Diagonal stripe overlay */}
                 <div
-                  className="absolute inset-0 z-10"
-                  style={{
-                    backgroundImage:
-                      "repeating-linear-gradient(45deg, transparent, transparent 8px, oklch(0% 0 0 / 0.15) 8px, oklch(0% 0 0 / 0.15) 9px)",
-                  }}
+                  className="absolute inset-0 z-10 bg-texture-stripe"
+                  style={{ "--texture-stripe-opacity": 0.15 } as CSSProperties}
                 />
 
                 {/* NO. badge */}

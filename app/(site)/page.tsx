@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import { reader } from "@/lib/keystatic";
 import { getSiteInfo, type SiteInfo } from "@/lib/get-site-info";
@@ -119,11 +120,8 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
             />
             {/* Diagonal stripe overlay */}
             <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage:
-                  "repeating-linear-gradient(45deg, transparent, transparent 8px, oklch(0% 0 0 / 0.08) 8px, oklch(0% 0 0 / 0.08) 9px)",
-              }}
+              className="absolute inset-0 bg-texture-stripe"
+              style={{ "--texture-stripe-opacity": 0.08 } as CSSProperties}
             />
 
             {/* Dark scrim for legibility */}

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { buttonVariants } from "@/components/ui/Button";
 
@@ -35,13 +36,14 @@ export function CtaBand({
       {/* Broadside dot pattern overlay */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "radial-gradient(oklch(12% 0.008 40) 1px, transparent 1.4px)",
-          backgroundSize: "9px 9px",
-          opacity: 0.12,
-        }}
+        className="absolute inset-0 pointer-events-none bg-texture-dots"
+        style={
+          {
+            "--texture-dots-color": "oklch(12% 0.008 40)",
+            "--texture-dots-size": "9px",
+            "--texture-dots-opacity": 0.12,
+          } as CSSProperties
+        }
       />
       {/* Broadside ticker */}
       <div className="relative z-10 flex items-center gap-4 px-4 md:px-6 lg:px-8 xl:px-12 py-4">

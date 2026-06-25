@@ -564,3 +564,33 @@ dialog.lightbox::backdrop {
     background-position: 0 0;
   }
 }
+
+/* ─── Texture overlays ───────────────────────────────────────────────────── */
+/* Decorative background patterns used across hero/card/nav surfaces.
+ * Opacity is the one thing that legitimately varies per instance, so it's
+ * exposed as a custom property with a default rather than hardcoded —
+ * override via an inline style or a Tailwind arbitrary-value opacity
+ * utility where needed (see call sites). */
+
+.bg-texture-stripe {
+  --texture-stripe-opacity: 0.12;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 8px,
+    oklch(0% 0 0 / var(--texture-stripe-opacity)) 8px,
+    oklch(0% 0 0 / var(--texture-stripe-opacity)) 9px
+  );
+}
+
+.bg-texture-dots {
+  --texture-dots-color: oklch(12% 0.008 40);
+  --texture-dots-size: 9px;
+  --texture-dots-opacity: 1;
+  background-image: radial-gradient(
+    var(--texture-dots-color) 1px,
+    transparent 1.4px
+  );
+  background-size: var(--texture-dots-size) var(--texture-dots-size);
+  opacity: var(--texture-dots-opacity);
+}

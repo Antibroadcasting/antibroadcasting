@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import { getSiteInfo } from "@/lib/get-site-info";
 import { siteConfig } from "@/lib/site-config";
@@ -47,11 +48,8 @@ function PhotoFrame({
       {/* Diagonal stripe overlay */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(45deg, transparent, transparent 8px, oklch(0% 0 0 / 0.08) 8px, oklch(0% 0 0 / 0.08) 9px)",
-        }}
+        className="absolute inset-0 pointer-events-none bg-texture-stripe"
+        style={{ "--texture-stripe-opacity": 0.08 } as CSSProperties}
       />
 
       {/* Dark scrim */}
