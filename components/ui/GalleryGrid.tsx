@@ -198,7 +198,7 @@ function Lightbox({
               priority
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center text-paper/30 text-sm">
+            <div className="absolute inset-0 flex items-center justify-center text-lightbox-text-dim text-sm">
               No image
             </div>
           )}
@@ -217,7 +217,7 @@ function Lightbox({
           </h2>
 
           {item.client && (
-            <p className="font-mono text-2xs uppercase tracking-mega text-paper/40 mb-6">
+            <p className="font-mono text-2xs uppercase tracking-mega text-lightbox-text-dim mb-6">
               {item.title}
             </p>
           )}
@@ -231,7 +231,7 @@ function Lightbox({
           <div className="mt-auto border-t border-paper/10 pt-5 grid grid-cols-2 gap-x-5 gap-y-3.5">
             {item.year && (
               <div className="flex flex-col gap-1">
-                <span className="font-mono text-3xs uppercase tracking-mega text-paper/40">
+                <span className="font-mono text-3xs uppercase tracking-mega text-lightbox-text-dim">
                   Year
                 </span>
                 <span className="font-display font-black uppercase text-[22px] leading-none">
@@ -241,7 +241,7 @@ function Lightbox({
             )}
             {item.colors && (
               <div className="flex flex-col gap-1">
-                <span className="font-mono text-3xs uppercase tracking-mega text-paper/40">
+                <span className="font-mono text-3xs uppercase tracking-mega text-lightbox-text-dim">
                   Colors
                 </span>
                 <span className="font-display font-black uppercase text-[22px] leading-none text-gold">
@@ -251,7 +251,7 @@ function Lightbox({
             )}
             {item.category && (
               <div className="flex flex-col gap-1 col-span-2">
-                <span className="font-mono text-3xs uppercase tracking-mega text-paper/40">
+                <span className="font-mono text-3xs uppercase tracking-mega text-lightbox-text-dim">
                   Category
                 </span>
                 <span className="font-display font-black uppercase text-[22px] leading-none">
@@ -382,7 +382,7 @@ function GalleryCard({
           {!item.image && (
             <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 pointer-events-none">
               <RegistrationMark className="w-8 h-8 text-paper/20" />
-              <span className="font-mono text-3xs uppercase tracking-widest text-paper/30">
+              <span className="font-mono text-3xs uppercase tracking-widest text-lightbox-text-dim">
                 Garment Photo
               </span>
             </div>

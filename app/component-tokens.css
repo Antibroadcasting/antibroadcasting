@@ -295,3 +295,21 @@
   --nav-overlay-accent: var(--color-primary-500); /* index numbers     */
   --nav-overlay-border: var(--color-neutral-800); /* divider lines     */
 }
+
+/* ─── Lightbox / dark-surface card metadata ──────────────────────────────
+ * The gallery lightbox (GalleryGrid.tsx, FeaturedWorkGrid.tsx) is always
+ * rendered on a dark ink surface regardless of site theme — no .light
+ * override needed here, unlike every other section in this file.
+ *
+ * --lightbox-text-dim replaces the previous text-paper/30 and text-paper/40
+ * opacity modifiers, which computed to 2.38:1 and 3.43:1 respectively —
+ * both below the 4.5:1 WCAG AA minimum for normal text. This solid value
+ * (oklch 58%, same hue/chroma as the neutral ramp) computes to 4.73:1.
+ * ──────────────────────────────────────────────────────────────────────── */
+:root {
+  --lightbox-text-dim: oklch(58% 0.02 75);
+}
+
+@theme inline {
+  --color-lightbox-text-dim: var(--lightbox-text-dim);
+}

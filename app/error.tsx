@@ -24,7 +24,7 @@ export default function Error({ error, reset }: ErrorProps) {
         We apologize for the inconvenience. An unexpected error has occurred.
       </p>
       {error.digest && (
-        <p className="text-sm text-text-muted/60 mb-8 font-mono">
+        <p className="text-sm text-text-muted mb-8 font-mono">
           Error ID: {error.digest}
         </p>
       )}

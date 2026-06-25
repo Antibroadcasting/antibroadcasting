@@ -25,7 +25,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
             A critical error has occurred. We apologize for the inconvenience.
           </p>
           {error.digest && (
-            <p className="text-sm text-text-muted/60 mb-8 font-mono">
+            <p className="text-sm text-text-muted mb-8 font-mono">
               Error ID: {error.digest}
             </p>
           )}

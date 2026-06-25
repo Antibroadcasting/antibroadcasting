@@ -106,7 +106,7 @@ export default async function PortfolioPage({
                   {cat.label}
                   <span
                     className={`text-3xs ${
-                      isActive ? "text-ink/60" : "text-text-tertiary"
+                      isActive ? "text-ink/70" : "text-text-tertiary"
                     }`}
                   >
                     {count}

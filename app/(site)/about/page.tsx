@@ -290,7 +290,7 @@ export default async function AboutPage() {
                   />
                   <h3 className="relative font-display font-black uppercase text-3xl leading-tight text-text-primary group-hover:text-ink transition-colors duration-300">
                     {item.title}
-                    <span className="text-gold group-hover:text-ink/40 transition-colors duration-300">
+                    <span className="text-gold group-hover:text-ink/60 transition-colors duration-300">
                       .
                     </span>
                   </h3>
