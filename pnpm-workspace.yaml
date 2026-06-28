@@ -5,6 +5,7 @@ allowBuilds:
   unrs-resolver: true
 
 overrides:
+  postcss: ">=8.5.10"
   "@napi-rs/wasm-runtime": "1.1.5"
   electron-to-chromium: "1.5.377"
   node-releases: "2.0.48"
