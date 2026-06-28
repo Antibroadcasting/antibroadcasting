@@ -151,7 +151,11 @@ ${message}
     });
 
     if (error) {
-      return NextResponse.json({ error }, { status: 500 });
+      console.error("Resend send failed:", error);
+      return NextResponse.json(
+        { error: "Failed to send email" },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json({ data });

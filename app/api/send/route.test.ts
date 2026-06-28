@@ -40,17 +40,20 @@ describe("POST /api/send", () => {
     expect(sendMock).toHaveBeenCalledOnce();
   });
 
-  it("returns 500 with the provider error when Resend fails", async () => {
+  it("returns a generic error and does not leak Resend's internal error details when the send fails", async () => {
     sendMock.mockResolvedValueOnce({
       data: null,
-      error: { message: "send failed" },
+      error: { message: "some internal Resend detail", name: "validation_error" },
     });
 
     const res = await POST(makeRequest(validPayload, "2.2.2.2"));
     const body = await res.json();
+    const bodyText = JSON.stringify(body);
 
     expect(res.status).toBe(500);
-    expect(body.error).toEqual({ message: "send failed" });
+    expect(body).toEqual({ error: "Failed to send email" });
+    expect(bodyText).not.toContain("some internal Resend detail");
+    expect(bodyText).not.toContain("validation_error");
   });
 
   it("returns 400 for a missing required field", async () => {
