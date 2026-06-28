@@ -1,5 +1,10 @@
 import type { NextConfig } from "next";
 
+// Keystatic's admin UI (/keystatic) loads Google Fonts at runtime and
+// previews newly-selected images via blob: URLs before upload — both need
+// explicit CSP allowances, separate from the public site's own asset usage.
+const isDev = process.env.NODE_ENV !== "production";
+
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
@@ -11,10 +16,12 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com",
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data:",
-      "font-src 'self' data:",
+      // 'unsafe-eval' is dev-only: React's dev-mode debugging tools (and
+      // Turbopack's HMR) use eval(), but React never uses it in production.
+      `script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com${isDev ? " 'unsafe-eval'" : ""}`,
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "img-src 'self' data: blob:",
+      "font-src 'self' data: https://fonts.gstatic.com",
       "connect-src 'self' https://challenges.cloudflare.com",
       "frame-src https://challenges.cloudflare.com",
       "frame-ancestors 'self'",
