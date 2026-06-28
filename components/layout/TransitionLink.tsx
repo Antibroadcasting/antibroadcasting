@@ -1,11 +1,12 @@
 "use client";
 
 import { forwardRef } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { usePageTransition } from "./PageTransitionProvider";
 import type { ComponentPropsWithoutRef } from "react";
 
-type Props = Omit<ComponentPropsWithoutRef<"a">, "onClick"> & {
+type Props = Omit<ComponentPropsWithoutRef<typeof Link>, "onClick"> & {
   href: string;
   onClick?: () => void;
 };
@@ -20,7 +21,7 @@ export const TransitionLink = forwardRef<HTMLAnchorElement, Props>(
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       // Skip transition on same-page links — prevent default to avoid flash of light mode
       if (
-        new URL(href, window.location.origin).pathname ===
+        new URL(href.toString(), window.location.origin).pathname ===
         window.location.pathname
       ) {
         e.preventDefault();
@@ -28,13 +29,13 @@ export const TransitionLink = forwardRef<HTMLAnchorElement, Props>(
       }
       e.preventDefault();
       onClick?.();
-      startTransition(() => router.push(href));
+      startTransition(() => router.push(href.toString()));
     };
 
     return (
-      <a ref={ref} href={href} onClick={handleClick} {...props}>
+      <Link ref={ref} href={href} onClick={handleClick} {...props}>
         {children}
-      </a>
+      </Link>
     );
   },
 );

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
+import { getSiteInfo } from "@/lib/get-site-info";
 
 // ─── Validation ───────────────────────────────────────────────────────────────
 
@@ -19,11 +20,14 @@ const quoteRequestSchema = z
     email: z.string().trim().email().max(320),
     message: z.string().trim().min(1).max(5000),
     quantity: z.coerce.number().int().positive(),
-    // Unselected <Select> fields submit `null` via FormData, not undefined.
     colors: z.string().trim().max(200).nullish(),
     garment: z.string().trim().max(200).nullish(),
     timeline: z.string().trim().max(200).nullish(),
     attachments: z.array(attachmentSchema).max(MAX_ATTACHMENTS).optional(),
+    // Honeypot — must be empty; bots fill it, humans don’t see it
+    _hp: z.string().max(0, { message: "Bot detected" }).optional(),
+    // Turnstile challenge token
+    turnstileToken: z.string().optional(),
   })
   .refine(
     (data) => {
@@ -67,6 +71,25 @@ function checkRateLimit(ip: string): boolean {
   return true;
 }
 
+// ─── Turnstile ───────────────────────────────────────────────────────────────
+
+async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  // No secret = local dev, skip verification
+  if (!secret) return true;
+
+  const res = await fetch(
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ secret, response: token, remoteip: ip }),
+    },
+  );
+  const data = (await res.json()) as { success: boolean };
+  return data.success === true;
+}
+
 // ─── Handler ──────────────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
@@ -86,13 +109,31 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
-    const { name, email, message, quantity, colors, garment, timeline, attachments } =
+    const { name, email, message, quantity, colors, garment, timeline, attachments, _hp, turnstileToken } =
       parsed.data;
 
+    // Honeypot check
+    if (_hp) {
+      // Return 200 to not tip off bots
+      return NextResponse.json({ data: null });
+    }
+
+    // Turnstile verification
+    if (!(await verifyTurnstile(turnstileToken ?? "", ip))) {
+      return NextResponse.json(
+        { error: "Challenge failed. Please try again." },
+        { status: 403 },
+      );
+    }
+
+    const siteInfo = await getSiteInfo();
     const resend = new Resend(process.env.RESEND_API_KEY);
     const { data, error } = await resend.emails.send({
-      from: "Quote Request <quotes@antibroadcasting.com>",
-      to: ["info@antibroadcasting.com"],
+      from: siteInfo.forms.quote.emailFrom,
+      to: siteInfo.forms.quote.emailTo
+        .split(",")
+        .map((e) => e.trim())
+        .filter(Boolean),
       replyTo: email,
       subject: `New Quote Request from ${name}`,
       text: `

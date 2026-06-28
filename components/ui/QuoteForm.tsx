@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import Script from "next/script";
 import { Button } from "@/components/ui/Button";
 import { FileUpload } from "@/components/ui/FileUpload";
 import { Input } from "@/components/ui/Input";
@@ -46,7 +47,25 @@ export function QuoteForm({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [artworkFiles, setArtworkFiles] = useState<File[]>([]);
   const [artworkKey, setArtworkKey] = useState(0);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const statusRef = useRef<HTMLSpanElement>(null);
+  const turnstileRef = useRef<HTMLDivElement>(null);
+
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+
+  // Render Turnstile widget after script loads
+  useEffect(() => {
+    if (!siteKey || !turnstileRef.current) return;
+    const w = window as typeof window & { turnstile?: { render: (el: HTMLElement, opts: object) => void } };
+    if (!w.turnstile) return;
+    w.turnstile.render(turnstileRef.current, {
+      sitekey: siteKey,
+      callback: (token: string) => setTurnstileToken(token),
+      "expired-callback": () => setTurnstileToken(null),
+      "error-callback": () => setTurnstileToken(null),
+      theme: "auto",
+    });
+  }, [siteKey]);
 
   function validate(data: FormData) {
     const errs: Record<string, string> = {};
@@ -104,6 +123,8 @@ export function QuoteForm({
           timeline: data.get("timeline"),
           message: data.get("message"),
           attachments: await filesToAttachments(artworkFiles),
+          turnstileToken: turnstileToken ?? undefined,
+          _hp: "",
         }),
       });
 
@@ -118,7 +139,37 @@ export function QuoteForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-6">
+    <>
+      {/* Cloudflare Turnstile script — loaded once, async */}
+      {siteKey && (
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+          strategy="lazyOnload"
+          onLoad={() => {
+            const w = window as typeof window & { turnstile?: { render: (el: HTMLElement, opts: object) => void } };
+            if (w.turnstile && turnstileRef.current) {
+              w.turnstile.render(turnstileRef.current, {
+                sitekey: siteKey,
+                callback: (token: string) => setTurnstileToken(token),
+                "expired-callback": () => setTurnstileToken(null),
+                "error-callback": () => setTurnstileToken(null),
+                theme: "auto",
+              });
+            }
+          }}
+        />
+      )}
+
+      <form onSubmit={handleSubmit} noValidate className="space-y-6">
+        {/* Honeypot — hidden from humans, invisible to CSS, but bots fill it */}
+        <div
+          aria-hidden="true"
+          tabIndex={-1}
+          style={{ position: "absolute", left: "-9999px", opacity: 0, pointerEvents: "none" }}
+        >
+          <label htmlFor="_hp">Leave this field empty</label>
+          <input id="_hp" name="_hp" type="text" autoComplete="off" tabIndex={-1} />
+        </div>
       {/* Polite live region — announces "Sending…" and result states to screen readers */}
       <span
         ref={statusRef}
@@ -283,6 +334,12 @@ export function QuoteForm({
           </p>
         </div>
       )}
-    </form>
+
+        {/* Turnstile widget mount point */}
+        {siteKey && (
+          <div ref={turnstileRef} className="mt-2" />
+        )}
+      </form>
+    </>
   );
 }

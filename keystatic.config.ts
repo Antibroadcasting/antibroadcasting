@@ -163,6 +163,18 @@ export default config({
           multiline: true,
         }),
 
+        // ── Email addresses ───────────────────────────────────────────
+        emailFrom: fields.text({
+          label: "Quote form — From address",
+          description: 'The address emails are sent from. Must be verified in Resend. e.g. "quotes@antibroadcasting.com"',
+          defaultValue: "Quote Request <quotes@antibroadcasting.com>",
+        }),
+        emailTo: fields.text({
+          label: "Quote form — To address",
+          description: "Where quote requests are delivered. Separate multiple addresses with commas.",
+          defaultValue: "info@antibroadcasting.com",
+        }),
+
         // ── Quote form options (one per line) ─────────────────────────
         garmentOptions: fields.text({
           label: "Garment options",

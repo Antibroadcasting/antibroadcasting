@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { PageBreadcrumb } from "@/components/ui/PageBreadcrumb";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -7,7 +8,8 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-3xl mx-auto pt-10">
+      <PageBreadcrumb page="Terms of Service" />
       <h1 className="text-4xl font-bold text-text-default mb-8">Terms of Service</h1>
 
       <div className="prose prose-lg max-w-none text-text-secondary">
