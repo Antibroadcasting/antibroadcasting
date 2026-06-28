@@ -27,6 +27,7 @@ Open [http://localhost:3000/keystatic](http://localhost:3000/keystatic) to acces
 Copy `.env.local` and fill in your keys:
 
 - `RESEND_API_KEY` — from [resend.com](https://resend.com)
+- `NEXT_PUBLIC_SENTRY_DSN` — error monitoring. Leave empty to disable (local dev default).
 
 ## Content
 
