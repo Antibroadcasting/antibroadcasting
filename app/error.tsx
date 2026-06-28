@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import * as Sentry from "@sentry/nextjs";
 import { buttonVariants } from "@/components/ui/Button";
 
 interface ErrorProps {
@@ -11,8 +12,8 @@ interface ErrorProps {
 
 export default function Error({ error, reset }: ErrorProps) {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error("Route error:", error);
+    Sentry.captureException(error);
   }, [error]);
 
   return (
