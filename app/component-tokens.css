@@ -292,7 +292,9 @@
   --nav-overlay-text: var(--color-neutral-900); /* primary nav labels */
   --nav-overlay-text-dim: var(--color-neutral-400); /* phone, location   */
   --nav-overlay-text-subtle: var(--color-neutral-600); /* eyebrow, arrows   */
-  --nav-overlay-accent: var(--color-primary-500); /* index numbers     */
+  --nav-overlay-accent: var(
+    --color-primary-700
+  ); /* corrected from primary-500 (3.31:1, failed AA) — verified 7.05:1 via real sRGB-luminance contrast math */
   --nav-overlay-border: var(--color-neutral-800); /* divider lines     */
 }
 

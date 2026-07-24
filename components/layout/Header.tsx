@@ -44,7 +44,9 @@ function NavLink({
       onClick={onClick}
       aria-current={active ? "page" : undefined}
       className={`relative border-b-3 border-transparent transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-        active ? "pointer-events-none lg:border-b-gold" : "text-text-secondary"
+        active
+          ? "pointer-events-none lg:border-b-text-accent"
+          : "text-text-secondary"
       } ${className || ""}`}
     >
       {children}
@@ -374,8 +376,8 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                   <span
                     className={`font-display font-black uppercase leading-none transition-colors duration-200 text-[clamp(1.875rem,8vw,3rem)] ${
                       isActive
-                        ? "text-gold"
-                        : "text-text-menu group-hover:text-gold"
+                        ? "text-text-accent"
+                        : "text-text-menu group-hover:text-text-accent"
                     }`}
                   >
                     {item.label}
