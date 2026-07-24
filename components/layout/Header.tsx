@@ -245,7 +245,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                 key={item.href}
                 href={item.href}
                 pathname={pathname}
-                className="hover:text-ink font-mono uppercase tracking-widest font-medium px-5 py-9 relative overflow-hidden before:absolute before:inset-0 before:-z-10 before:transform before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top before:bg-gold transition-all"
+                className="hover:text-ink text-lg font-display uppercase tracking-widest font-medium px-5 py-9 relative overflow-hidden before:absolute before:inset-0 before:-z-10 before:transform before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 before:ease-in-out hover:before:scale-y-100 hover:before:origin-top before:bg-gold transition-all"
               >
                 {item.label}
               </NavLink>
