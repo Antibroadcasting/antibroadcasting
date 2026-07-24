@@ -529,23 +529,55 @@ dialog.lightbox::backdrop {
 }
 
 /* ─── Logo hover animation ───────────────────────────────────────────────── */
+/* Three masked layers over the same artwork (see public/images/logo-mark-*.svg):
+ * the ring is a constant, literal brand gold in both themes — intentionally
+ * NOT --color-text-accent, which swaps to a darker AA-on-paper shade in light
+ * mode for text contrast. That a11y adjustment doesn't apply to a decorative
+ * mark, and swapping it in would make the ring two different golds depending
+ * on theme. The dot is theme-foreground (matches the source artwork) but,
+ * like the ring, stays static — only the wordmark mask animates, so the
+ * hover wipe never blends into the mark. */
+.logo-ring {
+  background-color: var(--color-primary-400);
+  -webkit-mask-image: url("/images/logo-mark-ring.svg");
+  mask-image: url("/images/logo-mark-ring.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+.logo-dot {
+  background-color: var(--foreground);
+  -webkit-mask-image: url("/images/logo-mark-dot.svg");
+  mask-image: url("/images/logo-mark-dot.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
 .logo {
-  position: relative;
-  display: inline-block;
-  color: var(--background);
-  overflow: hidden;
   background: linear-gradient(
     to bottom,
     var(--foreground) 0% 33.33%,
     var(--color-primary-400) 33.33% 66.67%,
     var(--foreground) 66.67% 100%
   );
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-size: 100% 300%;
   background-position: 0 100%;
-  text-decoration: none;
+  -webkit-mask-image: url("/images/logo-mark-wordmark.svg");
+  mask-image: url("/images/logo-mark-wordmark.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 @keyframes logo-hover-in {

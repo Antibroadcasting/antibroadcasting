@@ -13,7 +13,7 @@ import { siteConfig } from "@/lib/site-config";
 import { type SiteInfo } from "@/lib/get-site-info";
 import { TransitionLink } from "./TransitionLink";
 import { Button } from "../ui/Button";
-import { RegistrationMark } from "../ui/RegistrationMark";
+import { Logo } from "../ui/Logo";
 import { PhoneIcon, MailIcon } from "@/components/ui/Icons";
 
 const nav = siteConfig.navigation;
@@ -229,13 +229,8 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
             onMouseEnter={handleLogoEnter}
             onMouseLeave={handleLogoLeave}
           >
-            <RegistrationMark className="w-5 h-5 text-text-accent shrink-0" />
-            <span
-              ref={logoRef}
-              className="logo font-black text-3xl sm:text-4xl lg:text-2xl font-display tracking-wider text-text-primary uppercase leading-none"
-            >
-              {siteInfo.company.nickname}
-            </span>
+            <Logo ref={logoRef} className="h-9 sm:h-10 lg:h-8" />
+            <span className="sr-only">{siteInfo.company.nickname}</span>
           </TransitionLink>
 
           {/* Desktop nav */}
