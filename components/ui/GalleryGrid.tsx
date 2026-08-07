@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
 import type { CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { RegistrationMark } from "./RegistrationMark";
 import { Lightbox } from "./Lightbox";
+import { useLightboxGallery } from "@/lib/hooks/useLightboxGallery";
 
 export type GalleryItem = {
   slug: string;
@@ -168,27 +168,9 @@ function GalleryCard({
 // ─── GalleryGrid ──────────────────────────────────────────────────────────────
 
 export function GalleryGrid({ items }: { items: GalleryItem[] }) {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const triggerRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const sizes = assignSizes(items);
-
-  const activeItem = activeIndex !== null ? items[activeIndex] : null;
-
-  const open = useCallback((index: number) => setActiveIndex(index), []);
-  const close = useCallback(() => setActiveIndex(null), []);
-  const restoreFocus = useCallback(
-    () => triggerRefs.current[activeIndex ?? 0]?.focus(),
-    [activeIndex],
-  );
-  const prev = useCallback(
-    () => setActiveIndex((i) => (i !== null && i > 0 ? i - 1 : i)),
-    [],
-  );
-  const next = useCallback(
-    () =>
-      setActiveIndex((i) => (i !== null && i < items.length - 1 ? i + 1 : i)),
-    [items.length],
-  );
+  const { activeItem, open, close, prev, next, restoreFocus, setTriggerRef } =
+    useLightboxGallery(items);
 
   return (
     <>
@@ -200,9 +182,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
             index={index}
             size={sizes[index]}
             onOpen={open}
-            triggerRef={(el) => {
-              triggerRefs.current[index] = el;
-            }}
+            triggerRef={setTriggerRef(index)}
           />
         ))}
       </div>
