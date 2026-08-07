@@ -1,38 +1,20 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
 import type { CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { RegistrationMark } from "./RegistrationMark";
 import type { GalleryItem } from "./GalleryGrid";
 import { Lightbox } from "./Lightbox";
+import { useLightboxGallery } from "@/lib/hooks/useLightboxGallery";
 
 // ─── Grid ─────────────────────────────────────────────────────────────────────
 
 const aspectClasses = ["aspect-[3/4]", "aspect-[2/3]", "aspect-[4/5]"] as const;
 
 export function FeaturedWorkGrid({ items }: { items: GalleryItem[] }) {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const triggerRefs = useRef<(HTMLButtonElement | null)[]>([]);
-
-  const activeItem = activeIndex !== null ? items[activeIndex] : null;
-
-  const open = useCallback((index: number) => setActiveIndex(index), []);
-  const close = useCallback(() => setActiveIndex(null), []);
-  const restoreFocus = useCallback(
-    () => triggerRefs.current[activeIndex ?? 0]?.focus(),
-    [activeIndex],
-  );
-  const prev = useCallback(
-    () => setActiveIndex((i) => (i !== null && i > 0 ? i - 1 : i)),
-    [],
-  );
-  const next = useCallback(
-    () =>
-      setActiveIndex((i) => (i !== null && i < items.length - 1 ? i + 1 : i)),
-    [items.length],
-  );
+  const { activeItem, open, close, prev, next, restoreFocus, setTriggerRef } =
+    useLightboxGallery(items);
 
   return (
     <>
@@ -41,9 +23,7 @@ export function FeaturedWorkGrid({ items }: { items: GalleryItem[] }) {
           <div key={item.slug} className={i === 1 ? "md:mt-20" : ""}>
             {/* Card — clickable */}
             <button
-              ref={(el) => {
-                triggerRefs.current[i] = el;
-              }}
+              ref={setTriggerRef(i)}
               onClick={() => open(i)}
               aria-label={`View ${item.client ?? item.title}`}
               className="group relative w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
