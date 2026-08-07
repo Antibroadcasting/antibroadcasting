@@ -7,6 +7,7 @@ import { FileUpload } from "@/components/ui/FileUpload";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
+import { quoteFormFieldsSchema } from "@/lib/quote-request-schema";
 
 const MAX_ARTWORK_FILES = 5;
 const MAX_ARTWORK_FILE_SIZE = 10 * 1024 * 1024; // 10MB per file
@@ -68,17 +69,22 @@ export function QuoteForm({
   }, [siteKey]);
 
   function validate(data: FormData) {
+    const result = quoteFormFieldsSchema.safeParse({
+      name: data.get("name"),
+      email: data.get("email"),
+      message: data.get("message"),
+      quantity: data.get("quantity"),
+      colors: data.get("colors"),
+      garment: data.get("garment"),
+      timeline: data.get("timeline"),
+    });
+    if (result.success) return {};
+
     const errs: Record<string, string> = {};
-    if (!data.get("name")) errs.name = "Name is required.";
-    if (!data.get("email")) {
-      errs.email = "Email is required.";
-    } else if (
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.get("email") as string)
-    ) {
-      errs.email = "Please enter a valid email address.";
+    for (const issue of result.error.issues) {
+      const key = String(issue.path[0]);
+      if (!(key in errs)) errs[key] = issue.message;
     }
-    if (!data.get("quantity")) errs.quantity = "Quantity is required.";
-    if (!data.get("message")) errs.message = "Please describe your project.";
     return errs;
   }
 
