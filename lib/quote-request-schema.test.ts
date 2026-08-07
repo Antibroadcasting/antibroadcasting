@@ -50,8 +50,8 @@ describe("quoteFormFieldsSchema", () => {
   });
 
   it("allows colors/garment/timeline to be omitted", () => {
-    const { colors, garment, timeline, ...rest } = validFields;
-    const result = quoteFormFieldsSchema.safeParse(rest);
+    const { name, email, message, quantity } = validFields;
+    const result = quoteFormFieldsSchema.safeParse({ name, email, message, quantity });
     expect(result.success).toBe(true);
   });
 });
