@@ -1,12 +1,10 @@
+import { PageHeaderSkeleton } from "@/components/ui/PageHeaderSkeleton";
+
 export default function Loading() {
   return (
     <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto animate-pulse">
       {/* Page header */}
-      <div className="my-12 max-w-2xl">
-        <div className="h-6 w-24 bg-bg-inset rounded-sm mb-4" />
-        <div className="h-28 md:h-36 w-full bg-bg-inset rounded-sm mb-1" />
-        <div className="h-28 md:h-36 w-2/5 bg-bg-inset rounded-sm" />
-      </div>
+      <PageHeaderSkeleton pillWidth="w-24" lastLineWidth="w-2/5" lineCount={2} />
 
       {/* Two-column layout */}
       <div className="flex flex-col lg:flex-row gap-8">
