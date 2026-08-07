@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
 import { getSiteInfo } from "@/lib/get-site-info";
+import { quoteFormFieldsSchema } from "@/lib/quote-request-schema";
 
 // ─── Validation ───────────────────────────────────────────────────────────────
 
@@ -14,15 +15,8 @@ const attachmentSchema = z.object({
   contentType: z.string().max(255).optional(),
 });
 
-const quoteRequestSchema = z
-  .object({
-    name: z.string().trim().min(1).max(200),
-    email: z.string().trim().email().max(320),
-    message: z.string().trim().min(1).max(5000),
-    quantity: z.coerce.number().int().positive(),
-    colors: z.string().trim().max(200).nullish(),
-    garment: z.string().trim().max(200).nullish(),
-    timeline: z.string().trim().max(200).nullish(),
+const quoteRequestSchema = quoteFormFieldsSchema
+  .extend({
     attachments: z.array(attachmentSchema).max(MAX_ATTACHMENTS).optional(),
     // Honeypot — must be empty; bots fill it, humans don’t see it
     _hp: z.string().max(0, { message: "Bot detected" }).optional(),
