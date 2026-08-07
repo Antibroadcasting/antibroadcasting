@@ -1,12 +1,11 @@
+import { PageHeaderSkeleton } from "@/components/ui/PageHeaderSkeleton";
+import { CtaBandSkeleton } from "@/components/ui/CtaBandSkeleton";
+
 export default function Loading() {
   return (
     <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto animate-pulse">
       {/* Page header */}
-      <div className="my-12 max-w-2xl">
-        <div className="h-6 w-28 bg-bg-inset rounded-sm mb-4" />
-        <div className="h-28 md:h-36 w-full bg-bg-inset rounded-sm mb-1" />
-        <div className="h-28 md:h-36 w-3/5 bg-bg-inset rounded-sm" />
-      </div>
+      <PageHeaderSkeleton pillWidth="w-28" lastLineWidth="w-3/5" lineCount={3} />
 
       {/* Intro text */}
       <div className="mb-12 space-y-2 max-w-xl">
@@ -67,16 +66,7 @@ export default function Loading() {
       </div>
 
       {/* CTA band */}
-      <div className="my-8 rounded-card border border-border-subtle px-8 md:px-12 py-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-        <div className="space-y-2">
-          <div className="h-10 w-64 bg-bg-inset rounded-sm" />
-          <div className="h-4 w-72 bg-bg-inset rounded" />
-        </div>
-        <div className="flex gap-3">
-          <div className="h-10 w-32 bg-bg-inset rounded-button" />
-          <div className="h-10 w-32 bg-bg-inset rounded-button" />
-        </div>
-      </div>
+      <CtaBandSkeleton headingWidth="w-64" />
     </div>
   );
 }
