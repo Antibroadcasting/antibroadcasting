@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import Script from "next/script";
 import { Button } from "@/components/ui/Button";
 import { FileUpload } from "@/components/ui/FileUpload";
@@ -54,11 +54,11 @@ export function QuoteForm({
 
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
-  // Render Turnstile widget after script loads
-  useEffect(() => {
-    if (!siteKey || !turnstileRef.current) return;
-    const w = window as typeof window & { turnstile?: { render: (el: HTMLElement, opts: object) => void } };
-    if (!w.turnstile) return;
+  const renderTurnstile = useCallback(() => {
+    const w = window as typeof window & {
+      turnstile?: { render: (el: HTMLElement, opts: object) => void };
+    };
+    if (!siteKey || !w.turnstile || !turnstileRef.current) return;
     w.turnstile.render(turnstileRef.current, {
       sitekey: siteKey,
       callback: (token: string) => setTurnstileToken(token),
@@ -151,18 +151,7 @@ export function QuoteForm({
         <Script
           src="https://challenges.cloudflare.com/turnstile/v0/api.js"
           strategy="lazyOnload"
-          onLoad={() => {
-            const w = window as typeof window & { turnstile?: { render: (el: HTMLElement, opts: object) => void } };
-            if (w.turnstile && turnstileRef.current) {
-              w.turnstile.render(turnstileRef.current, {
-                sitekey: siteKey,
-                callback: (token: string) => setTurnstileToken(token),
-                "expired-callback": () => setTurnstileToken(null),
-                "error-callback": () => setTurnstileToken(null),
-                theme: "auto",
-              });
-            }
-          }}
+          onLoad={renderTurnstile}
         />
       )}
 
