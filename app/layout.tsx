@@ -62,6 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         {/* Plain inline script — render-blocking by spec, so the correct theme
             class is always on <html> before the browser paints a single pixel.
             next/script "beforeInteractive" is NOT equivalent in the App Router. */}
