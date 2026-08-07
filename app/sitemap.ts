@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
+import { siteConfig } from "@/lib/site-config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://antibroadcasting.com";
+  const base = siteConfig.site.url;
 
   // Static pages use a pinned date; portfolio stays dynamic since CMS content changes.
   const staticDate = new Date("2026-05-06");
