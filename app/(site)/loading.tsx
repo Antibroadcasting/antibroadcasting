@@ -1,3 +1,5 @@
+import { CtaBandSkeleton } from "@/components/ui/CtaBandSkeleton";
+
 export default function Loading() {
   return (
     <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto animate-pulse">
@@ -68,16 +70,7 @@ export default function Loading() {
       </section>
 
       {/* CTA band */}
-      <div className="my-8 rounded-card border border-border-subtle px-8 md:px-12 py-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-        <div className="space-y-2">
-          <div className="h-10 w-48 bg-bg-inset rounded-sm" />
-          <div className="h-4 w-72 bg-bg-inset rounded" />
-        </div>
-        <div className="flex gap-3">
-          <div className="h-10 w-32 bg-bg-inset rounded-button" />
-          <div className="h-10 w-32 bg-bg-inset rounded-button" />
-        </div>
-      </div>
+      <CtaBandSkeleton headingWidth="w-48" />
     </div>
   );
 }
