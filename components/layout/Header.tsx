@@ -15,6 +15,7 @@ import { TransitionLink } from "./TransitionLink";
 import { Button } from "../ui/Button";
 import { Logo } from "../ui/Logo";
 import { PhoneIcon, MailIcon } from "@/components/ui/Icons";
+import { useBodyScrollLock } from "@/lib/hooks/useBodyScrollLock";
 
 const nav = siteConfig.navigation;
 const DRAWER_ID = "mobile-nav";
@@ -138,11 +139,11 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
   // the browser paints — prevents a frame where main is inert but the new page
   // is already visible after a navigation triggered while the drawer was open.
 
-  useLayoutEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+  useBodyScrollLock(open);
 
-    // Make main content and footer inert while the drawer is open so screen
-    // readers in browse/virtual mode can't reach off-screen content.
+  // Make main content and footer inert while the drawer is open so screen
+  // readers in browse/virtual mode can't reach off-screen content.
+  useLayoutEffect(() => {
     const siblings: HTMLElement[] = Array.from(
       document.querySelectorAll<HTMLElement>("main, footer"),
     );
@@ -155,7 +156,6 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
     });
 
     return () => {
-      document.body.style.overflow = "";
       siblings.forEach((el) => el.removeAttribute("inert"));
     };
   }, [open]);

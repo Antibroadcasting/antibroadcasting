@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { RegistrationMark } from "./RegistrationMark";
+import { useBodyScrollLock } from "@/lib/hooks/useBodyScrollLock";
 import type { GalleryItem } from "./GalleryGrid";
 
 export function Lightbox({
@@ -63,12 +64,7 @@ export function Lightbox({
     return () => window.removeEventListener("keydown", onKey);
   }, [handleClose, onPrev, onNext, hasPrev, hasNext]);
 
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, []);
+  useBodyScrollLock(true);
 
   const handleDialogClick = useCallback(
     (e: React.MouseEvent<HTMLDialogElement>) => {
