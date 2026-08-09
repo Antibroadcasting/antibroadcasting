@@ -24,9 +24,31 @@
   "responseTime": "1–2 business days",
   "metaTitle": "Antibroadcasting Inc. — Minneapolis Screen Printing",
   "metaDescription": "Artist-run screen printing shop in Minneapolis. Quality prints for bands, artists, and events. 50pc minimums, 7–10 day turnaround.",
-  "seoKeywords": "screen printing\nminneapolis screen printing\ncustom t-shirts\nband merch\nartist prints\nevent merchandise\ncustom apparel\nminnesota screen printing\nantibroadcasting",
+  "seoKeywords": [
+    "screen printing",
+    "minneapolis screen printing",
+    "custom t-shirts",
+    "band merch",
+    "artist prints",
+    "event merchandise",
+    "custom apparel",
+    "minnesota screen printing",
+    "antibroadcasting"
+  ],
   "emailFrom": "Quote Request <quotes@antibroadcasting.com>",
   "emailTo": "info@antibroadcasting.com",
-  "garmentOptions": "T-Shirt\nLong Sleeve\nHoodie / Sweatshirt\nTank Top\nTote Bag\nOther / Not Sure",
-  "timelineOptions": "Standard (7–10 business days)\n2–3 weeks\n1 month+\nRush — I need it ASAP"
+  "garmentOptions": [
+    "T-Shirt",
+    "Long Sleeve",
+    "Hoodie / Sweatshirt",
+    "Tank Top",
+    "Tote Bag",
+    "Other / Not Sure"
+  ],
+  "timelineOptions": [
+    "Standard (7–10 business days)",
+    "2–3 weeks",
+    "1 month+",
+    "Rush — I need it ASAP"
+  ]
 }

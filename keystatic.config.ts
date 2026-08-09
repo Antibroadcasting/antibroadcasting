@@ -69,11 +69,14 @@ export default config({
       format: { data: "json" },
       schema: {
         heading: fields.slug({ name: { label: "Section heading" } }),
-        items: fields.text({
-          label: "Items",
-          description: "One item per line — each becomes a bullet point.",
-          multiline: true,
-        }),
+        items: fields.array(
+          fields.text({ label: "Item" }),
+          {
+            label: "Items",
+            description: "Each item becomes a bullet point.",
+            itemLabel: (props) => props.value || "Item",
+          },
+        ),
         order: fields.number({ label: "Display order" }),
       },
     }),
@@ -183,11 +186,10 @@ export default config({
           description: 'Used in <meta name="description"> and Open Graph.',
           multiline: true,
         }),
-        seoKeywords: fields.text({
-          label: "SEO keywords",
-          description: "One keyword or phrase per line.",
-          multiline: true,
-        }),
+        seoKeywords: fields.array(
+          fields.text({ label: "Keyword or phrase" }),
+          { label: "SEO keywords", itemLabel: (props) => props.value || "Keyword" },
+        ),
 
         // ── Email addresses ───────────────────────────────────────────
         emailFrom: fields.text({
@@ -202,16 +204,14 @@ export default config({
         }),
 
         // ── Quote form options (one per line) ─────────────────────────
-        garmentOptions: fields.text({
-          label: "Garment options",
-          description: "One option per line.",
-          multiline: true,
-        }),
-        timelineOptions: fields.text({
-          label: "Timeline options",
-          description: "One option per line.",
-          multiline: true,
-        }),
+        garmentOptions: fields.array(
+          fields.text({ label: "Option" }),
+          { label: "Garment options", itemLabel: (props) => props.value || "Option" },
+        ),
+        timelineOptions: fields.array(
+          fields.text({ label: "Option" }),
+          { label: "Timeline options", itemLabel: (props) => props.value || "Option" },
+        ),
       },
     }),
   },
