@@ -109,7 +109,13 @@ export default config({
         }),
         ctaHref: fields.text({
           label: "CTA link (optional)",
-          description: 'e.g. "/contact"',
+          description: 'e.g. "/contact" — must start with "/", or leave blank to hide the button.',
+          validation: {
+            pattern: {
+              regex: /^$|^\//,
+              message: 'Must start with "/" (e.g. "/contact"), or be left blank.',
+            },
+          },
         }),
       },
     }),
@@ -137,11 +143,11 @@ export default config({
         addressZip: fields.text({ label: "ZIP code" }),
 
         // ── Social ───────────────────────────────────────────────────
-        instagramUrl: fields.text({ label: "Instagram URL" }),
+        instagramUrl: fields.url({ label: "Instagram URL" }),
         instagramHandle: fields.text({ label: "Instagram handle" }),
-        facebookUrl: fields.text({ label: "Facebook URL" }),
+        facebookUrl: fields.url({ label: "Facebook URL" }),
         facebookHandle: fields.text({ label: "Facebook handle" }),
-        twitterUrl: fields.text({ label: "X / Twitter URL" }),
+        twitterUrl: fields.url({ label: "X / Twitter URL" }),
         twitterHandle: fields.text({ label: "X / Twitter handle" }),
 
         // ── Booking status ───────────────────────────────────────────
