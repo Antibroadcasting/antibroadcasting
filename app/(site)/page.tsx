@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import Image from "next/image";
-import { reader } from "@/lib/keystatic";
 import { getSiteInfo, type SiteInfo } from "@/lib/get-site-info";
 import { siteConfig } from "@/lib/site-config";
 import { buttonVariants } from "@/components/ui/Button";
@@ -11,6 +10,7 @@ import { FeaturedWorkGrid } from "@/components/ui/FeaturedWorkGrid";
 import { CtaBand } from "@/components/ui/CtaBand";
 import { PromoBanner } from "@/components/ui/PromoBanner";
 import { getActivePromo } from "@/lib/get-active-promo";
+import { getGallery } from "@/lib/get-gallery";
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteInfo = await getSiteInfo();
@@ -24,25 +24,6 @@ export async function generateMetadata(): Promise<Metadata> {
       url: siteConfig.site.url,
     },
   };
-}
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-async function getFeaturedWork() {
-  const entries = await reader.collections.gallery.all();
-  return entries
-    .filter((e) => e.entry.featured)
-    .map((e) => ({
-      slug: e.slug,
-      title: e.entry.title,
-      client: e.entry.client,
-      category: e.entry.category ?? "",
-      image: e.entry.image,
-      description: e.entry.description ?? null,
-      featured: e.entry.featured,
-      colors: e.entry.colors,
-      year: e.entry.year,
-    }));
 }
 
 // ─── Sections ─────────────────────────────────────────────────────────────────
@@ -310,11 +291,12 @@ function ProcessStrip() {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function Home() {
-  const [featuredWork, siteInfo, activePromo] = await Promise.all([
-    getFeaturedWork(),
+  const [gallery, siteInfo, activePromo] = await Promise.all([
+    getGallery(),
     getSiteInfo(),
     getActivePromo(),
   ]);
+  const featuredWork = gallery.filter((item) => item.featured);
 
   const jsonLd = {
     "@context": "https://schema.org",

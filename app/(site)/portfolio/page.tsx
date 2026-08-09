@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
-import { reader } from "@/lib/keystatic";
+import { getGallery } from "@/lib/get-gallery";
 import { GalleryGrid } from "@/components/ui/GalleryGrid";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
 import { CtaBand } from "@/components/ui/CtaBand";
@@ -35,19 +35,7 @@ export default async function PortfolioPage({
   const { category } = await searchParams;
   const activeCategory = category ?? "all";
 
-  const galleryEntries = await reader.collections.gallery.all();
-
-  const allItems = galleryEntries.map((entry) => ({
-    slug: entry.slug,
-    title: entry.entry.title,
-    client: entry.entry.client,
-    category: entry.entry.category ?? "",
-    image: entry.entry.image,
-    description: entry.entry.description ?? null,
-    featured: entry.entry.featured,
-    colors: entry.entry.colors,
-    year: entry.entry.year,
-  }));
+  const allItems = await getGallery();
 
   const categoryValues = Array.from(
     new Set(allItems.map((i) => i.category).filter(Boolean)),
