@@ -1,5 +1,10 @@
 {
   "heading": "Photoshop / Raster Artwork",
-  "items": "Save as .PSD or .TIF\nUse CMYK color mode (or Grayscale for 1-color designs)\nPlace each color on a separate layer (strongly preferred)\nMinimum resolution: 150 dpi — maximum: 600 dpi",
+  "items": [
+    "Save as .PSD or .TIF",
+    "Use CMYK color mode (or Grayscale for 1-color designs)",
+    "Place each color on a separate layer (strongly preferred)",
+    "Minimum resolution: 150 dpi — maximum: 600 dpi"
+  ],
   "order": 3
 }

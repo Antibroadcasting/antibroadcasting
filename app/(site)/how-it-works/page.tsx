@@ -62,10 +62,7 @@ export default async function HowItWorksPage() {
   const artSections = artEntries
     .map((entry) => ({
       heading: entry.entry.heading,
-      items: (entry.entry.items ?? "")
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean),
+      items: entry.entry.items ?? [],
       order: entry.entry.order ?? 99,
     }))
     .sort((a, b) => a.order - b.order);
