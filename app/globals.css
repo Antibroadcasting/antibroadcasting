@@ -565,7 +565,7 @@ dialog.lightbox::backdrop {
  * mark, and swapping it in would make the ring two different golds depending
  * on theme. The dot is theme-foreground (matches the source artwork) but,
  * like the ring, stays static — only the wordmark mask animates, so the
- * hover wipe never blends into the mark. */
+ * hover wipe never blends into the mark. cSpell:ignore wordmark */
 .logo-ring {
   background-color: var(--color-primary-400);
   -webkit-mask-image: url("/images/logo-mark-ring.svg");
