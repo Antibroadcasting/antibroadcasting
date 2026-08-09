@@ -1,13 +1,6 @@
 import { cache } from "react";
 import { reader } from "@/lib/keystatic";
 
-function splitLines(value: string | null | undefined): string[] {
-  return (value ?? "")
-    .split("\n")
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
 export const getSiteInfo = cache(async () => {
   const raw = await reader.singletons.siteInfo.read();
   if (!raw) throw new Error("siteInfo singleton not found in content/site-info.json");
@@ -58,15 +51,15 @@ export const getSiteInfo = cache(async () => {
     seo: {
       title: raw.metaTitle ?? "",
       description: raw.metaDescription ?? "",
-      keywords: splitLines(raw.seoKeywords),
+      keywords: [...(raw.seoKeywords ?? [])],
     },
     forms: {
       quote: {
         responseTime: raw.responseTime ?? "1–2 business days",
         emailFrom: raw.emailFrom ?? "Quote Request <quotes@antibroadcasting.com>",
         emailTo: raw.emailTo ?? "info@antibroadcasting.com",
-        garmentOptions: splitLines(raw.garmentOptions),
-        timelineOptions: splitLines(raw.timelineOptions),
+        garmentOptions: [...(raw.garmentOptions ?? [])],
+        timelineOptions: [...(raw.timelineOptions ?? [])],
       },
     },
   };

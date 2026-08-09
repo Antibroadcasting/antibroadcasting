@@ -1,5 +1,10 @@
 {
   "heading": "Typography & Line Weight",
-  "items": "Positive reading type: 8pt minimum (12pt for Metallic ink)\nKnocked-out text: 12pt minimum (16pt for Metallic ink)\nPositive reading lines: 1pt stroke minimum (2pt for Metallic ink)\nKnocked-out lines: 2pt stroke minimum (3pt for Metallic ink)",
+  "items": [
+    "Positive reading type: 8pt minimum (12pt for Metallic ink)",
+    "Knocked-out text: 12pt minimum (16pt for Metallic ink)",
+    "Positive reading lines: 1pt stroke minimum (2pt for Metallic ink)",
+    "Knocked-out lines: 2pt stroke minimum (3pt for Metallic ink)"
+  ],
   "order": 4
 }
