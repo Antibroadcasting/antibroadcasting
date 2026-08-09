@@ -1,5 +1,10 @@
 {
   "heading": "To Avoid Art Fees",
-  "items": "Place each color on its own layer\nConvert all strokes to outlines\nAvoid clipping masks; use Pathfinder for simple shapes\nConvert 1-color designs to Grayscale to reduce file size",
+  "items": [
+    "Place each color on its own layer",
+    "Convert all strokes to outlines",
+    "Avoid clipping masks; use Pathfinder for simple shapes",
+    "Convert 1-color designs to Grayscale to reduce file size"
+  ],
   "order": 5
 }
