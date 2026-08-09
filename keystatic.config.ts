@@ -1,9 +1,17 @@
 import { config, collection, singleton, fields } from "@keystatic/core";
 
+const githubStorage = process.env.KEYSTATIC_GITHUB_CLIENT_ID
+  ? ({
+      kind: "github",
+      repo: { owner: "travhall", name: "antibroadcasting" },
+    } as const)
+  : null;
+
 export default config({
-  storage: {
-    kind: "local",
-  },
+  // Falls back to local storage until KEYSTATIC_GITHUB_CLIENT_ID (and the
+  // other two KEYSTATIC_GITHUB_*/KEYSTATIC_SECRET env vars) are set — see
+  // docs/keystatic-github-mode-migration.md before setting them.
+  storage: githubStorage ?? { kind: "local" },
   collections: {
     gallery: collection({
       label: "Gallery",
