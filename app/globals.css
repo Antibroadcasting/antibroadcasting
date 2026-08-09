@@ -74,12 +74,16 @@
   --foreground: var(--color-neutral-100);
 
   /* Accent (gold) — three roles: decorative, text-accessible, surface/border  */
-  --color-accent-text: var(--color-primary-400); /* gold on ink ≈ 8.4:1 (AAA)  */
+  --color-accent-text: var(
+    --color-primary-400
+  ); /* gold on ink ≈ 8.4:1 (AAA)  */
   --color-accent-surface: var(--color-primary-950);
   --color-accent-border: var(--color-primary-500);
 
   /* Muted */
-  --color-muted-text: oklch(58% 0.02 75); /* corrected from neutral-400 (54%, 4.00:1) — verified 4.73:1 AA via real sRGB-luminance contrast math, not the L%-as-luminance shortcut used elsewhere in this file */
+  --color-muted-text: oklch(
+    58% 0.02 75
+  ); /* corrected from neutral-400 (54%, 4.00:1) — verified 4.73:1 AA via real sRGB-luminance contrast math, not the L%-as-luminance shortcut used elsewhere in this file */
   --color-muted-surface: var(--color-neutral-800);
   --color-muted-border: var(--color-neutral-600);
 
@@ -125,9 +129,13 @@
   /* neutral-300 (L 72%) ≈ 8.17:1 on ink (AAA). text-tertiary uses a corrected
      58%-lightness value (≈4.73:1), not neutral-400 directly — see below. */
   --text-secondary: var(--color-neutral-300);
-  --text-tertiary: oklch(58% 0.02 75); /* corrected from neutral-400 (54%, 4.00:1, failed AA) — verified 4.73:1 via real sRGB-luminance math */
+  --text-tertiary: oklch(
+    58% 0.02 75
+  ); /* corrected from neutral-400 (54%, 4.00:1, failed AA) — verified 4.73:1 via real sRGB-luminance math */
   --text-inverse: var(--color-neutral-950);
-  --text-on-inverse-muted: var(--color-neutral-600); /* L 30% on paper ≈ 8:1 AAA */
+  --text-on-inverse-muted: var(
+    --color-neutral-600
+  ); /* L 30% on paper ≈ 8:1 AAA */
 
   /* ─── Semantic backgrounds ─── */
   --bg-subtle: var(--color-neutral-800);
@@ -330,7 +338,9 @@
 
   /* Accent: full brand-chroma gold, accessible on paper                     */
   --color-accent-text: var(--color-primary-700); /* ≈ 4.8:1 on paper (AA ✓)  */
-  --color-accent-surface: oklch(96% 0.04 75); /* intentional: higher chroma than primary-100 */
+  --color-accent-surface: oklch(
+    96% 0.04 75
+  ); /* intentional: higher chroma than primary-100 */
   --color-accent-border: var(--color-primary-500);
 
   /* Hue 60 (warm yellow-gray) — intentionally off the neutral palette for
@@ -348,7 +358,9 @@
   --text-secondary: var(--color-neutral-700);
   --text-tertiary: var(--color-neutral-600);
   --text-inverse: var(--color-neutral-100);
-  --text-on-inverse-muted: oklch(58% 0.02 75); /* corrected from neutral-400 (54%, 4.00:1, failed AA) — verified 4.73:1 via real sRGB-luminance math */
+  --text-on-inverse-muted: oklch(
+    58% 0.02 75
+  ); /* corrected from neutral-400 (54%, 4.00:1, failed AA) — verified 4.73:1 via real sRGB-luminance math */
 
   /* ─── Semantic backgrounds ───────────────────────────────────────────────
    * bg hierarchy on paper:
@@ -357,9 +369,15 @@
    * elevated uses pure white so cards and panels float above the warm-cream
    * page background — the same visual logic as dark-mode "lighter = higher".
    * ──────────────────────────────────────────────────────────────────────── */
-  --bg-subtle: var(--color-neutral-200); /* warm tan — footer, drawer, subtle zones   */
-  --bg-elevated: oklch(100% 0 0);        /* pure white — cards, popovers, code boxes  */
-  --bg-inset: var(--color-neutral-300);  /* deeper tan (L72%) — clearly recessed from subtle */
+  --bg-subtle: var(
+    --color-neutral-200
+  ); /* warm tan — footer, drawer, subtle zones   */
+  --bg-elevated: oklch(
+    100% 0 0
+  ); /* pure white — cards, popovers, code boxes  */
+  --bg-inset: var(
+    --color-neutral-300
+  ); /* deeper tan (L72%) — clearly recessed from subtle */
   --bg-inverse: var(--color-neutral-950);
 
   /* ─── Semantic borders ───────────────────────────────────────────────────
@@ -404,7 +422,9 @@
 
   --color-accent-text: var(--color-primary-700);
   --color-accent-border: var(--color-primary-600);
-  --color-accent-surface: oklch(96% 0.04 75); /* intentional: higher chroma than primary-100 */
+  --color-accent-surface: oklch(
+    96% 0.04 75
+  ); /* intentional: higher chroma than primary-100 */
 
   --text-secondary: var(--color-neutral-700);
   --text-tertiary: var(--color-neutral-600);
@@ -413,7 +433,9 @@
   --focus-ring-offset-color: var(--color-neutral-100);
 
   --button-outline-text: var(--color-neutral-950);
-  --button-outline-text-hover: oklch(100% 0 0); /* pure white — max legibility on dark hover; neutral-100 is warm cream, not pure white */
+  --button-outline-text-hover: oklch(
+    100% 0 0
+  ); /* pure white — max legibility on dark hover; neutral-100 is warm cream, not pure white */
   --button-outline-border: var(--color-neutral-950);
   --button-outline-border-hover: var(--color-primary-400);
   --button-outline-surface-hover: var(--color-primary-400);
@@ -429,7 +451,9 @@
   --color-accent-surface: var(--color-primary-950);
 
   --text-secondary: var(--color-neutral-300);
-  --text-tertiary: oklch(58% 0.02 75); /* corrected from neutral-400 (54%, 4.00:1, failed AA) — verified 4.73:1 via real sRGB-luminance math */
+  --text-tertiary: oklch(
+    58% 0.02 75
+  ); /* corrected from neutral-400 (54%, 4.00:1, failed AA) — verified 4.73:1 via real sRGB-luminance math */
 
   --focus-ring-color: var(--color-primary-400);
   --focus-ring-offset-color: var(--color-neutral-950);
@@ -459,15 +483,21 @@
 
   /* Neutral (primary CTA on gold): ink resting → paper hover — maximum contrast flip */
   --button-neutral-surface: var(--color-neutral-950);
-  --button-neutral-surface-hover: var(--color-neutral-100); /* paper/cream — stark flip from ink on gold */
+  --button-neutral-surface-hover: var(
+    --color-neutral-100
+  ); /* paper/cream — stark flip from ink on gold */
   --button-neutral-surface-active: var(--color-neutral-200);
   --button-neutral-text: var(--color-neutral-100);
-  --button-neutral-text-hover: var(--color-neutral-950); /* ink on paper — 15:1 AAA ✓ */
+  --button-neutral-text-hover: var(
+    --color-neutral-950
+  ); /* ink on paper — 15:1 AAA ✓ */
   --button-neutral-border: transparent;
 
   /* Outline (secondary CTA on gold): transparent → solid ink flood, ink → paper text */
   --button-outline-text: var(--color-neutral-950);
-  --button-outline-text-hover: var(--color-neutral-100); /* paper on ink flood */
+  --button-outline-text-hover: var(
+    --color-neutral-100
+  ); /* paper on ink flood */
   --button-outline-border: var(--color-neutral-950);
   --button-outline-border-hover: var(--color-neutral-950);
   --button-outline-surface-hover: var(--color-neutral-950);
@@ -507,9 +537,8 @@ dialog.lightbox {
 }
 dialog.lightbox::backdrop {
   /* neutral-950 at 92% opacity — CSS var() refs can't take /alpha modifiers */
-  background: oklch(12% 0.008 40 / 0.92);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: oklch(12% 0.008 40 / 0.96);
+  backdrop-filter: blur(8px);
 }
 
 @media (prefers-reduced-motion: reduce) {

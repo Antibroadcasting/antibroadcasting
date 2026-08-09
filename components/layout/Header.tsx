@@ -264,7 +264,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                   {siteInfo.contact.phone}
                 </span>
               </a>
-              <a
+              {/* <a
                 href={`mailto:${siteInfo.contact.email}`}
                 className="flex items-center gap-1 font-medium text-text-primary hover:underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label={`Email ${siteInfo.contact.email}`}
@@ -273,7 +273,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
                 <span className="hidden font-mono uppercase tracking-widest text-sm 2xl:inline">
                   {siteInfo.contact.email}
                 </span>
-              </a>
+              </a> */}
               <Button asChild variant="outline" size="sm">
                 <TransitionLink href="/contact">Get a Quote</TransitionLink>
               </Button>

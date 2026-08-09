@@ -113,7 +113,7 @@ export function Lightbox({
 
       {/* Content */}
       <div
-        className={`relative grid grid-cols-1 md:grid-cols-[1fr_320px] gap-10 max-w-325 w-full max-h-[calc(100vh-80px)] transition-transform duration-200 ease-out motion-reduce:transition-none ${
+        className={`relative grid grid-cols-1 md:grid-cols-[50vw_1fr] gap-10 max-w-325 w-full max-h-[calc(100vh-80px)] overflow-y-scroll transition-transform duration-200 ease-out motion-reduce:transition-none ${
           isVisible ? "scale-100" : "scale-[0.98]"
         }`}
         onClick={(e) => e.stopPropagation()}
