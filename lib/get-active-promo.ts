@@ -6,6 +6,8 @@ export interface ActivePromo {
   title: string;
   description: string;
   expiresAt: string | null;
+  label: string | null;
+  badgeImage: string | null;
   ctaLabel: string | null;
   ctaHref: string | null;
 }
@@ -32,6 +34,8 @@ export const getActivePromo = cache(async (): Promise<ActivePromo | null> => {
     title: promo.entry.title,
     description: promo.entry.description ?? "",
     expiresAt: promo.entry.expiresAt,
+    label: promo.entry.label || null,
+    badgeImage: promo.entry.badgeImage || null,
     ctaLabel: promo.entry.ctaLabel || null,
     ctaHref: promo.entry.ctaHref || null,
   };

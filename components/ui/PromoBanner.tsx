@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { buttonVariants } from "@/components/ui/Button";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
@@ -10,10 +11,24 @@ export function PromoBanner({ promo }: { promo: ActivePromo }) {
       className="my-16 border border-foreground/15 px-6 py-8 md:px-10 md:py-10 flex flex-col lg:flex-row lg:items-center gap-6 md:gap-10"
     >
       <div className="flex items-center gap-3 shrink-0">
-        <RegistrationMark className="w-5 h-5 text-gold" />
-        <span className="font-mono text-xs uppercase tracking-widest text-text-accent">
-          Limited Time
-        </span>
+        {promo.badgeImage ? (
+          <div className="relative min-h-40 w-full sm:min-h-52 sm:min-w-52 md:min-h-60 md:min-w-60 shrink-0">
+            <Image
+              src={promo.badgeImage}
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-contain"
+            />
+          </div>
+        ) : (
+          <>
+            <RegistrationMark className="w-5 h-5 text-gold" />
+            <span className="font-mono text-xs uppercase tracking-widest text-text-accent">
+              {promo.label || "The Latest News"}
+            </span>
+          </>
+        )}
       </div>
 
       <div className="flex-1">

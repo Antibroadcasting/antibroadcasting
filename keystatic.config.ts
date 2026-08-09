@@ -91,6 +91,18 @@ export default config({
           defaultValue: true,
         }),
         expiresAt: fields.date({ label: "Expiry date (optional)" }),
+        label: fields.text({
+          label: "Eyebrow label (optional)",
+          description:
+            'Shown above the title, e.g. "Limited Time" (default) or "New" or "Ends Friday".',
+        }),
+        badgeImage: fields.image({
+          label: "Eyebrow badge image (optional)",
+          description:
+            "Replaces the icon + label above the title. Leave blank to use the label instead.",
+          directory: "public/promos",
+          publicPath: "/promos",
+        }),
         ctaLabel: fields.text({
           label: "CTA label (optional)",
           description: 'e.g. "Get a Quote" — leave blank to hide the button.',
