@@ -9,6 +9,8 @@ import { TransitionLink } from "@/components/layout/TransitionLink";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
 import { FeaturedWorkGrid } from "@/components/ui/FeaturedWorkGrid";
 import { CtaBand } from "@/components/ui/CtaBand";
+import { PromoBanner } from "@/components/ui/PromoBanner";
+import { getActivePromo } from "@/lib/get-active-promo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteInfo = await getSiteInfo();
@@ -308,9 +310,10 @@ function ProcessStrip() {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function Home() {
-  const [featuredWork, siteInfo] = await Promise.all([
+  const [featuredWork, siteInfo, activePromo] = await Promise.all([
     getFeaturedWork(),
     getSiteInfo(),
+    getActivePromo(),
   ]);
 
   const jsonLd = {
@@ -345,6 +348,8 @@ export default async function Home() {
       {/* Constrained wrapper — Hero + Featured Work only */}
       <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
         <Hero siteInfo={siteInfo} />
+
+        {activePromo && <PromoBanner promo={activePromo} />}
 
         {/* Featured Work */}
         {featuredWork.length > 0 && (

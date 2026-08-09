@@ -91,6 +91,14 @@ export default config({
           defaultValue: true,
         }),
         expiresAt: fields.date({ label: "Expiry date (optional)" }),
+        ctaLabel: fields.text({
+          label: "CTA label (optional)",
+          description: 'e.g. "Get a Quote" — leave blank to hide the button.',
+        }),
+        ctaHref: fields.text({
+          label: "CTA link (optional)",
+          description: 'e.g. "/contact"',
+        }),
       },
     }),
   },
