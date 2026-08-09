@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
-import { reader } from "@/lib/keystatic";
+import { getFaq } from "@/lib/get-faq";
+import { getArtRequirements } from "@/lib/get-art-requirements";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
@@ -54,35 +55,10 @@ const steps = [
 ];
 
 export default async function HowItWorksPage() {
-  const [faqEntries, artEntries] = await Promise.all([
-    reader.collections.faq.all(),
-    reader.collections.artRequirements.all(),
+  const [items, artSections] = await Promise.all([
+    getFaq(),
+    getArtRequirements(),
   ]);
-
-  const artSections = artEntries
-    .map((entry) => ({
-      heading: entry.entry.heading,
-      items: (entry.entry.items ?? "")
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean),
-      order: entry.entry.order ?? 99,
-    }))
-    .sort((a, b) => a.order - b.order);
-
-  const items = faqEntries
-    .map((entry) => ({
-      slug: entry.slug,
-      question: entry.entry.question,
-      answer: entry.entry.answer,
-      category: entry.entry.category,
-      order: entry.entry.order ?? 99,
-    }))
-    .sort((a, b) => {
-      if (a.category !== b.category)
-        return a.category.localeCompare(b.category);
-      return a.order - b.order;
-    });
 
   const faqJsonLd = {
     "@context": "https://schema.org",
