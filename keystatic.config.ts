@@ -130,87 +130,113 @@ export default config({
       path: "content/site-info",
       format: { data: "json" },
       schema: {
-        // ── Company ──────────────────────────────────────────────────
-        companyName: fields.text({ label: "Company name" }),
-        companyLegalName: fields.text({ label: "Legal name" }),
-        companyNickname: fields.text({ label: "Short name / nickname" }),
-        companyTagline: fields.text({ label: "Tagline" }),
-
-        // ── Contact ──────────────────────────────────────────────────
-        phone: fields.text({ label: "Phone (display)" }),
-        phoneHref: fields.text({ label: "Phone href (e.g. tel:6125551234)" }),
-        email: fields.text({ label: "Email address" }),
-        addressStreet: fields.text({ label: "Street address" }),
-        addressCity: fields.text({ label: "City" }),
-        addressState: fields.text({ label: "State" }),
-        addressZip: fields.text({ label: "ZIP code" }),
-
-        // ── Social ───────────────────────────────────────────────────
-        instagramUrl: fields.url({ label: "Instagram URL" }),
-        instagramHandle: fields.text({ label: "Instagram handle" }),
-        facebookUrl: fields.url({ label: "Facebook URL" }),
-        facebookHandle: fields.text({ label: "Facebook handle" }),
-        twitterUrl: fields.url({ label: "X / Twitter URL" }),
-        twitterHandle: fields.text({ label: "X / Twitter handle" }),
-
-        // ── Booking status ───────────────────────────────────────────
-        nowBookingVisible: fields.checkbox({
-          label: 'Show "Now Booking" badge on homepage',
-          defaultValue: true,
-        }),
-        nowBookingLabel: fields.text({
-          label: '"Now Booking" label text',
-          description: 'e.g. "Summer \'26" or "Fall \'26 — Limited Spots"',
-          defaultValue: "Summer '26",
-        }),
-
-        // ── Business rules ───────────────────────────────────────────
-        minimumOrder: fields.number({ label: "Minimum order (pieces)" }),
-        turnaroundDays: fields.text({
-          label: "Standard turnaround",
-          description: 'e.g. "7–10"',
-        }),
-        maxColors: fields.number({ label: "Maximum ink colors" }),
-        responseTime: fields.text({
-          label: "Quote response time",
-          description: 'e.g. "1–2 business days"',
-        }),
-
-        // ── SEO ──────────────────────────────────────────────────────
-        metaTitle: fields.text({
-          label: "Default page title",
-          description: 'Used in <title> and Open Graph. e.g. "Antibroadcasting Inc. — Minneapolis Screen Printing"',
-        }),
-        metaDescription: fields.text({
-          label: "Default meta description",
-          description: 'Used in <meta name="description"> and Open Graph.',
-          multiline: true,
-        }),
-        seoKeywords: fields.array(
-          fields.text({ label: "Keyword or phrase" }),
-          { label: "SEO keywords", itemLabel: (props) => props.value || "Keyword" },
+        company: fields.object(
+          {
+            name: fields.text({ label: "Company name" }),
+            legalName: fields.text({ label: "Legal name" }),
+            nickname: fields.text({ label: "Short name / nickname" }),
+            tagline: fields.text({ label: "Tagline" }),
+          },
+          { label: "Company" },
         ),
 
-        // ── Email addresses ───────────────────────────────────────────
-        emailFrom: fields.text({
-          label: "Quote form — From address",
-          description: 'The address emails are sent from. Must be verified in Resend. e.g. "quotes@antibroadcasting.com"',
-          defaultValue: "Quote Request <quotes@antibroadcasting.com>",
-        }),
-        emailTo: fields.text({
-          label: "Quote form — To address",
-          description: "Where quote requests are delivered. Separate multiple addresses with commas.",
-          defaultValue: "info@antibroadcasting.com",
-        }),
-
-        // ── Quote form options (one per line) ─────────────────────────
-        garmentOptions: fields.array(
-          fields.text({ label: "Option" }),
-          { label: "Garment options", itemLabel: (props) => props.value || "Option" },
+        contact: fields.object(
+          {
+            phone: fields.text({ label: "Phone (display)" }),
+            phoneHref: fields.text({ label: "Phone href (e.g. tel:6125551234)" }),
+            email: fields.text({ label: "Email address" }),
+            addressStreet: fields.text({ label: "Street address" }),
+            addressCity: fields.text({ label: "City" }),
+            addressState: fields.text({ label: "State" }),
+            addressZip: fields.text({ label: "ZIP code" }),
+          },
+          { label: "Contact" },
         ),
-        timelineOptions: fields.array(
-          fields.text({ label: "Option" }),
-          { label: "Timeline options", itemLabel: (props) => props.value || "Option" },
+
+        social: fields.object(
+          {
+            instagramUrl: fields.url({ label: "Instagram URL" }),
+            instagramHandle: fields.text({ label: "Instagram handle" }),
+            facebookUrl: fields.url({ label: "Facebook URL" }),
+            facebookHandle: fields.text({ label: "Facebook handle" }),
+            twitterUrl: fields.url({ label: "X / Twitter URL" }),
+            twitterHandle: fields.text({ label: "X / Twitter handle" }),
+          },
+          { label: "Social" },
+        ),
+
+        booking: fields.object(
+          {
+            visible: fields.checkbox({
+              label: 'Show "Now Booking" badge on homepage',
+              defaultValue: true,
+            }),
+            label: fields.text({
+              label: '"Now Booking" label text',
+              description: 'e.g. "Summer \'26" or "Fall \'26 — Limited Spots"',
+              defaultValue: "Summer '26",
+            }),
+          },
+          { label: "Booking status" },
+        ),
+
+        business: fields.object(
+          {
+            minimumOrder: fields.number({ label: "Minimum order (pieces)" }),
+            turnaroundDays: fields.text({
+              label: "Standard turnaround",
+              description: 'e.g. "7–10"',
+            }),
+            maxColors: fields.number({ label: "Maximum ink colors" }),
+            responseTime: fields.text({
+              label: "Quote response time",
+              description: 'e.g. "1–2 business days"',
+            }),
+          },
+          { label: "Business rules" },
+        ),
+
+        seo: fields.object(
+          {
+            metaTitle: fields.text({
+              label: "Default page title",
+              description: 'Used in <title> and Open Graph. e.g. "Antibroadcasting Inc. — Minneapolis Screen Printing"',
+            }),
+            metaDescription: fields.text({
+              label: "Default meta description",
+              description: 'Used in <meta name="description"> and Open Graph.',
+              multiline: true,
+            }),
+            seoKeywords: fields.array(
+              fields.text({ label: "Keyword or phrase" }),
+              { label: "SEO keywords", itemLabel: (props) => props.value || "Keyword" },
+            ),
+          },
+          { label: "SEO" },
+        ),
+
+        quoteForm: fields.object(
+          {
+            emailFrom: fields.text({
+              label: "From address",
+              description: 'The address emails are sent from. Must be verified in Resend. e.g. "quotes@antibroadcasting.com"',
+              defaultValue: "Quote Request <quotes@antibroadcasting.com>",
+            }),
+            emailTo: fields.text({
+              label: "To address",
+              description: "Where quote requests are delivered. Separate multiple addresses with commas.",
+              defaultValue: "info@antibroadcasting.com",
+            }),
+            garmentOptions: fields.array(
+              fields.text({ label: "Option" }),
+              { label: "Garment options", itemLabel: (props) => props.value || "Option" },
+            ),
+            timelineOptions: fields.array(
+              fields.text({ label: "Option" }),
+              { label: "Timeline options", itemLabel: (props) => props.value || "Option" },
+            ),
+          },
+          { label: "Quote form" },
         ),
       },
     }),
