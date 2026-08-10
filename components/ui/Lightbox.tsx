@@ -32,10 +32,12 @@ export function Lightbox({
   const projectImages = [item.image, ...item.images].filter(
     (src): src is string => Boolean(src),
   );
+  const [prevSlug, setPrevSlug] = useState(item.slug);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  useEffect(() => {
+  if (prevSlug !== item.slug) {
+    setPrevSlug(item.slug);
     setActiveImageIndex(0);
-  }, [item.slug]);
+  }
   const activeImage = projectImages[activeImageIndex] ?? null;
 
   useEffect(() => {
