@@ -130,6 +130,45 @@ export default config({
         }),
       },
     }),
+
+    pages: collection({
+      label: "Pages",
+      slugField: "title",
+      path: "content/pages/*",
+      format: { data: "json" },
+      schema: {
+        title: fields.slug({ name: { label: "Title" } }),
+        content: fields.document({
+          label: "Content",
+          formatting: {
+            inlineMarks: { bold: true, italic: true },
+            listTypes: true,
+            headingLevels: [2, 3],
+          },
+          links: true,
+          images: {
+            directory: "public/pages",
+            publicPath: "/pages",
+            schema: {
+              alt: fields.text({
+                label: "Alt text",
+                validation: { isRequired: true },
+              }),
+            },
+          },
+        }),
+        metaDescription: fields.text({
+          label: "Meta description",
+          description: 'Used in <meta name="description"> and Open Graph.',
+          multiline: true,
+        }),
+        published: fields.checkbox({
+          label: "Published",
+          description: "Unpublished pages return 404 on the live site.",
+          defaultValue: false,
+        }),
+      },
+    }),
   },
 
   singletons: {
