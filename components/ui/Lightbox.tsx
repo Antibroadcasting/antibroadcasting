@@ -123,7 +123,7 @@ export function Lightbox({
           {item.image ? (
             <Image
               src={item.image}
-              alt={`${item.client ?? item.title} screen print`}
+              alt={item.imageAlt || `${item.client ?? item.title} screen print`}
               fill
               sizes="(min-width: 768px) 60vw, 90vw"
               className="object-contain"

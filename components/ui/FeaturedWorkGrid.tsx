@@ -35,7 +35,7 @@ export function FeaturedWorkGrid({ items }: { items: GalleryItem[] }) {
                 {item.image && (
                   <Image
                     src={item.image}
-                    alt={`${item.client ?? item.title} screen print`}
+                    alt={item.imageAlt || `${item.client ?? item.title} screen print`}
                     fill
                     sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                     className="object-cover z-0 transition-transform duration-500 group-hover:scale-105 motion-reduce:group-hover:scale-100"

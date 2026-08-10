@@ -32,6 +32,11 @@ export default config({
           directory: "public/gallery",
           publicPath: "/gallery",
         }),
+        imageAlt: fields.text({
+          label: "Image alt text (optional)",
+          description:
+            'Overrides the default "<Client> screen print" alt text with something more specific, e.g. "Four-color print on navy crewneck, tour dates on back."',
+        }),
         featured: fields.checkbox({
           label: "Feature on homepage",
           defaultValue: false,
@@ -96,7 +101,11 @@ export default config({
       format: { data: "json" },
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
-        description: fields.text({ label: "Description", multiline: true }),
+        description: fields.document({
+          label: "Description",
+          formatting: { inlineMarks: { bold: true, italic: true } },
+          links: true,
+        }),
         active: fields.checkbox({
           label: "Active / visible on site",
           defaultValue: true,
@@ -113,6 +122,11 @@ export default config({
             "Replaces the icon + label above the title. Leave blank to use the label instead.",
           directory: "public/promos",
           publicPath: "/promos",
+        }),
+        badgeImageAlt: fields.text({
+          label: "Badge image alt text (optional)",
+          description:
+            "Describes the badge image for screen readers. Leave blank if the image is purely decorative.",
         }),
         ctaLabel: fields.text({
           label: "CTA label (optional)",

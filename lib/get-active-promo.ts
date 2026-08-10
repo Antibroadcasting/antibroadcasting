@@ -1,13 +1,15 @@
 import { cache } from "react";
+import type { DocumentElement } from "@keystatic/core";
 import { reader } from "@/lib/keystatic";
 
 export interface ActivePromo {
   slug: string;
   title: string;
-  description: string;
+  description: DocumentElement[];
   expiresAt: string | null;
   label: string | null;
   badgeImage: string | null;
+  badgeImageAlt: string | null;
   ctaLabel: string | null;
   ctaHref: string | null;
 }
@@ -32,10 +34,11 @@ export const getActivePromo = cache(async (): Promise<ActivePromo | null> => {
   return {
     slug: promo.slug,
     title: promo.entry.title,
-    description: promo.entry.description ?? "",
+    description: await promo.entry.description(),
     expiresAt: promo.entry.expiresAt,
     label: promo.entry.label || null,
     badgeImage: promo.entry.badgeImage || null,
+    badgeImageAlt: promo.entry.badgeImageAlt || null,
     ctaLabel: promo.entry.ctaLabel || null,
     ctaHref: promo.entry.ctaHref || null,
   };
