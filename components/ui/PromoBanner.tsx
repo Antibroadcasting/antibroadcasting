@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { DocumentRenderer } from "@keystatic/core/renderer";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { buttonVariants } from "@/components/ui/Button";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
@@ -15,7 +16,7 @@ export function PromoBanner({ promo }: { promo: ActivePromo }) {
           <div className="relative min-h-40 w-full sm:min-h-52 sm:min-w-52 md:min-h-60 md:min-w-60 shrink-0">
             <Image
               src={promo.badgeImage}
-              alt=""
+              alt={promo.badgeImageAlt ?? ""}
               fill
               sizes="100vw"
               className="object-contain"
@@ -38,10 +39,31 @@ export function PromoBanner({ promo }: { promo: ActivePromo }) {
         >
           {promo.title}
         </h2>
-        {promo.description && (
-          <p className="mt-4 text-text-secondary max-w-prose leading-relaxed">
-            {promo.description}
-          </p>
+        {promo.description.length > 0 && (
+          <div className="mt-4 text-text-secondary max-w-prose leading-relaxed">
+            <DocumentRenderer
+              document={promo.description}
+              renderers={{
+                block: {
+                  paragraph: ({ children }) => <p>{children}</p>,
+                },
+                inline: {
+                  link: ({ children, href }) => (
+                    <a
+                      href={href}
+                      className="text-text-accent underline hover:no-underline"
+                    >
+                      {children}
+                    </a>
+                  ),
+                  bold: ({ children }) => (
+                    <strong className="font-bold">{children}</strong>
+                  ),
+                  italic: ({ children }) => <em>{children}</em>,
+                },
+              }}
+            />
+          </div>
         )}
       </div>
 

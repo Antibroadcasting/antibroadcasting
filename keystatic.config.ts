@@ -96,7 +96,11 @@ export default config({
       format: { data: "json" },
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
-        description: fields.text({ label: "Description", multiline: true }),
+        description: fields.document({
+          label: "Description",
+          formatting: { inlineMarks: { bold: true, italic: true } },
+          links: true,
+        }),
         active: fields.checkbox({
           label: "Active / visible on site",
           defaultValue: true,
@@ -113,6 +117,11 @@ export default config({
             "Replaces the icon + label above the title. Leave blank to use the label instead.",
           directory: "public/promos",
           publicPath: "/promos",
+        }),
+        badgeImageAlt: fields.text({
+          label: "Badge image alt text (optional)",
+          description:
+            "Describes the badge image for screen readers. Leave blank if the image is purely decorative.",
         }),
         ctaLabel: fields.text({
           label: "CTA label (optional)",
