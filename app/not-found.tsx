@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { Metadata } from "next";
 import { buttonVariants } from "@/components/ui/Button";
+import { TransitionLink } from "@/components/layout/TransitionLink";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "404 - Page Not Found",
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
+      <ScrollToTop />
       <h1 className="text-6xl md:text-8xl font-bold text-text-default mb-4">
         404
       </h1>
@@ -19,12 +21,12 @@ export default function NotFound() {
       <p className="text-lg text-text-muted mb-8 max-w-md">
         The page you are looking for doesn&apos;t exist or has been moved.
       </p>
-      <Link
+      <TransitionLink
         href="/"
         className={buttonVariants({ variant: "primary", size: "md" })}
       >
         Return Home
-      </Link>
+      </TransitionLink>
     </div>
   );
 }
