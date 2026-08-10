@@ -3,6 +3,7 @@
   "client": "Client Three",
   "category": "community-organization",
   "image": "/gallery/gallery-item-number-three/image.jpg",
+  "imageAlt": "",
   "featured": true,
   "description": "This is the description for Gallery Item Number Two",
   "colors": 7,

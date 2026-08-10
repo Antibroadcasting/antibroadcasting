@@ -10,6 +10,7 @@ export const getGallery = cache(async (): Promise<GalleryItem[]> => {
     client: entry.entry.client,
     category: entry.entry.category ?? "",
     image: entry.entry.image,
+    imageAlt: entry.entry.imageAlt || null,
     description: entry.entry.description ?? null,
     featured: entry.entry.featured,
     colors: entry.entry.colors,

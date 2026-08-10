@@ -13,6 +13,7 @@ export type GalleryItem = {
   client: string | null;
   category: string;
   image: string | null;
+  imageAlt: string | null;
   description: string | null;
   featured: boolean | null;
   colors: number | null;
@@ -103,7 +104,7 @@ function GalleryCard({
           {item.image && (
             <Image
               src={item.image}
-              alt={`${item.client ?? item.title} screen print`}
+              alt={item.imageAlt || `${item.client ?? item.title} screen print`}
               fill
               sizes={imageSizes[size]}
               className="object-cover transition-transform duration-slow group-hover:scale-105 motion-reduce:group-hover:scale-100"

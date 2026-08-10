@@ -32,6 +32,11 @@ export default config({
           directory: "public/gallery",
           publicPath: "/gallery",
         }),
+        imageAlt: fields.text({
+          label: "Image alt text (optional)",
+          description:
+            'Overrides the default "<Client> screen print" alt text with something more specific, e.g. "Four-color print on navy crewneck, tour dates on back."',
+        }),
         featured: fields.checkbox({
           label: "Feature on homepage",
           defaultValue: false,
