@@ -37,6 +37,19 @@ export default config({
           description:
             'Overrides the default "<Client> screen print" alt text with something more specific, e.g. "Four-color print on navy crewneck, tour dates on back."',
         }),
+        images: fields.array(
+          fields.image({
+            label: "Image",
+            directory: "public/gallery",
+            publicPath: "/gallery",
+          }),
+          {
+            label: "Additional images (optional)",
+            description:
+              "Extra photos for this project — shown as thumbnails in the lightbox. Leave empty for a single-image project.",
+            itemLabel: (props) => props.value?.filename ?? "Image",
+          },
+        ),
         featured: fields.checkbox({
           label: "Feature on homepage",
           defaultValue: false,
@@ -152,6 +165,16 @@ export default config({
       format: { data: "json" },
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
+        coverImage: fields.image({
+          label: "Cover image (optional)",
+          directory: "public/pages",
+          publicPath: "/pages",
+        }),
+        coverImageAlt: fields.text({
+          label: "Cover image alt text (optional)",
+          description:
+            "Describes the cover image for screen readers. Leave blank if the image is purely decorative.",
+        }),
         content: fields.document({
           label: "Content",
           formatting: {

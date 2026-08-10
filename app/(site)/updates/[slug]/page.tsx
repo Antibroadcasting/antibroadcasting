@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { DocumentRenderer } from "@keystatic/core/renderer";
 import { siteConfig } from "@/lib/site-config";
@@ -27,6 +28,7 @@ export async function generateMetadata({
       title: page.title,
       description: page.metaDescription || undefined,
       url: `${siteConfig.site.url}/updates/${slug}`,
+      images: page.coverImage ? [{ url: page.coverImage }] : undefined,
     },
   };
 }
@@ -45,11 +47,24 @@ export default async function UpdatePage({
   return (
     <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto">
       <section className="pt-10 pb-20">
-        <PageBreadcrumb page={page.title} />
+        <PageBreadcrumb page={page.title} parent="Updates" />
 
         <h1 className="font-display font-black uppercase leading-[0.85] text-[clamp(3rem,8vw,6rem)] mb-10">
           {page.title}
         </h1>
+
+        {page.coverImage && (
+          <div className="relative w-full aspect-video mb-10 overflow-hidden border border-foreground/10">
+            <Image
+              src={page.coverImage}
+              alt={page.coverImageAlt || ""}
+              fill
+              sizes="(min-width: 1280px) 1200px, 100vw"
+              className="object-cover"
+              priority
+            />
+          </div>
+        )}
 
         <div className="max-w-[70ch]">
           <DocumentRenderer

@@ -29,6 +29,15 @@ export function Lightbox({
   const hasNext = currentIndex < items.length - 1;
   const dialogRef = useRef<HTMLDialogElement>(null);
 
+  const projectImages = [item.image, ...item.images].filter(
+    (src): src is string => Boolean(src),
+  );
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [item.slug]);
+  const activeImage = projectImages[activeImageIndex] ?? null;
+
   useEffect(() => {
     dialogRef.current?.showModal();
     const timer = setTimeout(() => setIsVisible(true), 10);
@@ -120,9 +129,9 @@ export function Lightbox({
       >
         {/* Image */}
         <div className="relative aspect-square bg-ink-2 border border-paper/10 overflow-hidden">
-          {item.image ? (
+          {activeImage ? (
             <Image
-              src={item.image}
+              src={activeImage}
               alt={item.imageAlt || `${item.client ?? item.title} screen print`}
               fill
               sizes="(min-width: 768px) 60vw, 90vw"
@@ -158,6 +167,32 @@ export function Lightbox({
             <p className="text-base leading-relaxed text-paper/70 mb-7">
               {item.description}
             </p>
+          )}
+
+          {projectImages.length > 1 && (
+            <div className="flex flex-wrap gap-2 mb-7">
+              {projectImages.map((src, i) => (
+                <button
+                  key={src}
+                  onClick={() => setActiveImageIndex(i)}
+                  aria-label={`View image ${i + 1} of ${projectImages.length}`}
+                  aria-current={i === activeImageIndex}
+                  className={`relative w-16 h-16 overflow-hidden border transition-colors ${
+                    i === activeImageIndex
+                      ? "border-gold"
+                      : "border-paper/15 hover:border-paper/40"
+                  }`}
+                >
+                  <Image
+                    src={src}
+                    alt=""
+                    fill
+                    sizes="64px"
+                    className="object-cover"
+                  />
+                </button>
+              ))}
+            </div>
           )}
 
           <div className="mt-auto border-t border-paper/10 pt-5 grid grid-cols-2 gap-x-5 gap-y-3.5">

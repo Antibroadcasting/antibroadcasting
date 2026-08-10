@@ -36,12 +36,12 @@ export function Footer({ siteInfo }: { siteInfo: SiteInfo }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-10 lg:gap-12 pb-12 border-b border-foreground/10">
           {/* Col 1 — Wordmark */}
           <div className="flex flex-col gap-0">
-            <p className="font-display font-black uppercase text-[clamp(4rem,4vw,3.75rem)] leading-[0.85] text-text-primary">
-              Antibroad-
-              <br />
-              casting
-              <span className="text-gold">.</span>
-            </p>
+            <span
+              aria-hidden="true"
+              className="logo-footer block w-full max-w-lg"
+              style={{ aspectRatio: "178.22 / 31.48" }}
+            />
+            <span className="sr-only">{siteInfo.company.legalName}</span>
             <div className="flex items-center gap-2 mt-5">
               <RegistrationMark className="w-3.5 h-3.5 text-text-accent shrink-0" />
               <span className="font-mono text-2xs uppercase tracking-widest text-text-tertiary">

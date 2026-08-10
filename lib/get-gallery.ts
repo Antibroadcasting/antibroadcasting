@@ -11,6 +11,9 @@ export const getGallery = cache(async (): Promise<GalleryItem[]> => {
     category: entry.entry.category ?? "",
     image: entry.entry.image,
     imageAlt: entry.entry.imageAlt || null,
+    images: (entry.entry.images ?? []).filter(
+      (src): src is string => src !== null,
+    ),
     description: entry.entry.description ?? null,
     featured: entry.entry.featured,
     colors: entry.entry.colors,

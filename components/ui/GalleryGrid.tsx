@@ -14,6 +14,7 @@ export type GalleryItem = {
   category: string;
   image: string | null;
   imageAlt: string | null;
+  images: string[];
   description: string | null;
   featured: boolean | null;
   colors: number | null;

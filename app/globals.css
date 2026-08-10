@@ -609,6 +609,22 @@ dialog.lightbox::backdrop {
   mask-position: center;
 }
 
+/* Standalone wordmark (no ring/dot) for the footer — static, theme-foreground,
+ * no hover animation. Source SVG is pre-cropped to the glyph bounding box
+ * (see public/images/logo-mark-wordmark-standalone.svg) so it fills its box
+ * edge-to-edge instead of inheriting the header lockup's icon gutter. */
+.logo-footer {
+  background-color: var(--foreground);
+  -webkit-mask-image: url("/images/logo-mark-wordmark-standalone.svg");
+  mask-image: url("/images/logo-mark-wordmark-standalone.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: left center;
+  mask-position: left center;
+}
+
 @keyframes logo-hover-in {
   from {
     background-position: 0 100%;
