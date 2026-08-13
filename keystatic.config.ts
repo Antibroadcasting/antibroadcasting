@@ -276,6 +276,64 @@ export default config({
       },
     }),
 
+    alertBanner: singleton({
+      label: "Alert Banner",
+      path: "content/alert-banner",
+      format: { data: "json" },
+      schema: {
+        active: fields.checkbox({
+          label: "Active / visible on site",
+          description: "Shows a bar above the header. Pause without deleting — untick to hide.",
+          defaultValue: false,
+        }),
+        expiresAt: fields.date({ label: "Expiry date (optional)" }),
+        content: fields.conditional(
+          fields.select({
+            label: "Type",
+            description:
+              "Message: a dismissible announcement with an optional CTA. Ticker: a scrolling status line, no dismiss or CTA.",
+            options: [
+              { label: "Message", value: "message" },
+              { label: "Ticker", value: "ticker" },
+            ],
+            defaultValue: "message",
+          }),
+          {
+            message: fields.object({
+              title: fields.text({ label: "Title (optional)" }),
+              message: fields.text({ label: "Message", multiline: true }),
+              dismissible: fields.checkbox({
+                label: "Dismissible",
+                description: "Shows a close button. Re-appears for a visitor if the message is edited later.",
+                defaultValue: true,
+              }),
+              ctaLabel: fields.text({
+                label: "CTA label (optional)",
+                description: 'e.g. "Get a Quote" — leave blank to hide the button.',
+              }),
+              ctaHref: fields.text({
+                label: "CTA link (optional)",
+                description:
+                  'e.g. "/contact" — must start with "/", or leave blank to hide the button.',
+                validation: {
+                  pattern: {
+                    regex: /^$|^\//,
+                    message: 'Must start with "/" (e.g. "/contact"), or be left blank.',
+                  },
+                },
+              }),
+            }),
+            ticker: fields.object({
+              message: fields.text({
+                label: "Message",
+                description: "Scrolls continuously in a single line.",
+              }),
+            }),
+          },
+        ),
+      },
+    }),
+
     promoBanner: singleton({
       label: "Promo Banner",
       path: "content/promo-banner",

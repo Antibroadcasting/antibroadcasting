@@ -1,14 +1,20 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransitionProvider } from "@/components/layout/PageTransitionProvider";
+import { MainChrome } from "@/components/layout/MainChrome";
+import { AlertBanner } from "@/components/ui/AlertBanner";
 import { getSiteInfo } from "@/lib/get-site-info";
+import { getActiveAlert } from "@/lib/get-active-alert";
 
 export default async function SiteLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const siteInfo = await getSiteInfo();
+  const [siteInfo, activeAlert] = await Promise.all([
+    getSiteInfo(),
+    getActiveAlert(),
+  ]);
 
   return (
     <PageTransitionProvider>
@@ -20,13 +26,9 @@ export default async function SiteLayout({
           backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")`,
         }}
       />
-      <Header siteInfo={siteInfo} />
-      <main
-        id="main-content"
-        className="flex flex-col min-h-screen md:min-h-[calc(100vh-4.5rem)] mt-16 lg:mt-32 px-4 md:px-6 lg:px-8 xl:px-12 pb-0 bg-bg-base relative z-10"
-      >
-        {children}
-      </main>
+      {activeAlert && <AlertBanner alert={activeAlert} />}
+      <Header siteInfo={siteInfo} activeAlert={activeAlert} />
+      <MainChrome activeAlert={activeAlert}>{children}</MainChrome>
       <Footer siteInfo={siteInfo} />
     </PageTransitionProvider>
   );

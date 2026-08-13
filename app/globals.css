@@ -672,3 +672,23 @@ dialog.lightbox::backdrop {
   background-size: var(--texture-dots-size) var(--texture-dots-size);
   opacity: var(--texture-dots-opacity);
 }
+
+/* ─── Alert ticker marquee ───────────────────────────────────────────────── */
+/* Two identical children (one aria-hidden) placed side by side and scrolled
+ * exactly 50% for a seamless loop. Duration is the one thing that varies per
+ * instance, so it's a custom property like the texture overlays above. */
+.marquee-track {
+  --marquee-duration: 22s;
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll var(--marquee-duration) linear infinite;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

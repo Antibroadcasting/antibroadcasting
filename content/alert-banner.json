@@ -1,0 +1,13 @@
+{
+  "active": true,
+  "content": {
+    "discriminant": "message",
+    "value": {
+      "title": "Sorry to mention this since fall hasn't hit yet but …",
+      "message": "NOW BOOKING HOLIDAY 2026! Yes, we know, not yet. We get it but we also warned you. Get your orders in now!",
+      "dismissible": true,
+      "ctaLabel": "Get a Quote",
+      "ctaHref": "/contact"
+    }
+  }
+}
