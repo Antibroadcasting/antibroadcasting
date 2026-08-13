@@ -1,11 +1,11 @@
 "use client";
 
-import type { CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { RegistrationMark } from "./RegistrationMark";
 import type { GalleryItem } from "./GalleryGrid";
 import { Lightbox } from "./Lightbox";
+import { StripeOverlay } from "./StripeOverlay";
 import { useLightboxGallery } from "@/lib/hooks/useLightboxGallery";
 
 // ─── Grid ─────────────────────────────────────────────────────────────────────
@@ -42,11 +42,7 @@ export function FeaturedWorkGrid({ items }: { items: GalleryItem[] }) {
                   />
                 )}
 
-                {/* Diagonal stripe overlay */}
-                <div
-                  className="absolute inset-0 z-10 bg-texture-stripe"
-                  style={{ "--texture-stripe-opacity": 0.15 } as CSSProperties}
-                />
+                <StripeOverlay opacity={0.15} className="z-10" />
 
                 {/* NO. badge */}
                 <div className="absolute top-3 left-3 z-20 bg-ink border border-foreground/25 px-2 py-0.5">

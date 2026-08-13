@@ -1,4 +1,5 @@
 import { config, collection, singleton, fields } from "@keystatic/core";
+import { sectionBreak, statRow, framedPhoto } from "@/lib/keystatic-blocks";
 
 const githubStorage = process.env.KEYSTATIC_GITHUB_CLIENT_ID
   ? ({
@@ -193,6 +194,7 @@ export default config({
               }),
             },
           },
+          componentBlocks: { sectionBreak, statRow, framedPhoto },
         }),
         metaDescription: fields.text({
           label: "Meta description",

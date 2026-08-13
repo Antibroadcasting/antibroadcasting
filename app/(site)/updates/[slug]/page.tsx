@@ -5,6 +5,10 @@ import { DocumentRenderer } from "@keystatic/core/renderer";
 import { siteConfig } from "@/lib/site-config";
 import { getPage, getPages } from "@/lib/get-pages";
 import { PageBreadcrumb } from "@/components/ui/PageBreadcrumb";
+import { IndexLabel } from "@/components/ui/IndexLabel";
+import { Stat } from "@/components/ui/Stat";
+import { CornerBrackets } from "@/components/ui/CornerBrackets";
+import { StripeOverlay } from "@/components/ui/StripeOverlay";
 
 export async function generateStaticParams() {
   const pages = await getPages();
@@ -63,6 +67,8 @@ export default async function UpdatePage({
               className="object-cover"
               priority
             />
+            <StripeOverlay opacity={0.08} />
+            <CornerBrackets />
           </div>
         )}
 
@@ -106,6 +112,47 @@ export default async function UpdatePage({
                   <strong className="font-bold">{children}</strong>
                 ),
                 italic: ({ children }) => <em>{children}</em>,
+              },
+            }}
+            componentBlocks={{
+              sectionBreak: ({ label }) => (
+                <IndexLabel className="my-10">{label}</IndexLabel>
+              ),
+              statRow: ({ stat1, stat2, stat3 }) => {
+                const stats = [stat1, stat2, stat3].filter(
+                  (s) => s.value || s.label,
+                );
+                if (stats.length === 0) return null;
+                return (
+                  <div className="flex flex-wrap gap-x-10 gap-y-6 my-10">
+                    {stats.map((s, i) => (
+                      <Stat key={i} value={s.value} label={s.label} />
+                    ))}
+                  </div>
+                );
+              },
+              framedPhoto: ({ image, alt, catalogLabel }) => {
+                if (!image) return null;
+                return (
+                  <div className="relative w-full aspect-4/3 overflow-hidden border border-foreground/10 my-10">
+                    <Image
+                      src={image}
+                      alt={alt}
+                      fill
+                      sizes="(min-width: 1024px) 700px, 100vw"
+                      className="object-cover"
+                    />
+                    <StripeOverlay opacity={0.08} />
+                    <CornerBrackets />
+                    {catalogLabel && (
+                      <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
+                        <span className="font-mono text-3xs uppercase tracking-widest text-paper/60">
+                          {catalogLabel}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                );
               },
             }}
           />

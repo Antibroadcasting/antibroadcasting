@@ -5,6 +5,8 @@ import { getArtRequirements } from "@/lib/get-art-requirements";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
+import { IndexLabel } from "@/components/ui/IndexLabel";
+import { PulseDot } from "@/components/ui/PulseDot";
 import { CtaBand } from "@/components/ui/CtaBand";
 import { PageBreadcrumb } from "@/components/ui/PageBreadcrumb";
 
@@ -115,10 +117,7 @@ export default async function HowItWorksPage() {
           </p> */}
           <div className="mt-10 flex flex-wrap items-center gap-6">
             <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
-              </span>
+              <PulseDot />
               <span className="font-mono text-sm uppercase tracking-widest text-text-tertiary">
                 Everything you need to know before placing an order — from{" "}
                 <a
@@ -151,20 +150,9 @@ export default async function HowItWorksPage() {
           aria-labelledby="steps-heading"
           className="py-20 lg:py-28 border-b border-foreground/10"
         >
-          {/* Section label — visual eyebrow only; aria-labelledby works with <p> */}
-          <div className="flex items-center gap-3 mb-16">
-            <p
-              id="steps-heading"
-              className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0"
-            >
-              01 / The Steps
-            </p>
-            <span className="flex-1 h-px bg-gold/30" aria-hidden="true" />
-            <RegistrationMark
-              className="w-4 h-4 text-text-accent shrink-0"
-              aria-hidden="true"
-            />
-          </div>
+          <IndexLabel as="p" id="steps-heading" className="mb-16">
+            01 / The Steps
+          </IndexLabel>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-foreground/10">
             {steps.map((step) => (
@@ -172,14 +160,7 @@ export default async function HowItWorksPage() {
                 key={step.n}
                 className="bg-background p-8 lg:p-10 flex flex-col gap-6"
               >
-                {/* Step header */}
-                <div className="flex items-center gap-3" aria-hidden="true">
-                  <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
-                    Step {step.n}
-                  </span>
-                  <span className="flex-1 h-px bg-gold/30" />
-                  <RegistrationMark className="w-4 h-4 text-text-accent shrink-0" />
-                </div>
+                <IndexLabel ariaHidden>Step {step.n}</IndexLabel>
 
                 <h2 className="font-display font-black uppercase text-[clamp(2rem,3.5vw,3rem)] leading-[0.9] text-text-primary">
                   {step.title}
@@ -216,14 +197,7 @@ export default async function HowItWorksPage() {
         <div className="flex flex-col xl:flex-row gap-16 xl:gap-24 py-20 lg:py-28">
           {/* Art Requirements */}
           <div className="flex-1" id="art-requirements">
-            {/* Section label */}
-            <div className="flex items-center gap-3 mb-12">
-              <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
-                02 / Art Requirements
-              </span>
-              <span className="flex-1 h-px bg-gold/30" />
-              <RegistrationMark className="w-4 h-4 text-text-accent shrink-0" />
-            </div>
+            <IndexLabel className="mb-12">02 / Art Requirements</IndexLabel>
 
             <h2 className="font-display font-black uppercase text-[clamp(3rem,8vw,5rem)] leading-[0.9] text-text-primary mb-12">
               Art Requirements<span className="text-gold">.</span>
@@ -269,14 +243,7 @@ export default async function HowItWorksPage() {
 
           {/* FAQ */}
           <div className="flex-1" id="faq">
-            {/* Section label */}
-            <div className="flex items-center gap-3 mb-12">
-              <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
-                03 / Frequently Asked
-              </span>
-              <span className="flex-1 h-px bg-gold/30" />
-              <RegistrationMark className="w-4 h-4 text-text-accent shrink-0" />
-            </div>
+            <IndexLabel className="mb-12">03 / Frequently Asked</IndexLabel>
 
             <h2 className="font-display font-black uppercase text-[clamp(3rem,8vw,5rem)] leading-[0.9] text-text-primary mb-12">
               Frequently Asked<span className="text-gold">.</span>

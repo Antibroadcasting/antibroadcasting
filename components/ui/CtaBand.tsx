@@ -1,6 +1,6 @@
-import type { CSSProperties } from "react";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { buttonVariants } from "@/components/ui/Button";
+import { DotOverlay } from "@/components/ui/DotOverlay";
 
 interface CtaButton {
   label: string;
@@ -33,18 +33,7 @@ export function CtaBand({
       className={`bg-gold -mx-4 md:-mx-6 lg:-mx-8 xl:-mx-12 relative overflow-hidden ${className}`}
       data-surface="gold"
     >
-      {/* Broadside dot pattern overlay */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none bg-texture-dots"
-        style={
-          {
-            "--texture-dots-color": "oklch(12% 0.008 40)",
-            "--texture-dots-size": "9px",
-            "--texture-dots-opacity": 0.12,
-          } as CSSProperties
-        }
-      />
+      <DotOverlay color="oklch(12% 0.008 40)" size="9px" opacity={0.12} />
       {/* Broadside ticker */}
       <div className="relative z-10 flex items-center gap-4 px-4 md:px-6 lg:px-8 xl:px-12 py-4">
         <div className="flex items-center gap-3 shrink-0">

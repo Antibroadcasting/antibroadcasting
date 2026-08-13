@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
 import Image from "next/image";
 import { getSiteInfo } from "@/lib/get-site-info";
 import { siteConfig } from "@/lib/site-config";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
+import { CornerBrackets } from "@/components/ui/CornerBrackets";
+import { StripeOverlay } from "@/components/ui/StripeOverlay";
+import { IndexLabel } from "@/components/ui/IndexLabel";
+import { Stat } from "@/components/ui/Stat";
 import { CtaBand } from "@/components/ui/CtaBand";
 import { PageBreadcrumb } from "@/components/ui/PageBreadcrumb";
 
@@ -45,33 +48,13 @@ function PhotoFrame({
         priority={priority}
       />
 
-      {/* Diagonal stripe overlay */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none bg-texture-stripe"
-        style={{ "--texture-stripe-opacity": 0.08 } as CSSProperties}
-      />
+      <StripeOverlay opacity={0.08} />
 
       {/* Dark scrim */}
       <div aria-hidden="true" className="absolute inset-0 bg-ink/20" />
 
       {/* Corner brackets */}
-      <div
-        aria-hidden="true"
-        className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-paper/60"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-paper/60"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-paper/60"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-paper/60"
-      />
+      <CornerBrackets />
 
       {/* Catalog label */}
       {catalogLabel && (
@@ -108,14 +91,12 @@ export default async function AboutPage() {
               { value: "20+", label: "Years Experience" },
               { value: siteInfo.contact.address.city, label: "Based In" },
             ].map((stat) => (
-              <div key={stat.label}>
-                <span className="block font-display font-black text-[clamp(2rem,3vw,3rem)] leading-none text-text-primary">
-                  {stat.value}
-                </span>
-                <span className="block font-mono uppercase tracking-widest text-xs text-text-tertiary mt-1">
-                  {stat.label}
-                </span>
-              </div>
+              <Stat
+                key={stat.label}
+                value={stat.value}
+                label={stat.label}
+                valueClassName="text-[clamp(2rem,3vw,3rem)]"
+              />
             ))}
             <div className="ml-auto hidden lg:flex items-center gap-2">
               <RegistrationMark className="w-5 h-5 text-foreground/20" />
@@ -127,14 +108,7 @@ export default async function AboutPage() {
         <section className="py-20 lg:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center border-b border-foreground/10">
           {/* Text — left */}
           <div className="order-2 lg:order-1 flex flex-col gap-6">
-            {/* Section label */}
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
-                01 / What Sets Us Apart
-              </span>
-              <span className="flex-1 h-px bg-gold/30" />
-              <RegistrationMark className="w-4 h-4 text-text-accent shrink-0" />
-            </div>
+            <IndexLabel>01 / What Sets Us Apart</IndexLabel>
 
             <h2 className="font-display font-black text-[clamp(3rem,8vw,5.5rem)] uppercase leading-[0.9] text-text-primary">
               Quality Over
@@ -191,14 +165,7 @@ export default async function AboutPage() {
 
           {/* Text — right */}
           <div className="flex flex-col gap-6">
-            {/* Section label */}
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
-                02 / The Story
-              </span>
-              <span className="flex-1 h-px bg-gold/30" />
-              <RegistrationMark className="w-4 h-4 text-text-accent shrink-0" />
-            </div>
+            <IndexLabel>02 / The Story</IndexLabel>
 
             <h2 className="font-display font-black uppercase text-[clamp(3rem,8vw,5.5rem)] leading-[0.9] text-text-primary">
               Built From
@@ -227,14 +194,12 @@ export default async function AboutPage() {
                 { value: "2005", label: "Year Founded" },
                 { value: "20+", label: "Years Experience" },
               ].map((stat) => (
-                <div key={stat.label}>
-                  <span className="block font-display font-black text-[clamp(2.5rem,5vw,3.5rem)] leading-none text-text-primary">
-                    {stat.value}
-                  </span>
-                  <span className="block font-mono uppercase tracking-widest text-xs text-text-tertiary mt-1">
-                    {stat.label}
-                  </span>
-                </div>
+                <Stat
+                  key={stat.label}
+                  value={stat.value}
+                  label={stat.label}
+                  valueClassName="text-[clamp(2.5rem,5vw,3.5rem)]"
+                />
               ))}
             </div>
           </div>
@@ -242,14 +207,7 @@ export default async function AboutPage() {
 
         {/* ── Section 03: Who we work with ─────────────────────────────── */}
         <section className="py-20 lg:py-28">
-          {/* Section header */}
-          <div className="flex items-center gap-3 mb-12">
-            <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
-              03 / Who We Work With
-            </span>
-            <span className="flex-1 h-px bg-gold/30" />
-            <RegistrationMark className="w-4 h-4 text-text-accent shrink-0" />
-          </div>
+          <IndexLabel className="mb-12">03 / Who We Work With</IndexLabel>
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-10 lg:gap-20 items-start">
             <h2 className="font-display font-black text-[clamp(3rem,8vw,5rem)] leading-[0.9] text-text-primary uppercase">

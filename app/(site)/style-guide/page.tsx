@@ -4,6 +4,13 @@ import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
 import { FileUpload } from "@/components/ui/FileUpload";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
+import { CornerBrackets } from "@/components/ui/CornerBrackets";
+import { StripeOverlay } from "@/components/ui/StripeOverlay";
+import { DotOverlay } from "@/components/ui/DotOverlay";
+import { IndexLabel } from "@/components/ui/IndexLabel";
+import { SectionLabel } from "@/components/ui/SectionLabel";
+import { Stat } from "@/components/ui/Stat";
+import { PulseDot } from "@/components/ui/PulseDot";
 import {
   PhoneIcon,
   MailIcon,
@@ -286,12 +293,7 @@ export default function StyleGuide() {
           <div>
             <SubHead>Diagonal Stripe</SubHead>
             <div className="relative h-32 bg-bg-elevated border border-border-subtle overflow-hidden rounded-card">
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 8px, oklch(0% 0 0 / 0.15) 8px, oklch(0% 0 0 / 0.15) 9px)",
-                }}
-              />
+              <StripeOverlay opacity={0.15} />
             </div>
             <p className="font-mono text-xs text-text-tertiary mt-3">Used on: featured work cards, hero image overlay, CtaBand</p>
             <code className="block font-mono text-xs text-text-secondary mt-1 bg-bg-elevated border border-border-subtle p-2 rounded">
@@ -303,14 +305,7 @@ export default function StyleGuide() {
           <div>
             <SubHead>Broadside Dot</SubHead>
             <div className="relative h-32 bg-gold overflow-hidden rounded-card">
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage: "radial-gradient(oklch(12% 0.008 40) 1px, transparent 1.4px)",
-                  backgroundSize: "9px 9px",
-                  opacity: 0.12,
-                }}
-              />
+              <DotOverlay color="oklch(12% 0.008 40)" size="9px" opacity={0.12} />
             </div>
             <p className="font-mono text-xs text-text-tertiary mt-3">Used on: CtaBand (gold surface)</p>
             <code className="block font-mono text-xs text-text-secondary mt-1 bg-bg-elevated border border-border-subtle p-2 rounded">
@@ -342,15 +337,50 @@ export default function StyleGuide() {
           <div>
             <SubHead>Corner Brackets</SubHead>
             <div className="relative h-32 bg-bg-elevated border border-border-subtle overflow-hidden rounded-card">
-              <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-foreground/40" />
-              <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-foreground/40" />
-              <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-foreground/40" />
-              <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-foreground/40" />
+              <CornerBrackets color="border-foreground/40" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="font-mono text-xs text-text-tertiary uppercase tracking-widest">Framed Content</span>
               </div>
             </div>
             <p className="font-mono text-xs text-text-tertiary mt-3">Used on: hero image editorial overlay — 2px border, w-8/h-8</p>
+          </div>
+
+          {/* Index label */}
+          <div>
+            <SubHead>Index Label</SubHead>
+            <div className="h-32 bg-bg-elevated border border-border-subtle rounded-card px-6 flex items-center">
+              <IndexLabel>01 / Section Title</IndexLabel>
+            </div>
+            <p className="font-mono text-xs text-text-tertiary mt-3">Used on: section/step headers — about, contact, how-it-works, homepage process (9 sites)</p>
+          </div>
+
+          {/* Section label */}
+          <div>
+            <SubHead>Section Label</SubHead>
+            <div className="h-32 bg-bg-elevated border border-border-subtle rounded-card px-6 flex items-center">
+              <SectionLabel>Index 01 — Recent Work</SectionLabel>
+            </div>
+            <p className="font-mono text-xs text-text-tertiary mt-3">Used on: homepage Featured Work / Process section eyebrows</p>
+          </div>
+
+          {/* Stat */}
+          <div>
+            <SubHead>Stat</SubHead>
+            <div className="h-32 bg-bg-elevated border border-border-subtle rounded-card px-6 flex items-center gap-10">
+              <Stat value="50+" label="Piece Minimum" />
+              <Stat value="7–10" label="Day Turnaround" />
+            </div>
+            <p className="font-mono text-xs text-text-tertiary mt-3">Used on: hero trust strip, about stats strips</p>
+          </div>
+
+          {/* Pulse dot */}
+          <div>
+            <SubHead>Pulse Dot</SubHead>
+            <div className="h-32 bg-bg-elevated border border-border-subtle rounded-card px-6 flex items-center gap-3">
+              <PulseDot />
+              <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">Live status indicator</span>
+            </div>
+            <p className="font-mono text-xs text-text-tertiary mt-3">Used on: booking badge, press-running status, response-time notes</p>
           </div>
 
         </div>

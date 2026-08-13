@@ -3,6 +3,8 @@ import { getSiteInfo } from "@/lib/get-site-info";
 import { siteConfig } from "@/lib/site-config";
 import { QuoteForm } from "@/components/ui/QuoteForm";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
+import { IndexLabel } from "@/components/ui/IndexLabel";
+import { PulseDot } from "@/components/ui/PulseDot";
 import { PageBreadcrumb } from "@/components/ui/PageBreadcrumb";
 import { InstagramIcon, FacebookIcon, XIcon } from "@/components/ui/Icons";
 
@@ -38,10 +40,7 @@ export default async function ContactPage() {
         {/* Response time note */}
         <div className="mt-10 flex flex-wrap items-center gap-6">
           <div className="flex items-center gap-2">
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
-            </span>
+            <PulseDot />
             <span className="font-mono text-sm uppercase tracking-widest text-text-tertiary text-pretty">
               We respond within {forms.quote.responseTime}
             </span>
@@ -55,14 +54,7 @@ export default async function ContactPage() {
       <div className="py-20 lg:py-28 flex flex-col lg:flex-row gap-16 xl:gap-24 items-start">
         {/* ── Form — left, dominant ──────────────────────────────────── */}
         <div className="flex-2 min-w-0">
-          {/* Section label */}
-          <div className="flex items-center gap-3 mb-10">
-            <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
-              01 / Quote Request
-            </span>
-            <span className="flex-1 h-px bg-gold/30" />
-            <RegistrationMark className="w-4 h-4 text-text-accent shrink-0" />
-          </div>
+          <IndexLabel className="mb-10">01 / Quote Request</IndexLabel>
 
           <h2 className="font-display font-black uppercase text-[clamp(2.5rem,6vw,4rem)] leading-[0.9] text-text-primary mb-3">
             Ready to Print<span className="text-gold">?</span>
@@ -86,14 +78,7 @@ export default async function ContactPage() {
 
         {/* ── Info sidebar — right ───────────────────────────────────── */}
         <aside className="flex-1 flex flex-col gap-10 lg:sticky lg:top-8">
-          {/* Section label */}
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-xs uppercase tracking-widest text-text-accent shrink-0">
-              02 / Find Us
-            </span>
-            <span className="flex-1 h-px bg-gold/30" />
-            <RegistrationMark className="w-4 h-4 text-text-accent shrink-0" />
-          </div>
+          <IndexLabel>02 / Find Us</IndexLabel>
 
           {/* Company name */}
           <div>

@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
 import Image from "next/image";
 import { getSiteInfo, type SiteInfo } from "@/lib/get-site-info";
 import { siteConfig } from "@/lib/site-config";
 import { buttonVariants } from "@/components/ui/Button";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { RegistrationMark } from "@/components/ui/RegistrationMark";
+import { CornerBrackets } from "@/components/ui/CornerBrackets";
+import { StripeOverlay } from "@/components/ui/StripeOverlay";
+import { SectionLabel } from "@/components/ui/SectionLabel";
+import { IndexLabel } from "@/components/ui/IndexLabel";
+import { Stat } from "@/components/ui/Stat";
+import { PulseDot } from "@/components/ui/PulseDot";
 import { FeaturedWorkGrid } from "@/components/ui/FeaturedWorkGrid";
 import { CtaBand } from "@/components/ui/CtaBand";
 import { PromoBanner } from "@/components/ui/PromoBanner";
@@ -45,10 +50,7 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
             href="/contact"
             className="flex items-center gap-2 font-mono text-xs lg:text-sm xl:text-base font-black tracking-widest uppercase text-text-inverse bg-button-primary-surface px-3 py-1 hover:bg-button-primary-surface-hover transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-bg-base opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-bg-base" />
-            </span>
+            <PulseDot color="bg-bg-base" opacity="opacity-60" />
             Now Booking — {siteInfo.booking.label}
           </TransitionLink>
         )}
@@ -101,23 +103,13 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
               className="object-cover"
               priority
             />
-            {/* Diagonal stripe overlay */}
-            <div
-              className="absolute inset-0 bg-texture-stripe"
-              style={{ "--texture-stripe-opacity": 0.08 } as CSSProperties}
-            />
+            <StripeOverlay opacity={0.08} />
 
             {/* Dark scrim for legibility */}
             <div className="absolute inset-0 bg-ink/30" />
 
-            {/* Corner bracket — top-left */}
-            <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-paper/60" />
-            {/* Corner bracket — top-right */}
-            <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-paper/60" />
-            {/* Corner bracket — bottom-left */}
-            <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-paper/60" />
-            {/* Corner bracket — bottom-right */}
-            <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-paper/60" />
+            {/* Corner brackets */}
+            <CornerBrackets />
 
             {/* Catalog label — top */}
             <div className="absolute top-6 left-1/2 -translate-x-1/2">
@@ -163,14 +155,7 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
             },
             { value: `${siteInfo.business.maxColors}`, label: "Color Maximum" },
           ].map((stat) => (
-            <div key={stat.label}>
-              <span className="block font-display font-black text-[clamp(2.5rem,5vw,4.5rem)] leading-none text-text-primary">
-                {stat.value}
-              </span>
-              <span className="block font-mono uppercase tracking-widest text-xs text-text-tertiary mt-1">
-                {stat.label}
-              </span>
-            </div>
+            <Stat key={stat.label} value={stat.value} label={stat.label} />
           ))}
         </div>
 
@@ -187,10 +172,7 @@ function Hero({ siteInfo }: { siteInfo: SiteInfo }) {
             By Appointment Only
           </p>
           <div className="flex items-center gap-2 mt-1">
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
-            </span>
+            <PulseDot />
             <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
               Press Running · Bay 02
             </span>
@@ -226,13 +208,13 @@ function ProcessStrip() {
       data-inverse
     >
       <div className="w-full max-w-300 xl:max-w-360 2xl:max-w-400 mx-auto px-4 md:px-6 lg:px-8 xl:px-12 pt-20 pb-32">
-        {/* Section label */}
-        <div className="flex items-center gap-4 mb-16">
-          <span className="block h-px w-8 bg-text-inverse/30" />
-          <span className="font-mono text-xs uppercase tracking-widest text-text-inverse/40">
-            Index 02 — How It Works
-          </span>
-        </div>
+        <SectionLabel
+          className="mb-16"
+          lineColor="bg-text-inverse/30"
+          textColor="text-text-inverse/40"
+        >
+          Index 02 — How It Works
+        </SectionLabel>
 
         {/* Heading row */}
         <div className="mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
@@ -264,14 +246,7 @@ function ProcessStrip() {
               key={step.n}
               className="pt-8 pb-12 px-0 md:px-8 first:pl-0 last:pr-0 flex flex-col gap-6"
             >
-              {/* Step header — label + rule + mark */}
-              <div className="flex items-center gap-3">
-                <span className="font-mono text-xs text-text-accent uppercase tracking-widest shrink-0">
-                  Step {step.n}
-                </span>
-                <span className="flex-1 h-px bg-gold/30" />
-                <RegistrationMark className="w-4 h-4 text-text-accent shrink-0" />
-              </div>
+              <IndexLabel>Step {step.n}</IndexLabel>
 
               <h3 className="font-display font-black uppercase text-[clamp(2rem,3.5vw,3.5rem)] leading-[0.9] text-text-inverse">
                 {step.title}
@@ -335,14 +310,8 @@ export default async function Home() {
 
         {/* Featured Work */}
         {featuredWork.length > 0 && (
-          <section className="pt-40 pb-16 border-t border-foreground/10">
-            {/* Section label */}
-            <div className="flex items-center gap-4 mb-12">
-              <span className="block h-px w-8 bg-foreground/30" />
-              <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
-                Index 01 — Recent Work
-              </span>
-            </div>
+          <section className="pt-20 pb-16 border-t border-foreground/10">
+            <SectionLabel>Index 01 — Recent Work</SectionLabel>
 
             {/* Heading row */}
             <div className="mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">

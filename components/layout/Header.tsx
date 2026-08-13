@@ -7,13 +7,13 @@ import {
   useRef,
   useCallback,
 } from "react";
-import type { CSSProperties } from "react";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { type SiteInfo } from "@/lib/get-site-info";
 import { TransitionLink } from "./TransitionLink";
 import { Button } from "../ui/Button";
 import { Logo } from "../ui/Logo";
+import { DotOverlay } from "../ui/DotOverlay";
 import { PhoneIcon, MailIcon } from "@/components/ui/Icons";
 import { useBodyScrollLock } from "@/lib/hooks/useBodyScrollLock";
 
@@ -317,17 +317,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfo }) {
         inert={!open || undefined}
       >
         {/* Subtle dot-texture overlay — mirrors the CtaBand pattern */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 pointer-events-none bg-texture-dots"
-          style={
-            {
-              "--texture-dots-color": "oklch(96% 0.012 75)",
-              "--texture-dots-size": "14px",
-              "--texture-dots-opacity": 0.04,
-            } as CSSProperties
-          }
-        />
+        <DotOverlay color="oklch(96% 0.012 75)" size="14px" opacity={0.04} />
 
         {/* Bottom corner brackets */}
         <div
