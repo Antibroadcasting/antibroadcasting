@@ -1,7 +1,16 @@
 import { config, collection, singleton, fields } from "@keystatic/core";
 import { sectionBreak, statRow, framedPhoto } from "@/lib/keystatic-blocks";
 
-const githubStorage = process.env.KEYSTATIC_GITHUB_CLIENT_ID
+// This file is imported by both a server-only route handler and a
+// "use client" page (app/keystatic/[[...params]]/page.tsx). Next.js only
+// inlines NEXT_PUBLIC_-prefixed env vars into client bundles, so gating on
+// plain KEYSTATIC_GITHUB_CLIENT_ID here would make the server resolve
+// "github" while the browser silently resolves "local" (undefined client-
+// side) — the two disagreeing on storage.kind breaks content loading even
+// though sign-in still works (sign-in is a server-only redirect flow).
+// NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED is just a boolean toggle, not a
+// secret, so it's safe to expose.
+const githubStorage = process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED
   ? ({
       kind: "github",
       repo: { owner: "travhall", name: "antibroadcasting" },
@@ -9,8 +18,8 @@ const githubStorage = process.env.KEYSTATIC_GITHUB_CLIENT_ID
   : null;
 
 export default config({
-  // Falls back to local storage until KEYSTATIC_GITHUB_CLIENT_ID (and the
-  // other two KEYSTATIC_GITHUB_*/KEYSTATIC_SECRET env vars) are set — see
+  // Falls back to local storage until NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED
+  // (and the KEYSTATIC_GITHUB_*/KEYSTATIC_SECRET env vars) are set — see
   // docs/keystatic-github-mode-migration.md before setting them.
   storage: githubStorage ?? { kind: "local" },
   collections: {

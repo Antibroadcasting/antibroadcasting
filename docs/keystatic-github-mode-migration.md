@@ -68,15 +68,33 @@ this order:
    ```
    The installed `@keystatic/core` enforces a minimum length of 32
    characters for this value at runtime and will error if it's shorter.
-4. **Set three Vercel project environment variables** — Production, and
+4. **Set four Vercel project environment variables** — Production, and
    Preview too if preview-branch editing is wanted:
    - `KEYSTATIC_GITHUB_CLIENT_ID`
    - `KEYSTATIC_GITHUB_CLIENT_SECRET`
    - `KEYSTATIC_SECRET`
+   - `NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED` — set to any value (e.g. `1`).
+     Required in addition to `KEYSTATIC_GITHUB_CLIENT_ID` — `keystatic.config.ts`
+     gates `storage.kind` on this `NEXT_PUBLIC_`-prefixed var specifically
+     because that file is imported by a `"use client"` page, and Next.js
+     only inlines `NEXT_PUBLIC_`-prefixed vars into client bundles. Without
+     it, the server resolves GitHub-mode (sign-in works) while the browser
+     silently stays on local-mode (no collections/singletons load, and
+     `/api/keystatic/tree` 404s in the console) — this exact split-brain
+     failure happened on first setup here (2026-08-13), diagnosed by
+     reading `@keystatic/core`'s own client bundle source.
 
-   Never commit real values for these to `.env.local` or anywhere else in
-   the repo. `.env.local` currently has all three listed as commented-out
-   placeholders for local reference only.
+   Never commit real values for `KEYSTATIC_GITHUB_CLIENT_ID`,
+   `KEYSTATIC_GITHUB_CLIENT_SECRET`, or `KEYSTATIC_SECRET` to `.env.local`
+   or anywhere else in the repo (`NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED` isn't
+   secret, but keep it consistent with the others for clarity).
+   `.env.local` currently has all four listed as commented-out placeholders
+   for local reference only.
+
+   **After setting these, trigger a new deployment** (redeploy or push a
+   commit) — `NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED` is inlined into the
+   client bundle at *build* time, not read at request time, so an existing
+   deployment won't pick it up just because the env var now exists.
 5. **Redeploy** (or trigger a new deploy) so the new environment variables
    take effect. Because `keystatic.config.ts`'s scaffold reads
    `process.env.KEYSTATIC_GITHUB_CLIENT_ID` to decide which storage mode to
