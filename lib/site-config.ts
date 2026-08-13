@@ -5,7 +5,9 @@
 export const siteConfig = {
   // Website Configuration
   site: {
-    url: "https://antibroadcasting.com",
+    // Interim launch domain — antibroadcasting.com isn't attached yet.
+    // Swap this back once the custom domain is live.
+    url: "https://antibroadcasting.vercel.app",
     baseUrl: "https://antibroadcasting.com",
     domain: "antibroadcasting.com",
     titleTemplate: "%s | Antibroadcasting Inc.",
