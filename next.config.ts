@@ -22,7 +22,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: blob:",
       "font-src 'self' data: https://fonts.gstatic.com",
-      "connect-src 'self' https://challenges.cloudflare.com",
+      "connect-src 'self' https://challenges.cloudflare.com https://api.github.com https://raw.githubusercontent.com",
       "frame-src https://challenges.cloudflare.com",
       "frame-ancestors 'self'",
       "base-uri 'self'",
