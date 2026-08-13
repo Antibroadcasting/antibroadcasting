@@ -108,57 +108,6 @@ export default config({
       },
     }),
 
-    promos: collection({
-      label: "Promos",
-      slugField: "title",
-      path: "content/promos/*",
-      format: { data: "json" },
-      schema: {
-        title: fields.slug({ name: { label: "Title" } }),
-        description: fields.document({
-          label: "Description",
-          formatting: { inlineMarks: { bold: true, italic: true } },
-          links: true,
-        }),
-        active: fields.checkbox({
-          label: "Active / visible on site",
-          defaultValue: true,
-        }),
-        expiresAt: fields.date({ label: "Expiry date (optional)" }),
-        label: fields.text({
-          label: "Eyebrow label (optional)",
-          description:
-            'Shown above the title, e.g. "Limited Time" (default) or "New" or "Ends Friday".',
-        }),
-        badgeImage: fields.image({
-          label: "Eyebrow badge image (optional)",
-          description:
-            "Replaces the icon + label above the title. Leave blank to use the label instead.",
-          directory: "public/promos",
-          publicPath: "/promos",
-        }),
-        badgeImageAlt: fields.text({
-          label: "Badge image alt text (optional)",
-          description:
-            "Describes the badge image for screen readers. Leave blank if the image is purely decorative.",
-        }),
-        ctaLabel: fields.text({
-          label: "CTA label (optional)",
-          description: 'e.g. "Get a Quote" — leave blank to hide the button.',
-        }),
-        ctaHref: fields.text({
-          label: "CTA link (optional)",
-          description: 'e.g. "/contact" — must start with "/", or leave blank to hide the button.',
-          validation: {
-            pattern: {
-              regex: /^$|^\//,
-              message: 'Must start with "/" (e.g. "/contact"), or be left blank.',
-            },
-          },
-        }),
-      },
-    }),
-
     pages: collection({
       label: "Pages",
       slugField: "title",
@@ -323,6 +272,69 @@ export default config({
             ),
           },
           { label: "Quote form" },
+        ),
+      },
+    }),
+
+    promoBanner: singleton({
+      label: "Promo Banner",
+      path: "content/promo-banner",
+      format: { data: "json" },
+      schema: {
+        queue: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.document({
+              label: "Description",
+              formatting: { inlineMarks: { bold: true, italic: true } },
+              links: true,
+            }),
+            active: fields.checkbox({
+              label: "Active / visible on site",
+              description: "Pause without deleting — untick to hide.",
+              defaultValue: true,
+            }),
+            expiresAt: fields.date({ label: "Expiry date (optional)" }),
+            label: fields.text({
+              label: "Eyebrow label (optional)",
+              description:
+                'Shown above the title, e.g. "Limited Time" (default) or "New" or "Ends Friday".',
+            }),
+            badgeImage: fields.image({
+              label: "Eyebrow badge image (optional)",
+              description:
+                "Replaces the icon + label above the title. Leave blank to use the label instead.",
+              directory: "public/promos",
+              publicPath: "/promos",
+            }),
+            badgeImageAlt: fields.text({
+              label: "Badge image alt text (optional)",
+              description:
+                "Describes the badge image for screen readers. Leave blank if the image is purely decorative.",
+            }),
+            ctaLabel: fields.text({
+              label: "CTA label (optional)",
+              description: 'e.g. "Get a Quote" — leave blank to hide the button.',
+            }),
+            ctaHref: fields.text({
+              label: "CTA link (optional)",
+              description:
+                'e.g. "/contact" — must start with "/", or leave blank to hide the button.',
+              validation: {
+                pattern: {
+                  regex: /^$|^\//,
+                  message: 'Must start with "/" (e.g. "/contact"), or be left blank.',
+                },
+              },
+            }),
+          }),
+          {
+            label: "Queue",
+            description:
+              "Up to 3, in priority order — drag to reorder. The first one that's active and not expired is what shows on the site.",
+            validation: { length: { max: 3 } },
+            itemLabel: (props) => props.fields.title.value || "Promo",
+          },
         ),
       },
     }),
