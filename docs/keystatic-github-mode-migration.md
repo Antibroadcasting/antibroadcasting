@@ -44,17 +44,23 @@ this order:
 
 1. **Create a GitHub OAuth App** at `github.com/settings/developers` (as the
    repo owner, or an org owner if the repo is later transferred to an org).
-   - Homepage URL: `https://antibroadcasting.com`
-   - Authorization callback URL: `https://antibroadcasting.com/api/keystatic/github/oauth/callback`
-     (confirmed directly against the installed `@keystatic/core@0.6.4`
+   - Homepage URL: whichever host is currently live in production. As of
+     2026-08-13 that's `https://antibroadcasting.vercel.app` — the custom
+     domain (`antibroadcasting.com`) isn't attached yet. Update this once it
+     is.
+   - Authorization callback URL: same host, e.g.
+     `https://antibroadcasting.vercel.app/api/keystatic/github/oauth/callback`
+     for now (confirmed directly against the installed `@keystatic/core@0.6.4`
      source — see `keystatic-core-api-generic.js` and
      `keystatic-core-ui.js` in `node_modules/.pnpm/@keystatic+core@0.6.4*/node_modules/@keystatic/core/dist`,
      which both construct the redirect URI as
-     `${origin}/api/keystatic/github/oauth/callback`).
-   - If local (`pnpm dev`) GitHub-mode testing is ever wanted, also add
-     `http://127.0.0.1/api/keystatic/github/oauth/callback` as a second
-     callback URL — Keystatic's own error messaging references this
-     fallback for local sign-in.
+     `${origin}/api/keystatic/github/oauth/callback`). **GitHub OAuth Apps
+     support only one callback URL at a time** (unlike GitHub Apps, which
+     allow up to 10) — so this field must be updated to the real domain once
+     `antibroadcasting.com` goes live, not added alongside it. For local
+     (`pnpm dev`) GitHub-mode testing, that would mean temporarily swapping
+     this field to `http://127.0.0.1/api/keystatic/github/oauth/callback`
+     rather than adding it as a second URL.
 2. **Generate a client secret** for that OAuth App.
 3. **Generate a random 32+ character string** for `KEYSTATIC_SECRET`, e.g.:
    ```
