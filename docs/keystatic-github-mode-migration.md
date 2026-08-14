@@ -5,6 +5,19 @@
 > site owner. It does not itself change how content is stored — see
 > `keystatic.config.ts` for the inert, env-gated scaffold that activates
 > automatically once the env vars described below are set.
+>
+> **Correction (2026-08-13)**: section 2 below originally instructed
+> creating a manual GitHub **OAuth App** at `github.com/settings/developers`.
+> That's wrong. Confirmed against Keystatic's own docs
+> (`keystatic.com/docs/github-mode`: *"the next step will walk you through
+> creating a GitHub App"*) and the installed `@keystatic/core@0.6.4` source
+> (`githubLogin` never sends an OAuth `scope` param, so a classic OAuth App
+> always gets a zero-scope token — GitHub Apps get permissions at install
+> time instead, not via OAuth scopes). A manual OAuth App was actually
+> created and wired up here first; it signed in fine but every save failed
+> with `[GraphQL] Your token has not been granted the required scopes...
+> requires... ['public_repo']`. That app is a dead end and should be
+> deleted; section 2 now describes the correct, guided GitHub **App** flow.
 
 ## 1. What changes for editors
 
@@ -24,82 +37,93 @@ ephemeral and effectively read-only between invocations — writes to
 
 **After (GitHub-mode storage):**
 
-1. Log into `https://antibroadcasting.com/keystatic` with a GitHub account
-   that has write access to this repo.
+1. Log into `https://antibroadcasting.vercel.app/keystatic` with a GitHub
+   account that has write access to this repo (and to which the GitHub App
+   below has been granted repo access).
 2. Make a content edit and save.
 3. Keystatic commits the change directly to the repo via the GitHub API
-   (through a GitHub OAuth App) — no local checkout involved.
+   (through a GitHub App installed on this repo) — no local checkout
+   involved.
 4. Vercel's existing git integration redeploys automatically, exactly as it
    does for any other push to the repo.
 
-No local dev environment is needed for day-to-day content edits. `pnpm dev`
-still works for anyone who prefers editing on a branch before pushing (see
-section 3).
+No local dev environment is needed for day-to-day content edits once set up.
+`pnpm dev` still works for anyone who prefers editing on a branch before
+pushing (see section 3) — but see section 2, step 1: a `pnpm dev` session is
+also how the GitHub App itself gets created in the first place.
 
 ## 2. What the site owner must do manually
 
 None of the following can be performed by an executor/agent — they require
-a human with admin rights on GitHub and on the Vercel project. Do them in
-this order:
+a human clicking through GitHub's own UI and a Vercel project admin. Do them
+in this order.
 
-1. **Create a GitHub OAuth App** at `github.com/settings/developers` (as the
-   repo owner, or an org owner if the repo is later transferred to an org).
-   - Homepage URL: whichever host is currently live in production. As of
-     2026-08-13 that's `https://antibroadcasting.vercel.app` — the custom
-     domain (`antibroadcasting.com`) isn't attached yet. Update this once it
-     is.
-   - Authorization callback URL: same host, e.g.
-     `https://antibroadcasting.vercel.app/api/keystatic/github/oauth/callback`
-     for now (confirmed directly against the installed `@keystatic/core@0.6.4`
-     source — see `keystatic-core-api-generic.js` and
-     `keystatic-core-ui.js` in `node_modules/.pnpm/@keystatic+core@0.6.4*/node_modules/@keystatic/core/dist`,
-     which both construct the redirect URI as
-     `${origin}/api/keystatic/github/oauth/callback`). **GitHub OAuth Apps
-     support only one callback URL at a time** (unlike GitHub Apps, which
-     allow up to 10) — so this field must be updated to the real domain once
-     `antibroadcasting.com` goes live, not added alongside it. For local
-     (`pnpm dev`) GitHub-mode testing, that would mean temporarily swapping
-     this field to `http://127.0.0.1/api/keystatic/github/oauth/callback`
-     rather than adding it as a second URL.
-2. **Generate a client secret** for that OAuth App.
-3. **Generate a random 32+ character string** for `KEYSTATIC_SECRET`, e.g.:
+1. **Temporarily enable GitHub-mode in local dev, with no credentials set
+   yet.** In `.env.local`, uncomment:
    ```
-   openssl rand -hex 32
+   NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED=1
    ```
-   The installed `@keystatic/core` enforces a minimum length of 32
-   characters for this value at runtime and will error if it's shorter.
-4. **Set four Vercel project environment variables** — Production, and
-   Preview too if preview-branch editing is wanted:
+   Leave `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`, and
+   `KEYSTATIC_SECRET` commented out/empty — that combination (github-mode
+   requested, no client credentials yet, `NODE_ENV=development`) is exactly
+   what makes `@keystatic/core` serve its guided "Create GitHub App" screen
+   instead of throwing (confirmed against
+   `keystatic-core-api-generic.node.js`'s `makeGenericAPIRouteHandler`).
+2. **Run `pnpm dev` and open `http://localhost:3000/keystatic`.** Click the
+   GitHub sign-in button. You'll land on a "Create GitHub App" screen with a
+   field for a **deployed URL** — enter
+   `https://antibroadcasting.vercel.app` there. This isn't cosmetic: the
+   installed source (`keystatic-core-ui.js`) builds the GitHub App manifest's
+   `callback_urls` as `[localhost callback, 127.0.0.1 callback, ...(deployedURL
+   ? [deployedURL's callback] : [])]` — GitHub **Apps** support up to 10
+   callback URLs (unlike OAuth Apps, which allow only one), so this one App
+   ends up valid for both local dev and production without ever needing to
+   swap a callback URL later.
+3. **Follow the flow through to GitHub.** You'll be asked to name the App
+   and confirm creating it, then to install it — install it on this specific
+   repo (`travhall/antibroadcasting`), not on all repos, unless you want it
+   available more broadly.
+4. **GitHub redirects back to your local `pnpm dev` server**, which
+   exchanges the manifest code and writes a **new `.env` file** (not
+   `.env.local` — a separate file, already covered by this repo's `.env*`
+   `.gitignore` pattern) containing real values for:
    - `KEYSTATIC_GITHUB_CLIENT_ID`
    - `KEYSTATIC_GITHUB_CLIENT_SECRET`
-   - `KEYSTATIC_SECRET`
-   - `NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED` — set to any value (e.g. `1`).
-     Required in addition to `KEYSTATIC_GITHUB_CLIENT_ID` — `keystatic.config.ts`
-     gates `storage.kind` on this `NEXT_PUBLIC_`-prefixed var specifically
-     because that file is imported by a `"use client"` page, and Next.js
-     only inlines `NEXT_PUBLIC_`-prefixed vars into client bundles. Without
-     it, the server resolves GitHub-mode (sign-in works) while the browser
-     silently stays on local-mode (no collections/singletons load, and
-     `/api/keystatic/tree` 404s in the console) — this exact split-brain
-     failure happened on first setup here (2026-08-13), diagnosed by
-     reading `@keystatic/core`'s own client bundle source.
+   - `KEYSTATIC_SECRET` (freshly generated, 40 random bytes hex-encoded)
+   - `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` — the App's slug. Required
+     separately from the three above: `@keystatic/next` hardcodes this exact
+     env var name for its own "is the app installed here?" UI checks
+     (confirmed in `keystatic-next-api.js`/`keystatic-next-route-handler.js`).
+   Never commit this `.env` file.
+5. **Set five Vercel project environment variables** — Production, and
+   Preview too if preview-branch editing is wanted:
+   - The four from `.env` above, copied as-is.
+   - `NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED` — any value (e.g. `1`). Required
+     in addition to the four above — `keystatic.config.ts` gates
+     `storage.kind` on this specific `NEXT_PUBLIC_`-prefixed var because that
+     file is imported by a `"use client"` page, and Next.js only inlines
+     `NEXT_PUBLIC_`-prefixed vars into client bundles. Without it, the server
+     resolves GitHub-mode (sign-in works) while the browser silently stays on
+     local-mode (no collections/singletons load, `/api/keystatic/tree` 404s
+     in the console) — this exact split-brain failure happened on first
+     setup here, before the OAuth-App/GitHub-App distinction above was even
+     found.
 
-   Never commit real values for `KEYSTATIC_GITHUB_CLIENT_ID`,
-   `KEYSTATIC_GITHUB_CLIENT_SECRET`, or `KEYSTATIC_SECRET` to `.env.local`
-   or anywhere else in the repo (`NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED` isn't
-   secret, but keep it consistent with the others for clarity).
-   `.env.local` currently has all four listed as commented-out placeholders
-   for local reference only.
-
-   **After setting these, trigger a new deployment** (redeploy or push a
-   commit) — `NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED` is inlined into the
-   client bundle at *build* time, not read at request time, so an existing
-   deployment won't pick it up just because the env var now exists.
-5. **Redeploy** (or trigger a new deploy) so the new environment variables
-   take effect. Because `keystatic.config.ts`'s scaffold reads
-   `process.env.KEYSTATIC_GITHUB_CLIENT_ID` to decide which storage mode to
-   use, no further code change is needed — setting the env vars and
-   redeploying is the entire cutover.
+   If you previously set `KEYSTATIC_GITHUB_CLIENT_ID`/`KEYSTATIC_GITHUB_CLIENT_SECRET`
+   in Vercel from a manually-created **OAuth App** (per this doc's
+   pre-2026-08-13 version), **delete those values and replace them** with the
+   GitHub App's values from step 4 — the old OAuth App can never get repo-write
+   scope no matter what else is configured. Delete the unused OAuth App on
+   `github.com/settings/developers` too, or leave it — it's harmless once
+   nothing references it.
+6. **Trigger a new deployment** (redeploy or push a commit) — the
+   `NEXT_PUBLIC_`-prefixed vars are inlined into the client bundle at *build*
+   time, not read at request time, so an existing deployment won't pick them
+   up just because the env vars now exist.
+7. **Revert `.env.local`'s `NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED` back to
+   commented-out** once the App is created — local dev doesn't need
+   GitHub-mode day to day (see section 3); step 1's toggle was only needed to
+   reach the one-time creation screen.
 
 ## 3. What doesn't change
 
@@ -113,7 +137,7 @@ this order:
 - `app/api/keystatic/[...params]/route.ts` and `app/keystatic/**` — both
   already work generically for whichever storage mode is active; nothing
   there is storage-mode-specific.
-- Local `pnpm dev`: with no `KEYSTATIC_GITHUB_CLIENT_ID` set in a
+- Local `pnpm dev`: with `NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED` unset in a
   developer's local environment, the scaffold falls back to
   `{ kind: "local" }`, identical to today's behavior. Anyone who prefers to
   edit on a branch before pushing can keep doing so.
@@ -127,19 +151,18 @@ this order:
   (`branchPrefix`), where each edit lands on a new branch and the editor
   opens a PR instead of committing straight to `main`; that's a further,
   separate option worth considering later but is not detailed in this doc.
-- **Real credentials.** The OAuth App's client secret and
-  `KEYSTATIC_SECRET` are production secrets — treat them with the same care
-  as any other secret (Vercel env vars only, never committed, rotated if
-  ever exposed).
+- **Real credentials.** The GitHub App's client secret and `KEYSTATIC_SECRET`
+  are production secrets — treat them with the same care as any other
+  secret (Vercel env vars only, never committed, rotated if ever exposed).
 - **Access model shift.** Every editor who should be able to publish
-  content needs a GitHub account with write access to this repo (or the
-  org, depending on how access ends up scoped). Depending on who is
-  expected to edit content, this may be more friction than today's "knows
-  the URL" model, or less — it also closes the gap noted in
-  `plans/README.md`'s "Accepted, not a launch blocker" section, where
-  Keystatic's admin UI has no auth layer of its own in local mode. Under
-  GitHub-mode, the admin UI is still reachable by anyone, but only a GitHub
-  account with write access to the repo can actually save a change.
+  content needs a GitHub account with write access to this repo, and the
+  GitHub App needs to be installed on it. Depending on who is expected to
+  edit content, this may be more friction than today's "knows the URL"
+  model, or less — it also closes the gap noted in `plans/README.md`'s
+  "Accepted, not a launch blocker" section, where Keystatic's admin UI has
+  no auth layer of its own in local mode. Under GitHub-mode, the admin UI is
+  still reachable by anyone, but only a GitHub account with write access
+  (via the installed App) can actually save a change.
 
 ## 5. Recommendation
 
@@ -149,17 +172,18 @@ change requires a local checkout, a commit, a push, and a wait for
 redeploy, regardless of how small the edit is. GitHub-mode removes all of
 that for anyone with repo write access, while requiring no changes to the
 content schema, the route handlers, or any page's data-reading code — the
-entire cutover is three environment variables plus a redeploy, once the
-scaffold in `keystatic.config.ts` is in place (which this spike adds,
-inert until those variables exist).
+entire cutover is the guided GitHub App creation in section 2 plus a
+handful of environment variables and a redeploy, once the scaffold in
+`keystatic.config.ts` is in place (which this spike adds, inert until those
+variables exist).
 
 It also happens to close an already-accepted, non-blocking gap: local-mode
 Keystatic has no auth layer, so anyone who knows the `/keystatic` URL can
 edit content assuming they can reach the running dev server. GitHub-mode's
-OAuth requirement is a natural, no-extra-effort fix for that once the
-owner is ready to make the OAuth App.
+sign-in requirement is a natural, no-extra-effort fix for that once the
+owner is ready to create the GitHub App.
 
 Suggested sequencing: treat this as the natural next step once the
 P1/P2 plans in this batch (021-025) have landed, since none of them touch
 `keystatic.config.ts` or the storage layer, and this migration is fully
-additive/reversible until the owner actually sets the three env vars.
+additive/reversible until the owner actually sets the real env vars.

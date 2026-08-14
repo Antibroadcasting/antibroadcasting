@@ -20,7 +20,7 @@ const securityHeaders = [
       // Turbopack's HMR) use eval(), but React never uses it in production.
       `script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com${isDev ? " 'unsafe-eval'" : ""}`,
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' data: blob:",
+      "img-src 'self' data: blob: https://avatars.githubusercontent.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "connect-src 'self' https://challenges.cloudflare.com https://api.github.com https://raw.githubusercontent.com",
       "frame-src https://challenges.cloudflare.com",
@@ -33,6 +33,13 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+
+  // Keystatic force-redirects localhost -> 127.0.0.1 for github/cloud
+  // storage modes (keystatic-core-ui.js's RedirectToLoopback). Without this,
+  // Next 16's dev server treats 127.0.0.1 as an untrusted origin and 403s
+  // its own dev-tool endpoints (font proxy, HMR websocket) on every request
+  // from it — breaks GitHub-mode local testing, not a production concern.
+  allowedDevOrigins: ["127.0.0.1"],
 
   outputFileTracingIncludes: {
     "/**": ["./content/**/*"],

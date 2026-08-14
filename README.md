@@ -43,11 +43,12 @@ and fill in your keys:
   Turnstile for the quote request form. Leave both empty in local dev to skip
   verification automatically.
 - `KEYSTATIC_GITHUB_CLIENT_ID` / `KEYSTATIC_GITHUB_CLIENT_SECRET` /
-  `KEYSTATIC_SECRET` / `NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED` — only needed
-  to switch Keystatic to GitHub-mode storage in production (see
-  `docs/keystatic-github-mode-migration.md` — all four are required
-  together, not just the first three). Unset in local dev, which always
-  runs Keystatic in local-filesystem mode.
+  `KEYSTATIC_SECRET` / `NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED` /
+  `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` — only needed to switch Keystatic
+  to GitHub-mode storage in production, via a GitHub **App** (not a manual
+  OAuth App — see `docs/keystatic-github-mode-migration.md`). All five are
+  required together. Unset in local dev, which always runs Keystatic in
+  local-filesystem mode.
 - `KEYSTATIC_ADMIN_PASSWORD` — shared password gating `/keystatic` and
   `/api/keystatic` from the public (`proxy.ts`). Leave empty in local
   dev to skip the gate entirely.
