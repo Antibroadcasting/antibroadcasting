@@ -13,12 +13,12 @@ export function PromoBanner({ promo }: { promo: ActivePromo }) {
     >
       <div className="flex items-center gap-3 shrink-0">
         {promo.badgeImage ? (
-          <div className="relative min-h-40 w-full sm:min-h-52 sm:min-w-52 md:min-h-60 md:min-w-60 shrink-0">
+          <div className="relative h-32 w-32 shrink-0 sm:h-40 sm:w-40 md:h-48 md:w-48">
             <Image
               src={promo.badgeImage}
               alt={promo.badgeImageAlt ?? ""}
               fill
-              sizes="100vw"
+              sizes="(min-width: 768px) 12rem, 8rem"
               className="object-contain"
             />
           </div>
