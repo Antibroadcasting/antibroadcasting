@@ -26,7 +26,7 @@ const securityHeaders = [
       "frame-src https://challenges.cloudflare.com",
       "frame-ancestors 'self'",
       "base-uri 'self'",
-      "form-action 'self'",
+      "form-action 'self' https://github.com",
     ].join("; "),
   },
 ];
