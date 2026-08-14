@@ -125,6 +125,26 @@ in this order.
    GitHub-mode day to day (see section 3); step 1's toggle was only needed to
    reach the one-time creation screen.
 
+## 2a. Running this against a second repo (e.g. a production fork)
+
+`keystatic.config.ts`'s `repo: { owner, name }` and `lib/site-config.ts`'s
+`site.url` are env-driven (`NEXT_PUBLIC_KEYSTATIC_GITHUB_OWNER`,
+`NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO`, `NEXT_PUBLIC_SITE_URL`), defaulting to
+this staging repo (`travhall/antibroadcasting`) and its Vercel domain. A
+second deployment of this same codebase — e.g. a production fork owned by
+a different GitHub account/org — repeats section 2's steps independently
+against its own repo and gets its own GitHub App (a GitHub App's
+credentials are tied to one install target; the staging App's credentials
+will not work against a different repo). Its Vercel project then sets:
+
+- The five Keystatic vars from its own App-creation run (step 4/5 above).
+- `NEXT_PUBLIC_KEYSTATIC_GITHUB_OWNER` / `NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO`
+  — its own repo owner/name.
+- `NEXT_PUBLIC_SITE_URL` — its own domain.
+
+None of this requires editing `keystatic.config.ts` or `lib/site-config.ts`
+per-repo; both files read entirely from env.
+
 ## 3. What doesn't change
 
 - Content file locations and format — GitHub-mode reads and writes the

@@ -9,11 +9,18 @@ import { sectionBreak, statRow, framedPhoto } from "@/lib/keystatic-blocks";
 // side) — the two disagreeing on storage.kind breaks content loading even
 // though sign-in still works (sign-in is a server-only redirect flow).
 // NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED is just a boolean toggle, not a
-// secret, so it's safe to expose.
+// secret, so it's safe to expose. Same for the owner/repo pair below —
+// this file is shared across the staging repo (travhall/antibroadcasting)
+// and the production fork (Antibroadcasting/antibroadcasting), each with
+// its own GitHub App, so the repo target has to come from env rather than
+// being hardcoded per-checkout.
 const githubStorage = process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_ENABLED
   ? ({
       kind: "github",
-      repo: { owner: "travhall", name: "antibroadcasting" },
+      repo: {
+        owner: process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_OWNER ?? "travhall",
+        name: process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO ?? "antibroadcasting",
+      },
     } as const)
   : null;
 

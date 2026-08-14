@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "totalCompactCount": 1,
+  "totalCompactCount": 2,
   "sessions": {
     "67c4306c-a4b2-44f6-9b3f-d84af5760aef": {
       "sessionId": "67c4306c-a4b2-44f6-9b3f-d84af5760aef",
@@ -10,7 +10,16 @@
       "lastTrigger": "manual",
       "transcriptPath": "/Users/travishall/.claude/projects/-Users-travishall-GitHub-antibroadcasting/67c4306c-a4b2-44f6-9b3f-d84af5760aef.jsonl",
       "cwd": "/Users/travishall/GitHub/antibroadcasting"
+    },
+    "8617d75b-a153-47aa-8316-5175eae7756f": {
+      "sessionId": "8617d75b-a153-47aa-8316-5175eae7756f",
+      "compactCount": 1,
+      "firstCompactedAt": "2026-08-14T21:12:40.042Z",
+      "lastCompactedAt": "2026-08-14T21:12:40.042Z",
+      "lastTrigger": "manual",
+      "transcriptPath": "/Users/travishall/.claude/projects/-Users-travishall-GitHub-antibroadcasting/8617d75b-a153-47aa-8316-5175eae7756f.jsonl",
+      "cwd": "/Users/travishall/GitHub/antibroadcasting"
     }
   },
-  "updatedAt": "2026-08-13T16:00:01.662Z"
+  "updatedAt": "2026-08-14T21:12:40.042Z"
 }

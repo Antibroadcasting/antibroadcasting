@@ -6,8 +6,10 @@ export const siteConfig = {
   // Website Configuration
   site: {
     // Interim launch domain — antibroadcasting.com isn't attached yet.
-    // Swap this back once the custom domain is live.
-    url: "https://antibroadcasting.vercel.app",
+    // Differs per deployment (staging vs. production fork each have their
+    // own Vercel domain), so it's env-driven rather than hardcoded. Swap
+    // the fallback back to the custom domain once it's live everywhere.
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://antibroadcasting.vercel.app",
     baseUrl: "https://antibroadcasting.com",
     domain: "antibroadcasting.com",
     titleTemplate: "%s | Antibroadcasting Inc.",

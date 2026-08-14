@@ -49,6 +49,15 @@ and fill in your keys:
   OAuth App — see `docs/keystatic-github-mode-migration.md`). All five are
   required together. Unset in local dev, which always runs Keystatic in
   local-filesystem mode.
+- `NEXT_PUBLIC_KEYSTATIC_GITHUB_OWNER` / `NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO`
+  — which repo GitHub-mode commits to. Defaults to
+  `travhall`/`antibroadcasting` when unset. This codebase is shared between
+  that staging repo and a production fork
+  (`Antibroadcasting/antibroadcasting`), each with its own GitHub App —
+  the production Vercel project sets these to point at the fork instead.
+- `NEXT_PUBLIC_SITE_URL` — canonical site URL used for the sitemap,
+  robots.txt, and Open Graph tags. Defaults to the staging Vercel domain.
+  The production fork sets its own value in Vercel.
 - `KEYSTATIC_ADMIN_PASSWORD` — shared password gating `/keystatic` and
   `/api/keystatic` from the public (`proxy.ts`). Leave empty in local
   dev to skip the gate entirely.
