@@ -1,6 +1,13 @@
 {
   "queue": [
     {
+      "title": "The time has come",
+      "active": true,
+      "badgeImage": "/promos/queue/0/badgeImage.png",
+      "ctaLabel": "Get in touch",
+      "ctaHref": "/contact"
+    },
+    {
       "title": "Testing the expiry and OOO",
       "active": true,
       "expiresAt": "2026-08-15",
@@ -9,16 +16,9 @@
     {
       "title": "Cold Side is now part of Antibroadcasting.",
       "active": true,
-      "badgeImage": "/promos/queue/1/badgeImage.png",
+      "badgeImage": "/promos/queue/2/badgeImage.png",
       "ctaLabel": "Get the full story",
       "ctaHref": "/updates/cold-side-is-now-part-of-antibroadcasting"
-    },
-    {
-      "title": "The time has come",
-      "active": true,
-      "badgeImage": "/promos/queue/2/badgeImage.png",
-      "ctaLabel": "Get in touch",
-      "ctaHref": "/contact"
     }
   ]
 }
